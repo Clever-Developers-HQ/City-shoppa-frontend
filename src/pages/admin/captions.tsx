@@ -1,7 +1,5 @@
-
 import { useRef, useState } from 'react'
 import {MdOutlineModeEdit} from 'react-icons/md'
-import {AiOutlineDelete}  from 'react-icons/ai'
 import {RiDeleteBin6Line}  from 'react-icons/ri'
 import ShopperImg from '../../assets/images/shopperImg.png'
 import Image from 'next/image'
@@ -21,14 +19,14 @@ function Captions() {
   const captions: CaptionDTO[] = [
     {
       id: '01',
-      images: {ShopperImg},
+      images: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
       heading: "Buy From Near You",
       subHeading: "Find local business near you",
       status: "Published",
     },
     {
       id: '02',
-      images: {ShopperImg},
+      images: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
       heading: "Buy From Near You",
       subHeading: "Find local business near you",
       status: "Published",
@@ -102,10 +100,11 @@ function Captions() {
                         {caption.id}
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        <Image src={caption.images} 
+                        <img src={caption.images} 
                         alt="" 
                         width = '200'
-                        className="w-10 h-10 rounded-full" />
+                        height = '200'
+                        className="w-20 h-20 rounded" />
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{caption.heading}</td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{caption.subHeading}</td>

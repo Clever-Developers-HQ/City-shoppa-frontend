@@ -25,8 +25,8 @@ const navigation = [
   { name: 'Merchants', href: '/admin/merchants', icon: <RiUserStarFill size='20'/>,  current: false },
   { name: 'Users', href: '/admin/users', icon: <FiUsers size='20'/>,  current: false },
   { name: 'Products', href: '/admin/products', icon: <MdOutlineProductionQuantityLimits size='20'/>,  current: false },
-  { name: 'Completed Orders', href: '#', icon: <RiShoppingBagFill size='20'/>,  current: false },
-  { name: 'Uncompleted Orders', href: '#', icon: <MdOutlineRemoveShoppingCart size='20'/>,  current: false },
+  { name: 'Completed Orders', href: '/admin/completed-orders', icon: <RiShoppingBagFill size='20'/>,  current: false },
+  { name: 'Uncompleted Orders', href: '/admin/uncompleted-orders', icon: <MdOutlineRemoveShoppingCart size='20'/>,  current: false },
 ]
 const userNavigation = [
   { name: 'Your Profile', href: '#' },
