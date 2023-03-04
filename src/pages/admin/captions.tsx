@@ -3,6 +3,7 @@ import {MdOutlineModeEdit} from 'react-icons/md'
 import {RiDeleteBin6Line}  from 'react-icons/ri'
 import ShopperImg from '../../assets/images/shopperImg.png'
 import Image from 'next/image'
+import {confirm} from '../../components/alert/confirm';
 
 import AdminLayout from '@/components/layouts/AdminLayout'
 
@@ -125,6 +126,7 @@ function Captions() {
 
                         >
                           <RiDeleteBin6Line
+                          onClick={confirm}
                           size="20"
                           className="text-gray-500 hover:text-indigo-900 cursor-pointer"
                            />

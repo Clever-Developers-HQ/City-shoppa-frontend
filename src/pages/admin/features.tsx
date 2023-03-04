@@ -1,37 +1,27 @@
-import React, {useState } from 'react'
+import { useRef, useState } from 'react'
 import {MdOutlineModeEdit} from 'react-icons/md'
-import {AiOutlineDelete}  from 'react-icons/ai'
 import {RiDeleteBin6Line}  from 'react-icons/ri'
-import {GrView} from 'react-icons/gr'
-import ShopperImg from '../../assets/images/shopperImg.png'
-import Image from 'next/image'
 
 import AdminLayout from '@/components/layouts/AdminLayout'
 
-interface ProductsDTO {
+interface CitiesDTO {
   id: string;
-  name: string;
-  description: string;
-  merchantName: string;
+  image : string;
   status: string;
 }
 
-function Products() {
+function Cities() {
 
-  const products: ProductsDTO[] = [
+  const captions: CitiesDTO[] = [
     {
-        id: '6658',
-        name: "Headphones",
-        description: "Powerful sound",
-        merchantName: "Marco Davied",
-        status: "Published",
+      id: '01',
+      image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
+      status: "Published",
     },
     {
-        id: '6659',
-        name: "Speaker",
-        description: "Full bass boasted",
-        merchantName: "Messi",
-        status: "Unpublished",
+      id: '02',
+      image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
+      status: "Published",
     },
   ]
   
@@ -42,7 +32,7 @@ function Products() {
   
   return (
     <div>
-        <AdminLayout title="Product List">
+        <AdminLayout title="Features">
         <div className="px-4 sm:px-6 lg:px-8">
       <div className="sm:flex sm:items-center">
         <div className="sm:flex-auto">
@@ -52,7 +42,7 @@ function Products() {
             type="button"
             className="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"
           >
-            Add New Product
+            Add New Features
           </button>
         </div>
       </div>
@@ -68,26 +58,20 @@ function Products() {
                     <th scope="col" className="min-w-[4rem] py-3.5 pr-3 text-left text-md font-semibold text-gray-500">
                       ID
                     </th>
-                    <th scope="col" className="px-3 py-3.5 text-left text-md font-semibold text-gray-500">
-                      Name
-                    </th>
-                    <th scope="col" className="px-3 py-3.5 text-left text-md font-semibold text-gray-500">
-                     Description
-                    </th>
-                    <th scope="col" className="px-3 py-3.5 text-left text-md font-semibold text-gray-500">
-                      Merchant Name
+                    <th scope="col" className="px-3 py-3.5 min-w-[12.5rem] text-left text-md font-semibold text-gray-500">
+                      Hero Image / Features
                     </th>
                     <th scope="col" className="px-3 py-3.5 text-left text-md font-semibold text-gray-500">
                       Status
                     </th>
-                    <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-6">
+                    <th scope="col" className="relative min-w-[6rem] py-3.5 pl-3 pr-4 sm:pr-6">
                       <span className="sr-only">Edit or Delete</span>
                     </th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-200 bg-white ">
-                  {products.map((product) => (
-                    <tr key={product.id} className='bg-gray-50 hover:bg-[#F5F5F5]'>
+                <tbody className="divide-y divide-gray-200 bg-white hover:">
+                  {captions.map((caption) => (
+                    <tr key={caption.id} className='bg-gray-50 hover:bg-[#F5F5F5]'>
                       <td className="relative w-12 px-6 sm:w-16 sm:px-8">
     
                         <input
@@ -98,33 +82,21 @@ function Products() {
                       <td
                         className= 'whitespace-nowrap py-4 pr-3 text-sm font-medium text-gray-500'
                       >
-                        {product.id}
+                        {caption.id}
                       </td>
-                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                     {product.name} 
-    
-                      </td>
-                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{product.description}</td>
-                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{product.merchantName}</td>
+                      <img src={caption.image} 
+                        alt="" 
+                        width = '200'
+                        height = '200'
+                        className="w-20 h-20 rounded" />
+                      {/* <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{caption.cit}</td> */}
                       {
-                        product.status === 'Published' ? (
-                            <td className="whitespace-nowrap px-3 py-4 text-sm text-[#31AB5B]">{product.status}</td>
-                        ) : (
-                            <td className="whitespace-nowrap px-3 py-4 text-sm text-[#FF0000]">{product.status}</td>
-                        )
+                        caption.status === 'Published' ? ( <td className="whitespace-nowrap px-3 py-4 text-sm text-[#31AB5B]">{caption.status}</td>)  : ( <td className="whitespace-nowrap px-3 py-4 text-sm text-red-500">{caption.status}</td>)
                       }
                       <td className="whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                         <div
                           className="flex justify-between items-center"
                           >
-                        <span
-                          className="text-gray-500 hover:text-indigo-900 cursor-pointer"
-                        >
-                          <GrView
-                          size="20"
-                           />
-                        </span>
-
                         <span
                           className="text-gray-500 hover:text-indigo-900 cursor-pointer"
                         >
@@ -158,4 +130,4 @@ function Products() {
   )
 }
 
-export default Products
+export default Cities

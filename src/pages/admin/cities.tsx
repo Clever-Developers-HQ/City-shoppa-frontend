@@ -1,38 +1,40 @@
-import React, {useState } from 'react'
+import { useRef, useState } from 'react'
 import {MdOutlineModeEdit} from 'react-icons/md'
-import {AiOutlineDelete}  from 'react-icons/ai'
 import {RiDeleteBin6Line}  from 'react-icons/ri'
-import {GrView} from 'react-icons/gr'
 import ShopperImg from '../../assets/images/shopperImg.png'
 import Image from 'next/image'
 
 import AdminLayout from '@/components/layouts/AdminLayout'
 
-interface ProductsDTO {
+interface CitiesDTO {
   id: string;
-  name: string;
-  description: string;
-  merchantName: string;
+  city: string;
   status: string;
 }
 
-function Products() {
+function Cities() {
 
-  const products: ProductsDTO[] = [
+  const cities: CitiesDTO[] = [
     {
-        id: '6658',
-        name: "Headphones",
-        description: "Powerful sound",
-        merchantName: "Marco Davied",
+      id: '01',
+      city: "Calgary",
+      status: "Published",
+    },
+    {
+      id: '02',
+      city: "Toronto",
+      status: "Published",
+    },
+    {
+        id: '03',
+        city: "Saskatoon",
         status: "Published",
-    },
-    {
-        id: '6659',
-        name: "Speaker",
-        description: "Full bass boasted",
-        merchantName: "Messi",
+      },
+      {
+        id: '04',
+        city: "Regina",
         status: "Unpublished",
-    },
+      },
   ]
   
   function classNames(...classes : any) {
@@ -42,7 +44,7 @@ function Products() {
   
   return (
     <div>
-        <AdminLayout title="Product List">
+        <AdminLayout title="Cities">
         <div className="px-4 sm:px-6 lg:px-8">
       <div className="sm:flex sm:items-center">
         <div className="sm:flex-auto">
@@ -52,7 +54,7 @@ function Products() {
             type="button"
             className="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"
           >
-            Add New Product
+            Add New City
           </button>
         </div>
       </div>
@@ -68,14 +70,8 @@ function Products() {
                     <th scope="col" className="min-w-[4rem] py-3.5 pr-3 text-left text-md font-semibold text-gray-500">
                       ID
                     </th>
-                    <th scope="col" className="px-3 py-3.5 text-left text-md font-semibold text-gray-500">
-                      Name
-                    </th>
-                    <th scope="col" className="px-3 py-3.5 text-left text-md font-semibold text-gray-500">
-                     Description
-                    </th>
-                    <th scope="col" className="px-3 py-3.5 text-left text-md font-semibold text-gray-500">
-                      Merchant Name
+                    <th scope="col" className="px-3 py-3.5 min-w-[12rem] text-left text-md font-semibold text-gray-500">
+                      City
                     </th>
                     <th scope="col" className="px-3 py-3.5 text-left text-md font-semibold text-gray-500">
                       Status
@@ -85,9 +81,9 @@ function Products() {
                     </th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-200 bg-white ">
-                  {products.map((product) => (
-                    <tr key={product.id} className='bg-gray-50 hover:bg-[#F5F5F5]'>
+                <tbody className="divide-y divide-gray-200 bg-white hover:">
+                  {cities.map((city) => (
+                    <tr key={city.id} className='bg-gray-50 hover:bg-[#F5F5F5]'>
                       <td className="relative w-12 px-6 sm:w-16 sm:px-8">
     
                         <input
@@ -98,33 +94,16 @@ function Products() {
                       <td
                         className= 'whitespace-nowrap py-4 pr-3 text-sm font-medium text-gray-500'
                       >
-                        {product.id}
+                        {city.id}
                       </td>
-                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                     {product.name} 
-    
-                      </td>
-                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{product.description}</td>
-                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{product.merchantName}</td>
+                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{city.city}</td>
                       {
-                        product.status === 'Published' ? (
-                            <td className="whitespace-nowrap px-3 py-4 text-sm text-[#31AB5B]">{product.status}</td>
-                        ) : (
-                            <td className="whitespace-nowrap px-3 py-4 text-sm text-[#FF0000]">{product.status}</td>
-                        )
+                        city.status === 'Published' ? ( <td className="whitespace-nowrap px-3 py-4 text-sm text-[#31AB5B]">{city.status}</td>)  : ( <td className="whitespace-nowrap px-3 py-4 text-sm text-red-500">{city.status}</td>)
                       }
                       <td className="whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                         <div
                           className="flex justify-between items-center"
                           >
-                        <span
-                          className="text-gray-500 hover:text-indigo-900 cursor-pointer"
-                        >
-                          <GrView
-                          size="20"
-                           />
-                        </span>
-
                         <span
                           className="text-gray-500 hover:text-indigo-900 cursor-pointer"
                         >
@@ -158,4 +137,4 @@ function Products() {
   )
 }
 
-export default Products
+export default Cities

@@ -8,8 +8,6 @@ function CompletedOrders() {
     <div>
         <AdminLayout title="Donation">
             <section className="bg-[#E9EBF2] h-60 w-full p-5 rounded">
-
-
             <div>
                 <label htmlFor="price" className="block text-sm font-medium text-gray-700 mb-5">
                     Amount

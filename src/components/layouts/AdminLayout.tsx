@@ -17,10 +17,10 @@ import { Dialog, Menu, Transition } from '@headlessui/react'
 const navigation = [ 
   { name: 'Dashboard', href: '/admin', icon: <AiOutlineHome size={20}/>,  current: true },
   { name: 'Captions', href: '/admin/captions', icon: <BiCaptions size={20}/>,  current: false },
-  { name: 'Cities', href: '#', icon: <FaCity size='20' />, current: false },
-  { name: 'Features', href: '#', icon: <BsFillStarFill size='20'/>, current: false },
-  { name: 'Donation', href: '#', icon: <BiDonateBlood size='20'/>, current: false },
-  { name: 'Brands', href: '#', icon: <TbBrandAdobe size='20'/>, current: false },
+  { name: 'Cities', href: '/admin/cities', icon: <FaCity size='20' />, current: false },
+  { name: 'Features', href: '/admin/features', icon: <BsFillStarFill size='20'/>, current: false },
+  { name: 'Donation', href: '/admin/donation', icon: <BiDonateBlood size='20'/>, current: false },
+  { name: 'Brands', href: '/admin/brands', icon: <TbBrandAdobe size='20'/>, current: false },
   { name: 'Categories', href: '/admin/categories', icon: <BiCategory size='20'/>,  current: false },
   { name: 'Merchants', href: '/admin/merchants', icon: <RiUserStarFill size='20'/>,  current: false },
   { name: 'Users', href: '/admin/users', icon: <FiUsers size='20'/>,  current: false },
@@ -33,8 +33,6 @@ const userNavigation = [
   { name: 'Settings', href: '#' },
   { name: 'Sign out', href: '#' },
 ]
-
-
 
 function classNames(...classes : any) {
   return classes.filter(Boolean).join(' ')
