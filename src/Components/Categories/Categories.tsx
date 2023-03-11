@@ -1,33 +1,22 @@
 import React from "react";
 import { Box, Grid, Typography } from "@mui/material";
 import Image from "next/image";
-import beauty from "assets/beauty.png";
-import Home from "assets/home.png";
-import Mart from "assets/mart.png";
-import Health from "assets/health.png";
+import beauty from "/public/assets/Beauty.png";
+import Home from "/public/assets/Home.png";
+import Mart from "/public/assets/Mart.png";
+import Health from "/public/assets/Health.png";
 
 const Categories = () => {
   return (
-    <div
-      style={{
-        padding: "1rem",
-        marginTop: "1rem",
-        display: "flex",
-        justifyContent: "center",
-              alignItems: "center",
-        marginBottom: "1rem",
-      }}
-    >
-      <Grid spacing={2} display="flex" justifyContent="center">
+    <div className="mx-auto max-w-2xl py-16 px-4 sm:px-6 lg:max-w-7xl lg:px-2">
+      <div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-10">
         <Box
           sx={{
             display: "flex",
             alignItems: "center",
             padding: "0.5rem",
             borderRadius: "5rem",
-            width: "15rem",
             background: "#ffb9b9",
-            marginRight: "4rem",
             cursor: "pointer",
             "&:hover": {
               background: "#ff9a9a",
@@ -57,9 +46,8 @@ const Categories = () => {
             alignItems: "center",
             padding: "0.5rem",
             borderRadius: "5rem",
-            width: "15rem",
             background: "#ffde8b",
-            marginRight: "4rem",
+
             cursor: "pointer",
             "&:hover": {
               background: "#ffde8b",
@@ -89,9 +77,8 @@ const Categories = () => {
             alignItems: "center",
             padding: "0.5rem",
             borderRadius: "5rem",
-            width: "15rem",
             background: "#a1eeff",
-            marginRight: "4rem",
+
             cursor: "pointer",
             "&:hover": {
               background: "#a1eeff",
@@ -121,9 +108,8 @@ const Categories = () => {
             alignItems: "center",
             padding: "0.5rem",
             borderRadius: "5rem",
-            width: "15rem",
             background: "#bdebb6",
-            marginRight: "4rem",
+
             cursor: "pointer",
             "&:hover": {
               background: "#bdebb6",
@@ -147,7 +133,7 @@ const Categories = () => {
             Health & Fitness
           </Typography>
         </Box>
-      </Grid>
+      </div>
     </div>
   );
 };

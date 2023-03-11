@@ -1,19 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
-import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
-import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
-import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
-import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import * as React from "react";
-import IconButton from "@mui/material/IconButton";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import InputLabel from "@mui/material/InputLabel";
-import InputAdornment from "@mui/material/InputAdornment";
-import FormControl from "@mui/material/FormControl";
-import TextField from "@mui/material/TextField";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import CategoriesInput from "./CategoriesInput";
 import NavModal from "../NaVModal/NavModal";
 import WhereToVoteIcon from "@mui/icons-material/WhereToVote";
@@ -23,7 +11,7 @@ import Typography from "@mui/material/Typography";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import Image from "next/image";
-import Logo from "assets/cityshoppa.png";
+import Logo from "/public/assets/cityshoppa.png";
 
 const user = {
   name: "Tom Cook",
