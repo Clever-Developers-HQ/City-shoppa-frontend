@@ -8,14 +8,16 @@ import Logo from '../../assets/images/city-shoppa-logo.png'
 
 import { Fragment, useState } from 'react'
 import { Dialog, Menu, Transition } from '@headlessui/react'
+import NextLink from 'next/link';
 
 const navigation = [ 
-  { name: 'Post New Product', href: '#', icon: <AiFillFileAdd size='20'/>, current: true },
+  { name: 'Post New Product', href: '#', icon: <AiFillFileAdd size='20'/>, current: false },
   { name: 'Activate User Coupon', href: '/merchant/coupons', icon: <RiCoupon2Fill size={20}/>,  current: false },
   { name: 'Product List', href: '/merchant/products', icon: <MdOutlineProductionQuantityLimits size='20'/>,  current: false },
   { name: 'Number of Visitors', href: '/merchant/visitors', icon: <TbDeviceAnalytics size='20'/>, current: false },
   { name: 'Completed Orders', href: '/merchant/orders', icon: <RiShoppingBagFill size='20'/>,  current: false },
   { name: 'Subscriptions', href: '/merchant/subscriptions', icon: <MdPayment size='20'/>, current: false },
+  { name: 'Claimed Coupon', href: '/merchant/claimed', icon: <MdPayment size='20'/>, current: false },
 ]
 const userNavigation = [
   { name: 'Your Profile', href: '#' },
@@ -103,7 +105,7 @@ export default function MerchantLayout({children, title}: any) {
                 <div className="mt-5 flex-1 h-0 overflow-y-auto">
                   <nav className="px-2 space-y-1">
                     {navigation.map((item) => (
-                      <a
+                      <NextLink
                       onClick={() => item.current === true}
                         key={item.name}
                         href={item.href}
@@ -119,7 +121,7 @@ export default function MerchantLayout({children, title}: any) {
                         </div>
               
                         {item.name}
-                      </a>
+                      </NextLink>
                     ))}
                   </nav>
                 </div>
@@ -146,11 +148,11 @@ export default function MerchantLayout({children, title}: any) {
             <div className="mt-5 flex-1 flex flex-col">
               <nav className="flex-1 px-2 pb-4 space-y-1">
                 {navigation.map((item) => (
-                  <a
+                  <NextLink
                     key={item.name}
                     href={item.href}
                     className={classNames(
-                      item.current ? 'bg-indigo-800 text-white' : 'text-indigo-100 hover:bg-indigo-600 active:text-black',
+                      item.current ? 'bg-indigo-800 text-white' : 'text-indigo-100 hover:bg-orange active:text-black',
                       'group flex items-center px-2 py-2 text-sm font-medium rounded-md'
                     )}
                   >
@@ -160,7 +162,7 @@ export default function MerchantLayout({children, title}: any) {
                     {item.icon}
                     </span>
                     {item.name}
-                  </a>
+                  </NextLink>
                 ))}
               </nav>
             </div>

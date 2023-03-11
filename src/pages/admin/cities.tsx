@@ -2,6 +2,8 @@ import { useRef, useState } from 'react'
 import {MdOutlineModeEdit} from 'react-icons/md'
 import {RiDeleteBin6Line}  from 'react-icons/ri'
 import ShopperImg from '../../assets/images/shopperImg.png'
+import AddNewCityModal from '@/components/modals/AddNewCity'
+import EditCityModal from '@/components/modals/EditCity'
 import Image from 'next/image'
 
 import AdminLayout from '@/components/layouts/AdminLayout'
@@ -9,30 +11,45 @@ import AdminLayout from '@/components/layouts/AdminLayout'
 interface CitiesDTO {
   id: string;
   city: string;
+  street: string;
+  province: string;
   status: string;
 }
 
 function Cities() {
 
+  const [addNewCity, setAddNewCity] = useState(false)
+  const [editCity, setEditCity] = useState (false)
+
+
+
   const cities: CitiesDTO[] = [
     {
       id: '01',
       city: "Calgary",
+      street: '42, street down town',
+      province: 'Alberta',
       status: "Published",
     },
     {
       id: '02',
       city: "Toronto",
+      street: '42, street down town',
+      province: 'Alberta',
       status: "Published",
     },
     {
         id: '03',
         city: "Saskatoon",
+        street: '42, street down town',
+        province: 'Alberta',
         status: "Published",
       },
       {
         id: '04',
         city: "Regina",
+        street: '42, street down town',
+        province: 'Alberta',
         status: "Unpublished",
       },
   ]
@@ -43,6 +60,11 @@ function Cities() {
 
   
   return (
+    <>
+
+    {addNewCity === true && <AddNewCityModal open ={addNewCity} setOpen = {setAddNewCity}/> }
+    {editCity === true && <EditCityModal open={editCity} setOpen={setEditCity} />}
+    
     <div>
         <AdminLayout title="Cities">
         <div className="px-4 sm:px-6 lg:px-8">
@@ -51,8 +73,9 @@ function Cities() {
         </div>
         <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
           <button
+          onClick={() => setAddNewCity(true)}
             type="button"
-            className="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"
+            className="inline-flex items-center justify-center rounded-md border border-transparent bg-primary px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 sm:w-auto"
           >
             Add New City
           </button>
@@ -73,10 +96,16 @@ function Cities() {
                     <th scope="col" className="px-3 py-3.5 min-w-[12rem] text-left text-md font-semibold text-gray-500">
                       City
                     </th>
-                    <th scope="col" className="px-3 py-3.5 text-left text-md font-semibold text-gray-500">
+                    <th scope="col" className="px-3 py-3.5 min-w-[12rem] text-left text-md font-semibold text-gray-500">
+                     Street
+                    </th>
+                    <th scope="col" className="px-3 py-3.5 min-w-[12rem] text-left text-md font-semibold text-gray-500">
+                      Province
+                    </th>
+                    <th scope="col" className="px-3 py-3.5 min-w-[12rem]  text-left text-md font-semibold text-gray-500">
                       Status
                     </th>
-                    <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-6">
+                    <th scope="col" className="relative py-3.5 pl-3 min-w-[6rem] pr-4 sm:pr-6">
                       <span className="sr-only">Edit or Delete</span>
                     </th>
                   </tr>
@@ -96,7 +125,17 @@ function Cities() {
                       >
                         {city.id}
                       </td>
-                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{city.city}</td>
+                      <td
+                        className= 'whitespace-nowrap py-4 pr-3 text-sm  text-gray-500'
+                      >
+                        {city.city}
+                      </td>
+                                            <td
+                        className= 'whitespace-nowrap py-4 pr-3 text-sm text-gray-500'
+                      >
+                        {city.street}
+                      </td>
+                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{city.province}</td>
                       {
                         city.status === 'Published' ? ( <td className="whitespace-nowrap px-3 py-4 text-sm text-[#31AB5B]">{city.status}</td>)  : ( <td className="whitespace-nowrap px-3 py-4 text-sm text-red-500">{city.status}</td>)
                       }
@@ -105,6 +144,7 @@ function Cities() {
                           className="flex justify-between items-center"
                           >
                         <span
+                        onClick={() => setEditCity(true)}
                           className="text-gray-500 hover:text-indigo-900 cursor-pointer"
                         >
                           <MdOutlineModeEdit
@@ -134,6 +174,7 @@ function Cities() {
         </AdminLayout>
       
     </div>
+    </>
   )
 }
 

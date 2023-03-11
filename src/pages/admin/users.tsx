@@ -2,7 +2,9 @@ import { useRef, useState } from 'react'
 import {MdOutlineModeEdit} from 'react-icons/md'
 import {AiOutlineDelete}  from 'react-icons/ai'
 import {RiDeleteBin6Line}  from 'react-icons/ri'
-import ShopperImg from '../../assets/images/shopperImg.png'
+import AddNewUserModal from '@/components/modals/usersModal/addNewUser'
+import EditUserModal from '@/components/modals/usersModal/EditUser'
+import { showConfirmation } from '@/components/Utils/AlertMsg'
 import Image from 'next/image'
 
 import AdminLayout from '@/components/layouts/AdminLayout'
@@ -16,6 +18,9 @@ interface UsersDTO {
 }
 
 function Users() {
+
+  const [addNewUser, setAddNewUser] = useState(false)
+  const [editUser, setEditUser] = useState(false)
 
   const users: UsersDTO[] = [
     {
@@ -40,20 +45,24 @@ function Users() {
 
   
   return (
+    <>
+    {addNewUser === true && <AddNewUserModal open={addNewUser} setOpen={setAddNewUser} />}
+    {editUser === true && <EditUserModal open={editUser} setOpen={setEditUser} />}
     <div>
         <AdminLayout title="Users">
         <div className="px-4 sm:px-6 lg:px-8">
       <div className="sm:flex sm:items-center">
         <div className="sm:flex-auto">
         </div>
-        {/* <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
+        <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
           <button
+          onClick = {() => setAddNewUser(true)}
             type="button"
-            className="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"
+            className="inline-flex items-center justify-center rounded-md border border-transparent bg-primary px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2 sm:w-auto"
           >
-            Add Caption
+            Add New User
           </button>
-        </div> */}
+        </div>
       </div>
       <div className="mt-8 flex flex-col">
         <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -117,6 +126,7 @@ function Users() {
                           className="flex justify-between items-center"
                           >
                         <span
+                        onClick = {() => setEditUser(true)}
                           className="text-gray-500 hover:text-indigo-900 cursor-pointer"
                         >
                           <MdOutlineModeEdit
@@ -124,9 +134,7 @@ function Users() {
                            />
                         </span>
 
-                        <span
-
-                        >
+                        <span onClick={() => showConfirmation()} >
                           <RiDeleteBin6Line
                           size="20"
                           className="text-gray-500 hover:text-indigo-900 cursor-pointer"
@@ -146,6 +154,7 @@ function Users() {
         </AdminLayout>
       
     </div>
+    </>
   )
 }
 

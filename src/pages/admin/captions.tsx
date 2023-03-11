@@ -74,13 +74,13 @@ function Captions() {
                     <th scope="col" className="px-3 py-3.5 text-left text-md font-semibold text-gray-500">
                       Heading
                     </th>
-                    <th scope="col" className="px-3 py-3.5 text-left text-md font-semibold text-gray-500">
+                    <th scope="col" className="px-3 py-3.5 min-w-[12rem] text-left text-md font-semibold text-gray-500">
                       Sub Heading
                     </th>
-                    <th scope="col" className="px-3 py-3.5 text-left text-md font-semibold text-gray-500">
+                    <th scope="col" className="px-3 py-3.5   text-left text-md font-semibold text-gray-500">
                       Status
                     </th>
-                    <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-6">
+                    <th scope="col" className="relative py-3.5 pl-3  min-w-[6rem] pr-4 sm:pr-6">
                       <span className="sr-only">Edit or Delete</span>
                     </th>
                   </tr>
@@ -122,9 +122,7 @@ function Captions() {
                            />
                         </span>
 
-                        <span
-
-                        >
+                        <span>
                           <RiDeleteBin6Line
                           onClick={confirm}
                           size="20"

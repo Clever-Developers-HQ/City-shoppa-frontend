@@ -4,8 +4,9 @@ import {AiOutlineDelete}  from 'react-icons/ai'
 import {RiDeleteBin6Line}  from 'react-icons/ri'
 import ShopperImg from '../../assets/images/shopperImg.png'
 import Image from 'next/image'
-
 import MerchantLayout from '@/components/layouts/MerchantLayout'
+import AddNewProductModal from '@/components/modals/productsModal/addNewProduct'
+import EditProductModal from '@/components/modals/productsModal/EditProductModal'
 
 
 interface ProductsDTO {
@@ -17,6 +18,9 @@ interface ProductsDTO {
 }
 
 function Products() {
+
+  const [addNewProduct, setAddNewProduct] = useState(false)
+  const [editProduct, setEditProduct] = useState(false)
 
   const products: ProductsDTO[] = [
     {
@@ -42,6 +46,11 @@ function Products() {
   
   return (
     <div>
+
+      {addNewProduct && <AddNewProductModal open={addNewProduct} setOpen={setAddNewProduct} />}
+      {editProduct && <EditProductModal open={editProduct} setOpen={setEditProduct} />}
+
+
         <MerchantLayout title="Product List">
         <div className="px-4 sm:px-6 lg:px-8">
       <div className="sm:flex sm:items-center">
@@ -49,8 +58,9 @@ function Products() {
         </div>
         <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
           <button
+          onClick={() => setAddNewProduct(true)}
             type="button"
-            className="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"
+            className="inline-flex items-center justify-center rounded-md border border-transparent bg-primary px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 sm:w-auto"
           >
             Add New Product
           </button>
@@ -122,6 +132,7 @@ function Products() {
                           className="flex justify-between items-center"
                           >
                         <span
+                        onClick = {() => setEditProduct(true)}
                           className="text-gray-500 hover:text-indigo-900 cursor-pointer"
                         >
                           <MdOutlineModeEdit

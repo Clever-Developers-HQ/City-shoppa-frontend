@@ -3,7 +3,10 @@ import {MdOutlineModeEdit} from 'react-icons/md'
 import {AiOutlineDelete}  from 'react-icons/ai'
 import {RiDeleteBin6Line}  from 'react-icons/ri'
 import ShopperImg from '../../assets/images/shopperImg.png'
+import AddNewCategory from '@/components/modals/categoryModal/AddNewCategory'
+import EditCategory from '@/components/modals/categoryModal/EditCategory'
 import Image from 'next/image'
+import { showConfirmation } from '@/components/Utils/AlertMsg'
 
 import AdminLayout from '@/components/layouts/AdminLayout'
 
@@ -17,19 +20,26 @@ interface CategoriesDTO {
 
 function Categories() {
 
+  const [addNewCategory, setAddNewCategory] = useState(false)
+  const [editCategory, setEditCategory] = useState(false)
+
+  const deleteHandler = () => {
+    return showConfirmation()
+  }
+
   const categories: CategoriesDTO[] = [
     {
         id: '01',
         name: "Art & Craft",
-        createdAt: "Powerful sound",
-        updatedAt: "Marco Davied",
+        createdAt: "8th Marth, 2022",
+        updatedAt: "10th Marth, 2022",
         status: "Published",
     },
     {
         id: '02',
         name: "Bag Accessories",
-        createdAt: "Full bass boasted",
-        updatedAt: "Messi",
+        createdAt: "8th Marth, 2022",
+        updatedAt: "10th Marth, 2022",
         status: "Unpublished",
     },
   ]
@@ -40,6 +50,9 @@ function Categories() {
 
   
   return (
+    <>
+    {addNewCategory === true && <AddNewCategory open={addNewCategory} setOpen={setAddNewCategory} />}
+    {editCategory === true && <EditCategory open={editCategory} setOpen={setEditCategory}/>}
     <div>
         <AdminLayout title="Categories">
         <div className="px-4 sm:px-6 lg:px-8">
@@ -48,8 +61,9 @@ function Categories() {
         </div>
         <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
           <button
+          onClick={() =>  setAddNewCategory(true)}
             type="button"
-            className="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"
+            className="inline-flex items-center justify-center rounded-md border border-transparent bg-primary px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2 sm:w-auto"
           >
             Add New category
           </button>
@@ -79,7 +93,7 @@ function Categories() {
                     <th scope="col" className="px-3 py-3.5 text-left text-md font-semibold text-gray-500">
                       Status
                     </th>
-                    <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-6">
+                    <th scope="col" className="relative min-w-[6rem] py-3.5 pl-3 pr-4 sm:pr-6">
                       <span className="sr-only">Edit or Delete</span>
                     </th>
                   </tr>
@@ -94,6 +108,7 @@ function Categories() {
                           className="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 sm:left-6"
                         />
                       </td>
+
                       <td
                         className= 'whitespace-nowrap py-4 pr-3 text-sm font-medium text-gray-500'
                       >
@@ -117,6 +132,7 @@ function Categories() {
                           className="flex justify-between items-center"
                           >
                         <span
+                        onClick = {() => setEditCategory(true)}
                           className="text-gray-500 hover:text-indigo-900 cursor-pointer"
                         >
                           <MdOutlineModeEdit
@@ -124,9 +140,7 @@ function Categories() {
                            />
                         </span>
 
-                        <span
-
-                        >
+                        <span onClick={deleteHandler}>
                           <RiDeleteBin6Line
                           size="20"
                           className="text-gray-500 hover:text-indigo-900 cursor-pointer"
@@ -146,6 +160,7 @@ function Categories() {
         </AdminLayout>
       
     </div>
+    </>
   )
 }
 

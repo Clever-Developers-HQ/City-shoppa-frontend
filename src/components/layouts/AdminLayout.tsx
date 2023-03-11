@@ -9,13 +9,14 @@ import {MdOutlineProductionQuantityLimits, MdOutlineRemoveShoppingCart, MdCancel
 import {RiShoppingBagFill, RiUserStarFill} from 'react-icons/ri';
 import Image from 'next/image';
 import Logo from '../../assets/images/city-shoppa-logo.png'
+import NextLink from 'next/link'
 
 
 import { Fragment, useState } from 'react'
 import { Dialog, Menu, Transition } from '@headlessui/react'
 
 const navigation = [ 
-  { name: 'Dashboard', href: '/admin', icon: <AiOutlineHome size={20}/>,  current: true },
+  { name: 'Dashboard', href: '/admin', icon: <AiOutlineHome size={20}/>,  current: false},
   { name: 'Captions', href: '/admin/captions', icon: <BiCaptions size={20}/>,  current: false },
   { name: 'Cities', href: '/admin/cities', icon: <FaCity size='20' />, current: false },
   { name: 'Features', href: '/admin/features', icon: <BsFillStarFill size='20'/>, current: false },
@@ -45,14 +46,6 @@ export default function AdminLayout({children, title}: any) {
 
   return (
     <>
-      {/*
-        This example requires updating your template:
-
-        ```
-        <html class="h-full bg-gray-100">
-        <body class="h-full">
-        ```
-      */}
       <div>
         <Transition.Root show={sidebarOpen} as={Fragment}>
           <Dialog as="div" className="fixed inset-0 flex z-40 md:hidden" onClose={setSidebarOpen}>
@@ -112,12 +105,12 @@ export default function AdminLayout({children, title}: any) {
                 <div className="mt-5 flex-1 h-0 overflow-y-auto">
                   <nav className="px-2 space-y-1">
                     {navigation.map((item) => (
-                      <a
+                      <NextLink
                       onClick={() => item.current === true}
                         key={item.name}
                         href={item.href}
                         className={classNames(
-                          item.current ? 'bg-indigo-800 text-white' : 'text-indigo-100 hover:bg-indigo-600',
+                          item.current ? 'bg-indigo-800 text-white' : 'text-indigo-100 hover:bg-orange',
                           'group flex items-center px-2 py-2 text-base font-medium rounded-md'
                         )}
                       >
@@ -128,14 +121,14 @@ export default function AdminLayout({children, title}: any) {
                         </div>
               
                         {item.name}
-                      </a>
+                      </NextLink>
                     ))}
                   </nav>
                 </div>
               </div>
             </Transition.Child>
             <div className="flex-shrink-0 w-14" aria-hidden="true">
-              {/* Dummy element to force sidebar to shrink to fit close icon */}
+          
             </div>
           </Dialog>
         </Transition.Root>
@@ -155,11 +148,11 @@ export default function AdminLayout({children, title}: any) {
             <div className="mt-5 flex-1 flex flex-col">
               <nav className="flex-1 px-2 pb-4 space-y-1">
                 {navigation.map((item) => (
-                  <a
+                  <NextLink
                     key={item.name}
                     href={item.href}
                     className={classNames(
-                      item.current ? 'bg-indigo-800 text-white' : 'text-indigo-100 hover:bg-indigo-600 active:text-black',
+                      item.current ? 'bg-indigo-800 text-white' : 'text-indigo-100 hover:bg-orange active:text-black',
                       'group flex items-center px-2 py-2 text-sm font-medium rounded-md'
                     )}
                   >
@@ -169,7 +162,7 @@ export default function AdminLayout({children, title}: any) {
                     {item.icon}
                     </span>
                     {item.name}
-                  </a>
+                  </NextLink>
                 ))}
               </nav>
             </div>

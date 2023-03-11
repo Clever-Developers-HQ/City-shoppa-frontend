@@ -13,8 +13,10 @@ module.exports = {
       colors: {
         primary: '#222932',
         secondary: '#5A7889',
+        accent: '#F2F2F2',
+        orange: '#F85606',
       },
     },
   },
-  plugins: [],
+  plugins: [require('@tailwindcss/forms')],
 }

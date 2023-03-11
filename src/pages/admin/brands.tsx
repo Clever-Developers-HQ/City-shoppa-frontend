@@ -3,8 +3,10 @@ import {MdOutlineModeEdit} from 'react-icons/md'
 import {RiDeleteBin6Line}  from 'react-icons/ri'
 import ShopperImg from '../../assets/images/shopperImg.png'
 import Image from 'next/image'
-
 import AdminLayout from '@/components/layouts/AdminLayout'
+import AddNewBrandModal from '@/components/modals/brandsModal/AddnewBrand'
+import EditBrandModal from '@/components/modals/brandsModal/EditBrand'
+import { showConfirmation } from '@/components/Utils/AlertMsg'
 
 interface brandDTO {
   id: string;
@@ -16,6 +18,8 @@ interface brandDTO {
 }
 
 function Brands() {
+  const [addNewBrand, setAddNewBrand] = useState(false)
+  const [editBrand, setEditBrand] = useState(false)
 
   const brands: brandDTO[] = [
     {
@@ -43,6 +47,9 @@ function Brands() {
   
   return (
     <div>
+
+      {addNewBrand && <AddNewBrandModal open={addNewBrand} setOpen={setAddNewBrand} />}
+      {editBrand && <EditBrandModal open={editBrand} setOpen={setEditBrand}/> }
         <AdminLayout title="Brands">
         <div className="px-4 sm:px-6 lg:px-8">
       <div className="sm:flex sm:items-center">
@@ -50,8 +57,9 @@ function Brands() {
         </div>
         <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
           <button
+          onClick={() => setAddNewBrand(true)}
             type="button"
-            className="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"
+            className="inline-flex items-center justify-center rounded-md border border-transparent bg-primary px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-primary focus:outline-none focus:ring-primary focus:ring-offset-2 sm:w-auto"
           >
             Add New  brand
           </button>
@@ -120,6 +128,7 @@ function Brands() {
                           className="flex justify-between items-center"
                           >
                         <span
+                        onClick={() => setEditBrand(true)}
                           className="text-gray-500 hover:text-indigo-900 cursor-pointer"
                         >
                           <MdOutlineModeEdit
@@ -131,6 +140,7 @@ function Brands() {
 
                         >
                           <RiDeleteBin6Line
+                          onClick = {showConfirmation}
                           size="20"
                           className="text-gray-500 hover:text-indigo-900 cursor-pointer"
                            />
