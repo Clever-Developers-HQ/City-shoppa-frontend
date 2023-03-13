@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import React from "react";
 import Image from "next/image";
-import HeroImage from "assets/hero.png";
+import HeroImage from "/public/assets/hero.png";
 import { Grid, Container, Typography, Box } from "@mui/material";
 
 export default function Hero() {

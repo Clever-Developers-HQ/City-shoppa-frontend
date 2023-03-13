@@ -1,19 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
-import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
-import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
-import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
-import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import * as React from "react";
-import IconButton from "@mui/material/IconButton";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import InputLabel from "@mui/material/InputLabel";
-import InputAdornment from "@mui/material/InputAdornment";
-import FormControl from "@mui/material/FormControl";
-import TextField from "@mui/material/TextField";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import CategoriesInput from "./CategoriesInput";
 import NavModal from "../NaVModal/NavModal";
 import WhereToVoteIcon from "@mui/icons-material/WhereToVote";
@@ -23,7 +11,8 @@ import Typography from "@mui/material/Typography";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import Image from "next/image";
-import Logo from "assets/cityshoppa.png";
+import Logo from "/public/assets/cityshoppa.png";
+import Profile from "../modals/profileModal";
 
 const user = {
   name: "Tom Cook",
@@ -50,6 +39,7 @@ function classNames(...classes: string[]) {
 export default function NavBar() {
   const [showPassword, setShowPassword] = React.useState(false);
   const [userSignup, setUserSignup] = React.useState(false);
+  const [showProfile, setShowProfile] = React.useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -95,6 +85,7 @@ export default function NavBar() {
     <Disclosure as="header" className="bg-[#FF7235]">
       {({ open }) => (
         <>
+        {showProfile && <Profile open={showProfile} setOpen={setShowProfile} />}
           <div className="max-w-7x1 mx-auto px-2 sm:px-4 lg:divide-y lg:divide-gray-700 lg:px-8">
             <div className="relative h-16 flex justify-between">
               <div className="relative z-10 px-2 flex lg:px-0">
@@ -216,7 +207,9 @@ export default function NavBar() {
                       />
                     </button>
                     <div>
-                      <Menu.Button className="bg-white rounded-full flex focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                      <Menu.Button 
+                      onClick={() => setShowProfile(true)}
+                      className="bg-white rounded-full flex focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                         <span className="sr-only">Open user menu</span>
                         <img
                           className="h-8 w-8 rounded-full"

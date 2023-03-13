@@ -3,9 +3,9 @@ import {AiFillBell, AiOutlineSearch, AiOutlineHome, AiFillFileAdd} from 'react-i
 import {MdOutlineProductionQuantityLimits, MdPayment, MdCancel, MdMenu} from 'react-icons/md';
 import {RiShoppingBagFill,RiCoupon2Fill} from 'react-icons/ri';
 import {TbDeviceAnalytics} from 'react-icons/tb';
+import {IoMdCheckmarkCircle} from 'react-icons/io';
 import Image from 'next/image';
 import Logo from '../../assets/images/city-shoppa-logo.png'
-
 import { Fragment, useState } from 'react'
 import { Dialog, Menu, Transition } from '@headlessui/react'
 import NextLink from 'next/link';
@@ -17,7 +17,7 @@ const navigation = [
   { name: 'Number of Visitors', href: '/merchant/visitors', icon: <TbDeviceAnalytics size='20'/>, current: false },
   { name: 'Completed Orders', href: '/merchant/orders', icon: <RiShoppingBagFill size='20'/>,  current: false },
   { name: 'Subscriptions', href: '/merchant/subscriptions', icon: <MdPayment size='20'/>, current: false },
-  { name: 'Claimed Coupon', href: '/merchant/claimed', icon: <MdPayment size='20'/>, current: false },
+  { name: 'Claimed Coupon', href: '/merchant/claimed', icon: <IoMdCheckmarkCircle size='20'/>, current: false },
 ]
 const userNavigation = [
   { name: 'Your Profile', href: '#' },
@@ -38,14 +38,6 @@ export default function MerchantLayout({children, title}: any) {
 
   return (
     <>
-      {/*
-        This example requires updating your template:
-
-        ```
-        <html class="h-full bg-gray-100">
-        <body class="h-full">
-        ```
-      */}
       <div>
         <Transition.Root show={sidebarOpen} as={Fragment}>
           <Dialog as="div" className="fixed inset-0 flex z-40 md:hidden" onClose={setSidebarOpen}>
