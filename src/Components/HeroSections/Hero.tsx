@@ -33,6 +33,8 @@ export default function Hero() {
           height: "100%",
           marginTop: "1rem",
         }}
+        // dont display at the mobile size
+        display={{ xs: "none", sm: "block"}}
       >
         <Typography sx={style.textStyle}>Food</Typography>
         <Typography sx={style.textStyle}>Consumer Electronics</Typography>
@@ -52,13 +54,12 @@ export default function Hero() {
         }}>All Categories</Typography>
       </Box>
       <Image
+        // make it a full with on the mobile screen using style
+       
+        className="hero-image"
         src={HeroImage}
         alt="hero"
-        style={{
-          height: "100%",
-          width: "80%",
-          objectFit: "cover",
-        }}
+
       />
     </Grid>
   );

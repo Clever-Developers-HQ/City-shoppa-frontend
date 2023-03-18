@@ -10,6 +10,9 @@ import HomeAndDecor from '@/Components/Products/Home/HomeAndDecor'
 import Mart from '@/Components/Products/Mart/Mart'
 import HealthAndFitness from '@/Components/Products/HealthAndFitness/HealthAndFitness'
 import Brands from '@/Components/BrandCaroousel/Brands'
+import ProductsList from '@/Components/Products/ProductLists/ProductsList'
+import AdsCards from '@/Components/Ads/AdsCards'
+import Footer from '@/Components/Footer/Footer'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -82,7 +85,10 @@ export default function Home() {
       Services
         </h1>
         <HealthAndFitness />
-        <Brands/>
+        <Brands />
+        <ProductsList />
+        <AdsCards/>
+        <Footer/>
       </main>
     </>
   )

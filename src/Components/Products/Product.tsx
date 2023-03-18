@@ -30,7 +30,6 @@ export default function ProductsCarousel(props: {
 
             
         }}>
-         
           <span >{props.price}</span>
           <span style={{
             fontSize: '1.1rem',
