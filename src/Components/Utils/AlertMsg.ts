@@ -1,6 +1,8 @@
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 
+
+
 const showError = (errorMsg: string) => {
     return toast.error(`${errorMsg}`, {
         position: "top-right",
@@ -54,26 +56,31 @@ const showInfo = (infoMsg: string) => {
     });
 }
 
-const showConfirmation = async () => {
-    const user = "tope"
+export interface ConfirmationProps{
+    title: string;
+    deleteHandler: any
+}
+
+const showConfirmation = async (title : string, deleteHandler: any) => {
     return await Swal.fire({
-        title: 'Are you sure?',
+        title: `Are you sure?`,
         text: "You won't be able to revert this!",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#222932',
         cancelButtonColor: '#d33',
-        confirmButtonText: `Yes, delete it ${user}!`
+        confirmButtonText: `Yes, delete ${title}!`
     }).then((result) => {
         if (result.isConfirmed) {
 
-            //Function Goes Here
+            //Delete function and API Call Goes Here
+            deleteHandler
 
-            Swal.fire(
-                'Deleted!',
-                'Your file has been deleted.',
-                'success',
-            )
+                Swal.fire(
+                    'Deleted!',
+                    `${title} deleted Successfully.`,
+                    'success',
+                )
         }
     })
 }

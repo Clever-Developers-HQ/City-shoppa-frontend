@@ -28,16 +28,16 @@ const masterReducer = (state: any, action: any) => {
   };
   
   //set all reducers to store using configure store
-  const makeStore = () =>
+  const store = () =>
     configureStore({
       reducer: masterReducer,
     });
   
   //typescript related
   // Infer the `RootState` and `AppDispatch` types from the store itself
-  export type AppStore = ReturnType<typeof makeStore>;
+  export type AppStore = ReturnType<typeof store>;
   export type RootState = ReturnType<AppStore["getState"]>;
   export type AppDispatch = AppStore["dispatch"];
   
   //createWrapper from next-redux-wrapper allows for the server side renndering features with getStaticProps and getSreverSideProps
-  export const wrapper = createWrapper<AppStore>(makeStore, { debug: false });
+  export const wrapper = createWrapper<AppStore>(store, { debug: false });

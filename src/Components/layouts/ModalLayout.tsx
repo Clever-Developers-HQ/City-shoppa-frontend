@@ -9,6 +9,7 @@ interface ModalProps {
   title: string
   btnText: string
   children: any
+  submitHandler: any
 }
 
 export default function ModalLayout({
@@ -16,7 +17,8 @@ export default function ModalLayout({
   setOpen,
   title,
   children,
-  btnText
+  btnText,
+  submitHandler
 }: ModalProps) {
   const cancelButtonRef = useRef(null)
   const [images, setImages] = useState([])
@@ -75,7 +77,7 @@ export default function ModalLayout({
                 <button
                   type="button"
                   className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-secondary text-base font-medium text-white hover:bg-primary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary sm:col-start-2 sm:text-sm"
-                  onClick={() => setOpen(false)}
+                  onClick={submitHandler}
                 >
                   {btnText}
                 </button>

@@ -1,16 +1,38 @@
 import { combineReducers } from "@reduxjs/toolkit";
-import { loginSlice } from "./Features/auth/authLoginSlice";
-import { registerSlice } from "./Features/auth/authRegisterSlice";
-import { forgetPasswordSlice } from "./Features/auth/authForgetPasswordSlice";
+
+import {
+    // MERCHANTS
+    getMerchantsReducer,
+    deleteMerchantReducer,
+    updateMerchantReducer,
+    getMerchantReducer,
+
+    // CAPTIONS
+    getCaptionReducer,
+    updateCaptionReducer,
+    getCaptionsReducer,
+    deleteCaptionReducer,
+    createCaption
+
+
+} from './combineImports'
+
 
 const reducers = combineReducers({
 
-    //AUTHENTICATION REDUCERS
-    authLogin: loginSlice.reducer,
-    authRegister: registerSlice.reducer,
-    authForgetPassword: forgetPasswordSlice.reducer
+    //MERCHANT REDUCERS
+    getMerchants: getMerchantsReducer,
+    deleteMerchant: deleteMerchantReducer,
+    updateMerchant: updateMerchantReducer,
+    getMerchant:  getMerchantReducer,
 
-    //MUSIC REDUCERS
+
+    // CAPTION REDUCERS
+    getCaption: getCaptionReducer,
+    updateCaption: updateCaptionReducer,
+    getCaptions: getCaptionsReducer,
+    deleteCaption: deleteCaptionReducer,
+    createCaption: createCaption
 
 
 })

@@ -52,7 +52,7 @@ function FileUpload({ setImages, images, multiple, label }: FileUploadProps) {
             {imageList.map((image, index) => (
               <div className="flex justify-between items-center" key={index}>
                 <img
-                  className="w-[100px] h-[100px] object-contain"
+                  className="w-[100px] h-[100px] my-1 object-contain"
                   src={image["data_url"]}
                   alt=""
                 />

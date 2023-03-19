@@ -1,113 +1,198 @@
-import { Fragment, useRef, useState } from 'react'
-import { Dialog, Transition } from '@headlessui/react'
+import { Fragment, useRef, useState, useEffect } from "react";
+import { Dialog, Transition } from "@headlessui/react";
+import { AppDispatch, RootState } from "@/redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import Loader from "@/components/loader/Loader";
+import * as Yup from 'yup';
+import { Formik, ErrorMessage, useFormik } from "formik";
+import ModalLayout from "@/components/layouts/ModalLayout";
+import {updateMerchantAction} from "@/redux/Features/merchant/updateMerchantSlice";
+import { MerchantProps } from "@/redux/Features/merchant/merchantService";
 
-interface ModalProps{
+
+interface ModalProps {
   open: boolean;
-  setOpen: any
+  setOpen: any;
 }
 
-export default function EditMerchant({open, setOpen}:ModalProps) {
+export default function EditMerchant({ open, setOpen }: ModalProps) {
+  const dispatch = useDispatch<AppDispatch>();
+  const { loading, success, message, merchant } = useSelector(
+    (store: RootState) => store.getMerchant
+  );
 
-  const cancelButtonRef = useRef(null)
+  const [id, setId] = useState("")
+
+  // console.log(loading, merchant, success, message, "ON THE LOADING ");
+
+  const token = "ijrjwhjehfjkhefjkherjkherjkhlerkjerh"
+
+  const updateHandler = async ({id, data}:any) => {
+    setOpen(false)
+    await dispatch(updateMerchantAction({id, token, data}))
+  }
+
+
+  const formik = useFormik({
+
+      initialValues: {
+        email: merchant?.email,
+        name: merchant?.name,
+        address: merchant?.address,
+        website: merchant?.website,
+        business_name: merchant?.business_name,
+      },
+
+        validationSchema: Yup.object <any>({
+      name: Yup.string()
+        .required('Required'),
+      address: Yup.string().required("Required"),
+      website: Yup.string().required("Required").nullable(), 
+      business_name: Yup.string()
+        .required('Required'),
+      email: Yup.string().email('Invalid Merchant email address').required('Email is Required'),
+    }), 
+    onSubmit: values => {
+      updateHandler ({id, values})
+      console.log(id, token, "ON SUBMISSION")
+      alert(JSON.stringify(values, null, 2));
+    },
+  })
 
   return (
-    <Transition.Root show={open} as={Fragment}>
-      <Dialog as="div" className="fixed z-10 inset-0 overflow-y-auto" initialFocus={cancelButtonRef} onClose={setOpen}>
-        <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
-            <Dialog.Overlay className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
-          </Transition.Child>
-          <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">
-            &#8203;
-          </span>
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-            enterTo="opacity-100 translate-y-0 sm:scale-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100 translate-y-0 sm:scale-100"
-            leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-          >
-            <div className="relative w-full inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
-              <div>
-                <div className="mt-3 text-center sm:mt-5">
-                  <Dialog.Title as="h3" className="text-lg leading-6 font-medium text-gray-900">
-                    <div className="row  items-center justify-center ">
-                    
-                    <p>Edit Merchant Information </p>
-                    </div>
-                  </Dialog.Title>
-                  <div className="mt-2">
+    <ModalLayout
+      open={open}
+      setOpen={setOpen}
+      title="Edit Merchant"
+      btnText="Update Merchant"
+      submitHandler={formik.handleSubmit}
+      >
 
-                  <div>
-                      <label htmlFor="city" className="block text-sm text-left font-medium text-gray-700 py-3">  
-                       Merchant Name
-                      </label>
-                    <input
-                      type="text"
-                      name="city"
-                      id="city"
-                      className="shadow-sm focus:ring-primary focus:border-primary block w-full border-gray-300 sm:text-sm rounded-md p-2"  
-                    />
-                    </div>
+        {/* LOADING STATE */}
+      {loading && <Loader />}
 
-                  <div>
-                      <label htmlFor="city" className="block text-sm text-left font-medium text-gray-700 py-3">  
-                        Email
-                      </label>
-                    <input
-                      type="text"
-                      name="email"
-                      id="email"
-                      className="shadow-sm focus:ring-primary focus:border-primary block w-full border-gray-300 sm:text-sm rounded-md p-2"  
-                    />
-                    </div>
+      {/* SUCCESS STATE */}
+      {!loading && merchant !== "" && (
+      <div className="mt-2">
+      <form>
+        <div className="mt-2">
+          <div>
+            <label
+              htmlFor="merchant_name"
+              className="block text-sm text-left font-medium text-gray-700 py-3">
+              Merchant Name
+            </label>
+            <input
+              type="text"
+              name="name"
+              value={formik.values.name}
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              id="name"
+              className="shadow-sm focus:ring-primary focus:border-primary block w-full border-gray-300 sm:text-sm rounded-md p-2"
+            />
+          </div>
+          
+          {formik.touched.name && formik.errors.name ? (
+   <div className="text-orange flex">{formik.errors.name as string}</div>
+ ) : null}
 
-                    <div>
-                      <label htmlFor="city" className="block text-sm text-left font-medium text-gray-700 py-3">  
-                        Website
-                      </label>
-                    <input
-                      type="text"
-                      name="website"
-                      id="website"
-                      className="shadow-sm focus:ring-primary focus:border-primary block w-full border-gray-300 sm:text-sm rounded-md p-2"  
-                    />
-                    </div>
-                  
-                  </div>
-                </div>
-              </div>
-              <div className="mt-5 sm:mt-6 sm:grid sm:grid-cols-2 sm:gap-3 sm:grid-flow-row-dense">
-                <button
-                  type="button"
-                  className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-secondary text-base font-medium text-white hover:bg-primary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:col-start-2 sm:text-sm"
-                  onClick={() => setOpen(false)}
-                >
-                  Add Merchant
-                </button>
-                <button
-                  type="button"
-                  className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:col-start-1 sm:text-sm"
-                  onClick={() => setOpen(false)}
-                  ref={cancelButtonRef}
-                >
-                  Cancel
-                </button>
-              </div>
-            </div>
-          </Transition.Child>
+
+          <div>
+            <label
+              htmlFor="city"
+              className="block text-sm text-left font-medium text-gray-700 py-3">
+              Business Name
+            </label>
+            <input
+              type="text"
+              name="business_name"
+              value={formik.values.business_name}
+              onBlur={formik.handleBlur}
+              onChange = {formik.handleChange}
+              id="business_name"
+              className="shadow-sm focus:ring-primary focus:border-primary block w-full border-gray-300 sm:text-sm rounded-md p-2"
+            />
+          </div>
+
+{formik.touched.business_name && formik.errors.business_name ? (
+   <div className="text-orange flex">{formik.errors.business_name as string}</div>
+ ) : null}
+
+
+
+          <div>
+            <label
+              htmlFor="email"
+              className="block text-sm text-left font-medium text-gray-700 py-3">
+              Email
+            </label>
+            <input
+              type="text"
+              name="email"
+              id="email"
+              value={formik.values.email}
+              onBlur={formik.handleBlur}
+              onChange = {formik.handleChange}
+              className="shadow-sm focus:ring-primary focus:border-primary block w-full border-gray-300 sm:text-sm rounded-md p-2"
+            />
+          </div>
+
+{formik.touched.email && formik.errors.email ? (
+   <div className="text-orange flex">{formik.errors.email as string}</div>
+ ) : null}
+
+
+          <div>
+            <label
+              htmlFor="address"
+              className="block text-sm text-left font-medium text-gray-700 py-3">
+              Address
+            </label>
+            <input
+              type="text"
+              name="address"
+              id="email"
+              value={formik.values.address}
+              onBlur={formik.handleBlur}
+              onChange = {formik.handleChange}
+              className="shadow-sm focus:ring-primary focus:border-primary block w-full border-gray-300 sm:text-sm rounded-md p-2"
+            />
+          </div>
+
+          {formik.touched.address && formik.errors.address ? (
+   <div className="text-orange flex">{formik.errors.address as string}</div>
+ ) : null}
+
+          <div>
+            <label
+              htmlFor="website"
+              className="block text-sm text-left font-medium text-gray-700 py-3">
+              Website
+            </label>
+            <input
+              type="text"
+              name="website"
+              id="website"
+              value={formik.values.website}
+              onBlur={formik.handleBlur}
+              onChange = {formik.handleChange}
+              className="shadow-sm focus:ring-primary focus:border-primary block w-full border-gray-300 sm:text-sm rounded-md p-2"
+            />
+          </div>
+
+          {formik.touched.website && formik.errors.website ? (
+   <div className="text-orange flex">{formik.errors.website as string}</div>
+ ) : null}
+
+
         </div>
-      </Dialog>
-    </Transition.Root>
-  )
+      </form>
+  </div>
+      ) }
+
+
+
+    </ModalLayout>
+  );
 }

@@ -62,7 +62,7 @@ export default function Profile({ open, setOpen}: ModalProps) {
                     </button>
                   </div>
                 </Transition.Child>
-                <div className="h-full bg-[#D9D9D9] overflow-y-auto bg-white p-8">
+                <div className="h-full bg-[#D9D9D9] overflow-y-auto p-8">
                   <div className="space-y-6 pb-16">
                     <div>
                       <div className="flex flex-col items-center justify-center w-full overflow-hidden">

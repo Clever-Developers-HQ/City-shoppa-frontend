@@ -208,7 +208,7 @@ export default function NavBar() {
                     </button>
                     <div>
                       <Menu.Button 
-                      onClick={() => setShowProfile(true)}
+                      // onClick={() => setShowProfile(true)}
                       className="bg-white rounded-full flex focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                         <span className="sr-only">Open user menu</span>
                         <img

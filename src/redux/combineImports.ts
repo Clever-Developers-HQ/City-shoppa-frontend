@@ -1,13 +1,27 @@
-import { loginUser } from './Features/auth/authLoginSlice';
-import { registerUser } from './Features/auth/authRegisterSlice';
-import { forgetPassword } from './Features/auth/authForgetPasswordSlice';
-
+import getMerchantsReducer from "./Features/merchant/getMerchantsSlice";
+import deleteMerchantReducer from "./Features/merchant/deleteMerchantSlice";
+import updateMerchantReducer from "./Features/merchant/updateMerchantSlice";
+import getMerchantReducer from "./Features/merchant/getMerchantSlice";
+import getCaptionReducer from './Features/caption/getCaptionSlice'
+import updateCaptionReducer from './Features/caption/updateCaptionSlice'
+import getCaptionsReducer from './Features/caption/getCaptionsSlice'
+import deleteCaptionReducer from './Features/caption/deleteCaptionSlice'
+import createCaption from "./Features/caption/createCaption";
 
 export {
-    // User Authentication
-    loginUser,
-    registerUser,
-    forgetPassword
-    // logoutUser
+    // MERCHANTS 
+    getMerchantsReducer,
+    deleteMerchantReducer,
+    updateMerchantReducer,
+    getMerchantReducer,
+
+
+    // CAPTIONS
+    getCaptionReducer,
+    updateCaptionReducer,
+    getCaptionsReducer,
+    deleteCaptionReducer,
+    createCaption
+
 }
 

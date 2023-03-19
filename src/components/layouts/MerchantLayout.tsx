@@ -10,8 +10,9 @@ import { Fragment, useState } from 'react'
 import { Dialog, Menu, Transition } from '@headlessui/react'
 import NextLink from 'next/link';
 
+
 const navigation = [ 
-  { name: 'Post New Product', href: '#', icon: <AiFillFileAdd size='20'/>, current: false },
+  { name: 'Post New Product', href: '/merchant/post_product', icon: <AiFillFileAdd size='20'/>, current: false },
   { name: 'Activate User Coupon', href: '/merchant/coupons', icon: <RiCoupon2Fill size={20}/>,  current: false },
   { name: 'Product List', href: '/merchant/products', icon: <MdOutlineProductionQuantityLimits size='20'/>,  current: false },
   { name: 'Number of Visitors', href: '/merchant/visitors', icon: <TbDeviceAnalytics size='20'/>, current: false },
@@ -21,7 +22,6 @@ const navigation = [
 ]
 const userNavigation = [
   { name: 'Your Profile', href: '#' },
-  { name: 'Settings', href: '#' },
   { name: 'Sign out', href: '#' },
 ]
 
@@ -102,7 +102,7 @@ export default function MerchantLayout({children, title}: any) {
                         key={item.name}
                         href={item.href}
                         className={classNames(
-                          item.current ? 'bg-indigo-800 text-white' : 'text-indigo-100 hover:bg-indigo-600',
+                          item.current ? 'bg-orange text-white' : 'text-indigo-100 hover:bg-orange',
                           'group flex items-center px-2 py-2 text-base font-medium rounded-md'
                         )}
                       >
@@ -164,7 +164,7 @@ export default function MerchantLayout({children, title}: any) {
           <div className="sticky top-0 z-10 flex-shrink-0 flex h-16 bg-white shadow">
             <button
               type="button"
-              className="px-4 border-r border-gray-200 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 md:hidden"
+              className="px-4 border-r border-gray-200 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-orange md:hidden"
               onClick={() => setSidebarOpen(true)}
             >
               <span className="sr-only">Open sidebar</span>
