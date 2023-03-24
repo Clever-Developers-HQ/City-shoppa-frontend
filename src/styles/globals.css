@@ -257,3 +257,149 @@ body,
 }
 
 
+/* logins css */
+
+.register{
+  max-width: 690px;
+  width: 100vw;
+  margin: 2em auto;
+  height: auto;
+  display:flex;
+  border-radius: 20px;
+  box-shadow: 3px 3px 10px #e9ecef;
+  background-color: white;
+}
+
+.register span{
+  color: #adb5bd;
+}
+
+#form{
+  max-width: 320px;
+  width: 100vw;
+  margin: 1em auto;
+}
+
+#form >  input, .btn{
+  border: 1px solid #e9ecef;
+  padding: .9em 1em;
+}
+
+#form > input:focus{
+  outline: none;
+}
+
+#form > .btn{
+  background-color: #f85606;
+  color: #e9ecef;
+  font-size: 1em;
+  margin-top: 1rem;
+  cursor: pointer;
+}
+
+#form > .btn:hover{
+  background-color: #e85606;
+}
+
+.flex{
+  display: flex;
+  gap: 1em;
+}
+
+.flex-col{
+  flex-direction: column;
+}
+
+.register .col-1{
+  margin: auto;
+  padding: 1.5em 0;
+}
+
+.register .col-2{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.register .col-2 img{
+  width: 290px;
+  height: 100%;
+  border-end-start-radius: 20px;
+  border-top-left-radius: 20px;
+  object-fit: cover;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  display: none;
+}
+
+@media screen and (min-width: 860px)  {
+  .register .col-2 img{
+    display: initial;
+  }
+}
+
+@media screen and (max-width: 860px)  {
+  .register{
+    flex-direction: column;
+  }
+  .register .col-2 img{
+    display: none;
+  }
+
+  .register .col-2 h2{
+    display: none;
+  }
+}
+
+
+
+
+.containers {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+.left {
+  display: flex;
+  height: 50vh;
+}
+.left_1 {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.img_wrap {
+  width: 90px;
+  height: 90px;
+  cursor: pointer;
+}
+.img_wrap img {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+}
+
+.left_2 img {
+  width: 100%;
+  max-width: 500px;
+  height: 100%;
+  min-height: 500px;
+  object-fit: contain;
+}
+.active {
+  border: 2px solid #e77600;
+}
+
+@media screen {
+  .containers {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .left {
+    height: 100vh;
+  }
+  .left_2 img {
+    min-height: 300px;
+  }
+}
