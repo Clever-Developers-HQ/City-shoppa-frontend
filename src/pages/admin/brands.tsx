@@ -140,7 +140,7 @@ function Brands() {
 
                         >
                           <RiDeleteBin6Line
-                          onClick = {showConfirmation}
+                          // onClick = {showConfirmation}
                           size="20"
                           className="text-gray-500 hover:text-indigo-900 cursor-pointer"
                            />

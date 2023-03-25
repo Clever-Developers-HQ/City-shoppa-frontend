@@ -6,13 +6,17 @@ import {
     deleteMerchantReducer,
     updateMerchantReducer,
     getMerchantReducer,
+    registerMerchantReducer,
 
     // CAPTIONS
     getCaptionReducer,
     updateCaptionReducer,
     getCaptionsReducer,
     deleteCaptionReducer,
-    createCaption
+    createCaption,
+
+    //DONATIONS
+    createDonationReducer
 
 
 } from './combineImports'
@@ -25,15 +29,17 @@ const reducers = combineReducers({
     deleteMerchant: deleteMerchantReducer,
     updateMerchant: updateMerchantReducer,
     getMerchant:  getMerchantReducer,
-
+    registerMerchant: registerMerchantReducer,
 
     // CAPTION REDUCERS
     getCaption: getCaptionReducer,
     updateCaption: updateCaptionReducer,
     getCaptions: getCaptionsReducer,
     deleteCaption: deleteCaptionReducer,
-    createCaption: createCaption
+    createCaption: createCaption,
 
+    //DONATION REDUCERS
+    createDonation: createDonationReducer
 
 })
 

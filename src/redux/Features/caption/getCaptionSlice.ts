@@ -8,7 +8,7 @@ import CaptionService,{ CaptionProps }  from './captionService'
 
   
   const initialState: any = {
-    Caption: null,
+    caption: null,
     loading: false,
     error: false,
     success: false,
@@ -45,7 +45,7 @@ export const getCaptionAction = createAsyncThunk(
         state.error = false;
         state.success = false;
         state.message = "";
-        state.Caption = null;
+        state.caption = null;
       },
     },
     extraReducers: (builder) => {
@@ -57,13 +57,13 @@ export const getCaptionAction = createAsyncThunk(
 
           state.loading = false;
           state.success = true;
-          state.Caption = action.payload.Caption;
+          state.caption = action.payload.caption;
         })
         .addCase(getCaptionAction.rejected, (state, action) => {
           state.loading = false;
           state.error = true;
           state.message = action.payload || "Something went wrong";
-          state.Caption = null;
+          state.caption = null;
         });
     },
   });

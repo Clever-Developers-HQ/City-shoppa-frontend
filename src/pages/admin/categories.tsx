@@ -22,10 +22,11 @@ function Categories() {
 
   const [addNewCategory, setAddNewCategory] = useState(false)
   const [editCategory, setEditCategory] = useState(false)
+  const [isUpdated, setIsUpdated] = useState(false)
 
-  const deleteHandler = () => {
-    return showConfirmation()
-  }
+  // const deleteHandler = () => {
+  //   return showConfirmation()
+  // }
 
   const categories: CategoriesDTO[] = [
     {
@@ -51,8 +52,8 @@ function Categories() {
   
   return (
     <>
-    {addNewCategory === true && <AddNewCategory open={addNewCategory} setOpen={setAddNewCategory} />}
-    {editCategory === true && <EditCategory open={editCategory} setOpen={setEditCategory}/>}
+    {addNewCategory === true && <AddNewCategory open={addNewCategory} setOpen={setAddNewCategory} setIsUpdated={setIsUpdated} />}
+    {editCategory === true && <EditCategory open={editCategory} setOpen={setEditCategory} />}
     <div>
         <AdminLayout title="Categories">
         <div className="px-4 sm:px-6 lg:px-8">
@@ -140,7 +141,7 @@ function Categories() {
                            />
                         </span>
 
-                        <span onClick={deleteHandler}>
+                        <span>
                           <RiDeleteBin6Line
                           size="20"
                           className="text-gray-500 hover:text-indigo-900 cursor-pointer"

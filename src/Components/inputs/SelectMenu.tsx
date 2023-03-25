@@ -21,7 +21,7 @@ export default function SelectInput({
       <select
         id={name}
         name={name}
-        className="mt-1 mb-3 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm rounded-md"
+        className="mt-1 mb-3 block w-full pl-3 pr-10 py-2. text-base border-gray-300 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm rounded-md"
         defaultValue="Canada">
         <option>Select Category</option>
         <option>Furniture</option>

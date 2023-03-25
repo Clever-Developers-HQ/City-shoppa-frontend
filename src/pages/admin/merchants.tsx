@@ -15,7 +15,6 @@ import AdminLayout from '@/components/layouts/AdminLayout'
 import { AppDispatch, RootState } from '@/redux/store'
 import Loader from '@/components/loader/Loader'
 
-
 const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZmUwMjA4NzkxMGMyYmY1ZWNkYmYzZCIsImlhdCI6MTY3OTE2OTEzNywiZXhwIjoxNjgwMDMzMTM3fQ.4anwcwLFJQ2Ri36a3M2PFq5_J6D0BqOqgUdm6-dfeQY"
 
 console.log(getMerchantsAction, "THE MERCHANTS ")
@@ -25,10 +24,9 @@ function Merchants() {
 
   const [addNewMerchant, setAddNewMerchant] = useState(false)
   const [editMerchant, setEditMerchant] = useState(false)
+  const [isUpdated, setIsUpdated] = useState(false)
 
   const {loading, success, message, merchants} = useSelector((store : RootState) => store.getMerchants)
-
-  console.log( loading, "THE STATES")
 
   useEffect(() => {
   
@@ -43,11 +41,18 @@ function Merchants() {
 
   }, [])
 
+  if (isUpdated) {
+    dispatch (getMerchantsAction(token))
+    setIsUpdated(false)
+  }
+
   //DELETE FUNCTION HANDLER
   const deleteHandler = async (id: string) => {
     await dispatch (deleteMerchantAction({id, token}))
      await dispatch (getMerchantsAction(token))
   }
+
+  
 
   //UPDATE FUNCTION HANDLER 
   const updateHandler = async (id: string) => {
@@ -55,18 +60,13 @@ function Merchants() {
     await dispatch(getMerchantAction({id, token}))
   }
   
-  function classNames(...classes : any) {
-    return classes.filter(Boolean).join(' ')
-  }
-
-  
   return (
     <>
     {
-      addNewMerchant === true && <AddNewMerchant open={addNewMerchant} setOpen={setAddNewMerchant} />
+      addNewMerchant === true && <AddNewMerchant open={addNewMerchant} setOpen={setAddNewMerchant} setIsUpdated={setIsUpdated}  />
     }
  
- {editMerchant === true && <EditMerchant open={editMerchant} setOpen ={setEditMerchant} />}
+ {editMerchant === true && <EditMerchant open={editMerchant} setOpen ={setEditMerchant} setIsUpdated={setIsUpdated} />}
 
     
     <div>
@@ -106,6 +106,11 @@ function Merchants() {
             <th scope="col" className="px-3 py-3.5 text-left text-md font-semibold text-gray-500">
              Email
             </th>
+
+            <th scope="col" className="px-3 py-3.5 text-left text-md font-semibold text-gray-500">
+             Address
+            </th>
+
             <th scope="col" className="px-3 py-3.5 text-left text-md font-semibold text-gray-500">
               Website
             </th>
@@ -136,6 +141,7 @@ function Merchants() {
              {merchant.name} 
 
               </td>
+              <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{merchant.email}</td>
               <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{merchant.address}</td>
               <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{merchant.website}</td>
               {

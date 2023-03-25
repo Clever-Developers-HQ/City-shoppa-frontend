@@ -7,6 +7,10 @@ import updateCaptionReducer from './Features/caption/updateCaptionSlice'
 import getCaptionsReducer from './Features/caption/getCaptionsSlice'
 import deleteCaptionReducer from './Features/caption/deleteCaptionSlice'
 import createCaption from "./Features/caption/createCaption";
+import registerMerchantReducer from "./Features/merchant/registerMerchantSlice";
+import createDonationReducer from "./Features/donation/createDonationSlice";
+
+
 
 export {
     // MERCHANTS 
@@ -14,6 +18,7 @@ export {
     deleteMerchantReducer,
     updateMerchantReducer,
     getMerchantReducer,
+    registerMerchantReducer,
 
 
     // CAPTIONS
@@ -21,7 +26,10 @@ export {
     updateCaptionReducer,
     getCaptionsReducer,
     deleteCaptionReducer,
-    createCaption
+    createCaption,
+
+    //DONATIONS
+    createDonationReducer
 
 }
 

@@ -2,26 +2,26 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { HYDRATE } from "next-redux-wrapper";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
-import Captionervice,{ CaptionProps, UpdateCaptionProps }  from './captionService'
+import donationService,{ DonationProps }  from './donationServices'
 
 
 
   
   const initialState: any = {
-    caption: null,
+    donation: "",
     loading: false,
     error: false,
     success: false,
     message: "",
   };
 
-//REGISTER Caption
-export const updateCaptionAction = createAsyncThunk(
-    "/updateCaptionAction",
-    async ({id,token, data}:UpdateCaptionProps, thunkAPI: any,
+//REGISTER Donation
+export const getDonationAction = createAsyncThunk(
+    "/getDonationAction",
+    async ({id,token}:DonationProps, thunkAPI: any,
     ) => {
       try {
-        return await Captionervice.updateCaption({id, token, data});
+        return await donationService.getDonation({id, token});
       } catch (error: any) {
         const message =
           (error.response &&
@@ -35,8 +35,8 @@ export const updateCaptionAction = createAsyncThunk(
     }
   );
   
-  export const updateCaptionSlice = createSlice({
-    name: "updateCaption",
+  export const getDonationSlice = createSlice({
+    name: "getDonation",
     initialState,
     reducers: {
       //non asynchronous reducers goes here
@@ -45,30 +45,30 @@ export const updateCaptionAction = createAsyncThunk(
         state.error = false;
         state.success = false;
         state.message = "";
-        state.Caption = null;
+        state.donation = "";
       },
     },
     extraReducers: (builder) => {
       builder
-        .addCase(updateCaptionAction.pending, (state) => {
+        .addCase(getDonationAction.pending, (state) => {
           state.loading = true;
         })
-        .addCase(updateCaptionAction.fulfilled, (state, action) => {
+        .addCase(getDonationAction.fulfilled, (state, action) => {
 
           state.loading = false;
           state.success = true;
-          state.Caption = action.payload.Caption;
+          state.donation = action.payload.donation;
         })
-        .addCase(updateCaptionAction.rejected, (state, action) => {
+        .addCase(getDonationAction.rejected, (state, action) => {
           state.loading = false;
           state.error = true;
           state.message = action.payload || "Something went wrong";
-          state.Caption = null;
+          state.donation = null;
         });
     },
   });
   
   // Action creators are generated for each case reducer function
-  export const { reset } = updateCaptionSlice.actions;
+  export const { reset } = getDonationSlice.actions;
   
-  export default updateCaptionSlice.reducer;
+  export default getDonationSlice.reducer;

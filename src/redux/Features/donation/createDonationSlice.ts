@@ -1,12 +1,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { HYDRATE } from "next-redux-wrapper";import type { PayloadAction } from "@reduxjs/toolkit";
+import { HYDRATE } from "next-redux-wrapper";
+import type { PayloadAction } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
-import merchantService, { RegisterMerchantProps } from './merchantService'
+import donationService from './donationServices'
+import { CreateDonationProps } from "./donationServices";
 
 
-  
   const initialState: any = {
-    merchant: null,
+    donation: "",
     loading: false,
     error: false,
     success: false,
@@ -14,21 +15,16 @@ import merchantService, { RegisterMerchantProps } from './merchantService'
   };
 
 
-//REGISTER MERCHANT
-export const merchantRegisterAction = createAsyncThunk(
-    "/merchantRegisterAction",
+//create Donation
+export const createDonationAction = createAsyncThunk(
+    "/createDonationAction",
     async (
-      { name, token, business_name, address, website, email}: RegisterMerchantProps,
+      { token, amount}: CreateDonationProps,
       thunkAPI
     ) => {
       try {
-        return await merchantService.registerMerchant({
-            name,
-            business_name,
-            address,
-            website,
-            email,
-            token
+        return await donationService.createDonation({
+            amount, token
         });
       } catch (error: any) {
         const message =
@@ -43,8 +39,8 @@ export const merchantRegisterAction = createAsyncThunk(
     }
   );
   
-  export const merchantRegister = createSlice({
-    name: "merchantRegister",
+  export const createDonation = createSlice({
+    name: "createDonation",
     initialState,
     reducers: {
       //non asynchronous reducers goes here
@@ -53,31 +49,31 @@ export const merchantRegisterAction = createAsyncThunk(
         state.error = false;
         state.success = false;
         state.message = "";
-        state.merchant = null;
+        state.donation = "";
       },
     },
     extraReducers: (builder) => {
-      
+
       builder
-        .addCase(merchantRegisterAction.pending, (state) => {
+        .addCase(createDonationAction.pending, (state) => {
           state.loading = true;
         })
-        .addCase(merchantRegisterAction.fulfilled, (state, action) => {
+        .addCase(createDonationAction.fulfilled, (state, action) => {
           state.loading = false;
           state.success = true;
-          state.merchant = action.payload.merchant;
-          state.message = action.payload.status;
+          state.donation = action.payload;
+          state.message = action.payload;
         })
-        .addCase(merchantRegisterAction.rejected, (state, action) => {
+        .addCase(createDonationAction.rejected, (state, action) => {
           state.loading = false;
           state.error = true;
           state.message = action.payload;
-          state.merchant = null;
+          state.donation = null;
         });
     },
   });
   
   // Action creators are generated for each case reducer function
-  export const { reset } = merchantRegister.actions;
+  export const { reset } = createDonation.actions;
   
-  export default merchantRegister.reducer;
+  export default createDonation.reducer;

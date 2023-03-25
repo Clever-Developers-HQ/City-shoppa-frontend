@@ -1,15 +1,11 @@
 import { Fragment, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
-import FileUpload from '@/components/inputs/FileUpload'
-import SelectInput from '@/components/inputs/SelectMenu'
 
 interface ModalProps {
   open: boolean
   setOpen: any
   title: string
-  btnText: string
   children: any
-  submitHandler: any
 }
 
 export default function ModalLayout({
@@ -17,12 +13,8 @@ export default function ModalLayout({
   setOpen,
   title,
   children,
-  btnText,
-  submitHandler
 }: ModalProps) {
   const cancelButtonRef = useRef(null)
-  const [images, setImages] = useState([])
-  const [productData, setProductData] = useState<any>({})
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -74,21 +66,6 @@ export default function ModalLayout({
                 </div>
               </div>
               <div className="mt-5 sm:mt-6 sm:grid sm:grid-cols-2 sm:gap-3 sm:grid-flow-row-dense">
-                <button
-                  type="button"
-                  className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-secondary text-base font-medium text-white hover:bg-primary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary sm:col-start-2 sm:text-sm"
-                  onClick={submitHandler}
-                >
-                  {btnText}
-                </button>
-                <button
-                  type="button"
-                  className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary sm:mt-0 sm:col-start-1 sm:text-sm"
-                  onClick={() => setOpen(false)}
-                  ref={cancelButtonRef}
-                >
-                  Cancel
-                </button>
               </div>
             </div>
           </Transition.Child>

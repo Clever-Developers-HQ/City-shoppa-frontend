@@ -1,6 +1,4 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { HYDRATE } from "next-redux-wrapper";
-import type { PayloadAction } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 import Merchantervice,{ MerchantProps, UpdateMerchantProps }  from './merchantService'
 
@@ -18,10 +16,10 @@ import Merchantervice,{ MerchantProps, UpdateMerchantProps }  from './merchantSe
 
 export const updateMerchantAction = createAsyncThunk(
     "/updateMerchantAction",
-    async ({id,token, data}:UpdateMerchantProps, thunkAPI: any,
+    async ({id,token,  name, business_name, email, website, address}:UpdateMerchantProps, thunkAPI: any,
     ) => {
       try {
-        return await Merchantervice.updateMerchant({id, token, data});
+        return await Merchantervice.updateMerchant({id, token,  name, business_name, email, website, address});
       } catch (error: any) {
         const message =
           (error.response &&
@@ -29,7 +27,7 @@ export const updateMerchantAction = createAsyncThunk(
             error.response.data.message) ||
           error.message ||
           error.toString();
-        toast.warning(`${message}`);
+        toast.error(`${message}`);
         return thunkAPI.rejectWithValue(message);
       }
     }
@@ -58,11 +56,12 @@ export const updateMerchantAction = createAsyncThunk(
           state.loading = false;
           state.success = true;
           state.merchant = action.payload.merchant;
+          state.message = "Merchant Updated Successfully";
         })
         .addCase(updateMerchantAction.rejected, (state, action) => {
           state.loading = false;
           state.error = true;
-          state.message = action.payload || "Something went wrong";
+          state.message = "Something went wrong";
           state.merchant = null;
         });
     },

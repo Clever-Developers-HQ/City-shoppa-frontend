@@ -72,10 +72,8 @@ const showConfirmation = async (title : string, deleteHandler: any) => {
         confirmButtonText: `Yes, delete ${title}!`
     }).then((result) => {
         if (result.isConfirmed) {
-
             //Delete function and API Call Goes Here
-            deleteHandler
-
+            deleteHandler()
                 Swal.fire(
                     'Deleted!',
                     `${title} deleted Successfully.`,

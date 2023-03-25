@@ -14,7 +14,7 @@ export default function AddNewBrandModal({ open, setOpen }: ModalProps) {
   const [productData, setProductData] = useState<any>({})
 
   return (
-    <ModalLayout open={open} setOpen={setOpen} title="Add New Brand" btnText="Publish">
+    <ModalLayout open={open} setOpen={setOpen} title="Add New Brand">
       <div>
         <label
           htmlFor="brand"

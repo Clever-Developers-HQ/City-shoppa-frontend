@@ -2,25 +2,14 @@ import { configureStore, PayloadAction} from "@reduxjs/toolkit";
 import { useDispatch, useSelector, TypedUseSelectorHook } from 'react-redux'
 import { reducers } from "./combineReducers";
 import { createWrapper, HYDRATE } from "next-redux-wrapper";
-import { persistStore } from 'redux-persist';
-
+import createDonationSlice from "./Features/donation/createDonationSlice";
 
 
 const masterReducer = (state: any, action: any) => {
     if (action.type === HYDRATE) {
       const nextState = {
         ...state,
-        // couter: {
-        //   count: state.counter.count + action.payload.count,
-        // },
-        // auth: {
-        //   user: { ...action.payload.user, ...state.auth.user },
-        // },
-        // users: {
-        //   users: [...action.payload.users.users, ...state.users.users],
-        // },
       };
-      // Result, blank page.
       return nextState;
     } else {
       return reducers(state, action);

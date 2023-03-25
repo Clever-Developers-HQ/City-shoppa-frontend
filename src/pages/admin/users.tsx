@@ -134,7 +134,9 @@ function Users() {
                            />
                         </span>
 
-                        <span onClick={() => showConfirmation()} >
+                        <span 
+                        // onClick={() => showConfirmation()} 
+                        >
                           <RiDeleteBin6Line
                           size="20"
                           className="text-gray-500 hover:text-indigo-900 cursor-pointer"

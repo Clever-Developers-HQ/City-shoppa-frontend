@@ -34,9 +34,10 @@ function FileUpload({ setImages, images, multiple, label }: FileUploadProps) {
         }) => (
           <div className="upload__image-wrapper">
             <button
-              className="border text-gray-50 mr-5 "
+            type="button"
+              className="my-5 text-black mr-5 border-dashed border-2 border-orange "
               style={{
-                backgroundColor: isDragging ? "green" : "#000",
+                // backgroundColor: isDragging ? "green" : "#000",
                 borderRadius: "10px",
                 padding: "50px",
                 fontWeight: "bold",

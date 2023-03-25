@@ -14,7 +14,7 @@ export default function DisputeModal({ open, setOpen }: ModalProps) {
   const [productData, setProductData] = useState<any>({})
 
   return (
-    <ModalLayout open={open} setOpen={setOpen} title="Disputes" btnText="Send">
+    <ModalLayout open={open} setOpen={setOpen} title="Disputes">
       <div>
         <label
           htmlFor="Seller ID"

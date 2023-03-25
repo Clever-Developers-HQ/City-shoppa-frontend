@@ -137,7 +137,7 @@ function Features() {
                                 <MdOutlineModeEdit size="20" />
                               </span>
 
-                              <span onClick={() => showConfirmation()}>
+                              <span >
                                 <RiDeleteBin6Line
                                   size="20"
                                   className="text-gray-500 hover:text-indigo-900 cursor-pointer"

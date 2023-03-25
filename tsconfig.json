@@ -20,6 +20,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/pages/admin/uncompleted-orders.jsx", "src/pages/admin/uncompleted-orders.jsx", "src/redux/combineReducers.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/pages/admin/uncompleted-orders.jsx", "src/pages/admin/uncompleted-orders.jsx", "src/redux/combineReducers.js", "src/redux/Features/caption/deleteCaptionSlicets"],
   "exclude": ["node_modules"]
 }
