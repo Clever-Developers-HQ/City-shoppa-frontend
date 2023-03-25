@@ -24,7 +24,7 @@ export const responsive = {
     {
       id: 1,
       imageurl:
-        "https://images.unsplash.com/photo-1560769629-975ec94e6a86?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTJ8fHByb2R1Y3RzfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60",
+        "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQzawka7W28TC4xvfcUjxbvmcI17ft51jBSYM7vKgwn1Ha5CM2X",
       name: "Branded Ladies Handbags",
       price: "$599",
       Discountprice: "$799",

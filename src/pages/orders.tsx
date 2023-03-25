@@ -1,5 +1,5 @@
 import React from 'react'
-import NavBar from '@/components/navBar/NavBar'
+import NavBar from '@/components/navigation/NavBar'
 import {MdMarkEmailUnread} from 'react-icons/md'
 import {GiShoppingCart}  from 'react-icons/gi'
 import OrdersCard from '@/components/cards/ordersCard'

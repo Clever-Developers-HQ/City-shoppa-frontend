@@ -37,10 +37,10 @@ function Donation() {
               const amount = values.amount;
              dispatch(createDonationAction({ token, amount }));
 
-            if (success) {
-              showSuccess(message)
-              return
-            }
+            // if (success) {
+            //   showSuccess(message)
+            //   return
+            // }
                   //Set the Amount Field to Empty
                   values.amount = "";
 

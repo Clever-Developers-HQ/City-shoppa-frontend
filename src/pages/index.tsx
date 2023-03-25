@@ -2,14 +2,17 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
-// import NavBar from '@/Components/navBar/NavBar'
-// import Hero from '@/Components/HeroSections/Hero'
-// import Categories from '@/Components/Categories/Categories'
-// import ProductsCarousel from '@/Components/Products/ProductsCarousel'
-// import HomeAndDecor from '@/Components/Products/Home/HomeAndDecor'
-// import Mart from '@/Components/Products/Mart/Mart'
-// import HealthAndFitness from '@/Components/Products/HealthAndFitness/HealthAndFitness'
-// import Brands from '@/Components/BrandCaroousel/Brands'
+import NavBar from '@/components/navigation/NavBar'
+import Hero from '@/components/heroSections/Hero'
+import Categories from '@/components/categories/Categories'
+import ProductsCarousel from '@/components/products/productsCarousel'
+import HomeAndDecor from '@/components/products/home/HomeAndDecor'
+import Mart from '@/components/products/mart/Mart'
+import HealthAndFitness from '@/components/products/healthAndFitness/HealthAndFitness'
+import Brands from '@/components/brandCarousel/Brands'
+import ProductsList from '@/components/products/productLists/ProductsList'
+import AdsCards from '@/components/ads/AdsCards'
+import Footer from '@/components/footer/Footer'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -23,9 +26,9 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main >
-      {/* <NavBar />
+      <NavBar />
         <Hero />
-        <Categories /> */}
+        <Categories />
         <h1
         style={{
           fontSize: "1.2rem",
@@ -39,7 +42,7 @@ export default function Home() {
       >
       Products
         </h1>
-        {/* <ProductsCarousel /> */}
+        <ProductsCarousel />
         <h1
         style={{
           fontSize: "1.2rem",
@@ -53,7 +56,7 @@ export default function Home() {
       >
       Products
         </h1>
-        {/* <HomeAndDecor/> */}
+        <HomeAndDecor/>
         <h1
         style={{
           fontSize: "1.2rem",
@@ -67,7 +70,7 @@ export default function Home() {
       >
       Services
         </h1>
-        {/* <Mart/> */}
+        <Mart/>
         <h1
         style={{
           fontSize: "1.2rem",
@@ -81,8 +84,11 @@ export default function Home() {
       >
       Services
         </h1>
-        {/* <HealthAndFitness />
-        <Brands/> */}
+        <HealthAndFitness />
+        <Brands />
+        <ProductsList />
+        <AdsCards/>
+        <Footer/>
       </main>
     </>
   )

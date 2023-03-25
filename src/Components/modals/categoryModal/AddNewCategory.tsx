@@ -8,31 +8,30 @@ import * as Yup from 'yup';
 import { Formik } from "formik";
 import ModalLayout from "@/components/layouts/ModalLayout";
 import InputField from "@/components/inputs/InputField";
-import { merchantRegisterAction } from '@/redux/Features/merchant/registerMerchantSlice';
+import {createCategoryAction} from '@/redux/Features/category/createCategorySlice';
 import SubmitBtn from "@/components/buttons/submitBtn";
 import CancelBtn from "@/components/buttons/cancelButton";
 import { showSuccess, showError } from "@/components/Utils/AlertMsg";
+import createCategory from '../../../redux/Features/category/createCategorySlice';
 
 interface AddNewCategoryProps{
   open: boolean;
   setOpen: any
   setIsUpdated: any
+  // token: string;
 }
 
-//Get Token From Local Storage 
 
 
-const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZmUwMjA4NzkxMGMyYmY1ZWNkYmYzZCIsImlhdCI6MTY3OTI5NDUzMSwiZXhwIjoxNjgwMTU4NTMxfQ.vjXHZy9wPSyPae3tx148TlZUmhtfaTQoDLITEHTH_TE";
 
 export default function AddNewMerchant({open, setOpen, setIsUpdated}:AddNewCategoryProps) {
 
   const dispatch = useDispatch<AppDispatch>()
-  const {loading, success, message, merchant, error} = useSelector((store:RootState) => store.registerMerchant)
+  const {loading, success, message, category, error} = useSelector((store:RootState) => store.createCategory)
 
-  console.log(loading, success, message, merchant, error, "THE STATES OOOOOOO")
+  console.log(loading, success, message, category, error, "THE STATES OOOOOOO")
 
 
-  
   
 
   return (

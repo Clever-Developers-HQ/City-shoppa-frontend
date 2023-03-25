@@ -1,7 +1,7 @@
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import Product from "./Product";
-import { beauty, responsive } from "./data";
+import { beauty, responsive } from "./Data";
 
 export default function App() {
   const product = beauty.map((item) => (

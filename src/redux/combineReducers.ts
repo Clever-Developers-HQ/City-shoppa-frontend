@@ -16,7 +16,11 @@ import {
     createCaption,
 
     //DONATIONS
-    createDonationReducer
+    createDonationReducer,
+
+
+    //CATEGORIES
+    createCategoryReducer
 
 
 } from './combineImports'
@@ -39,7 +43,10 @@ const reducers = combineReducers({
     createCaption: createCaption,
 
     //DONATION REDUCERS
-    createDonation: createDonationReducer
+    createDonation: createDonationReducer,
+
+    //CATEGORY REDUCERS
+    createCategory: createCategoryReducer
 
 })
 

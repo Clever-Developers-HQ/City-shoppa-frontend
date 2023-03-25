@@ -13,6 +13,7 @@ import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import Image from "next/image";
 import Logo from "/public/assets/cityshoppa.png";
 import Profile from "../modals/profileModal";
+import Link from "next/link";
 
 const user = {
   name: "Tom Cook",
@@ -90,16 +91,25 @@ export default function NavBar() {
             <div className="relative h-16 flex justify-between">
               <div className="relative z-10 px-2 flex lg:px-0">
                 <div className="flex-shrink-0 flex items-center">
+                  <Link
+                    href="/"
+                  >
                   <Image
                     className="block lg:hidden h-8 w-auto"
                     src={Logo}
                     alt="hero"
                   />
+                  </Link>
+
+                  <Link
+                  href="/"
+                  >
                   <Image
                     className="hidden lg:block h-8 w-auto"
                     src={Logo}
                     alt="hero"
                   />
+                  </Link>
                 </div>
               </div>
               <div className="relative z-0 flex-1 px-2 mr-8 md:flex hidden items-center justify-center sm:absolute sm:inset-0">
@@ -137,12 +147,13 @@ export default function NavBar() {
                     <select
                       id="location"
                       name="location"
-                      className="block w-full bg-white-700 ml-1 border border-transparent rounded-md py-2 pl-10 pr-3 text-sm placeholder-gray-400 focus:outline-none focus:bg-white focus:border-white focus:ring-white focus:text-gray-900 focus:placeholder-gray-500 sm:text-sm "
-                      defaultValue="Canada"
+                      className="block w-full bg-white-700 ml-1 border border-transparent rounded-md py-2 pl-10 pr-3 text-sm placeholder-gray-400 focus:outline-none focus:bg-white focus:border-white focus:ring-white focus:text-gray-900 focus:placeholder-orange sm:text-sm "
+                      // defaultValue="Canada"
                     >
-                      <option>United States</option>
-                      <option>Canada</option>
-                      <option>Mexico</option>
+                      <option>Toronto</option>
+                      <option>Ontario</option>
+                      <option>Vancouver</option>
+                      <option>Ottawa</option>
                     </select>
                   </div>
                 </div>
@@ -169,7 +180,7 @@ export default function NavBar() {
                     />
                     <Typography
                       sx={{
-                        fontSize: "22px",
+                        fontSize: "14px",
                         textAlign: "center",
                         fontWeight: "bold",
                         mb: -1,
@@ -180,9 +191,10 @@ export default function NavBar() {
                   </Box>
                   <Typography
                     sx={{
-                      fontSize: "14px",
+                      fontSize: "12px",
                       color: "#fff",
                       textAlign: "center",
+                      paddingTop: "8px"
                     }}
                   >
                     Donated To Charity
@@ -221,13 +233,17 @@ export default function NavBar() {
                   </Menu>
                 ) : (
                   <Box sx={{ ml: 2 }}>
+                    <Link href="/login">
                     <Button
                       type="button"
                       variant="contained"
                       sx={styles.activeButton}
                     >
-                      Sign in
+                      Log In 
                     </Button>
+                    </Link>
+
+                    <Link href="/signup">
                     <Button
                       type="button"
                       variant="contained"
@@ -235,6 +251,8 @@ export default function NavBar() {
                     >
                       Sign up
                     </Button>
+
+                    </Link>
                   </Box>
                 )}
               </div>

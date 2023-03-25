@@ -1,4 +1,4 @@
-import React, {useState } from 'react'
+import React, {useState, useEffect } from 'react'
 import {MdOutlineModeEdit} from 'react-icons/md'
 import {AiOutlineDelete}  from 'react-icons/ai'
 import {RiDeleteBin6Line}  from 'react-icons/ri'
@@ -7,6 +7,7 @@ import AddNewCategory from '@/components/modals/categoryModal/AddNewCategory'
 import EditCategory from '@/components/modals/categoryModal/EditCategory'
 import Image from 'next/image'
 import { showConfirmation } from '@/components/Utils/AlertMsg'
+import { adminTokenAuthentication } from '@/components/Utils/TokenAuthentication'
 
 import AdminLayout from '@/components/layouts/AdminLayout'
 
@@ -23,10 +24,15 @@ function Categories() {
   const [addNewCategory, setAddNewCategory] = useState(false)
   const [editCategory, setEditCategory] = useState(false)
   const [isUpdated, setIsUpdated] = useState(false)
+  const [token, setToken] = useState<any>("")
+  const [isLoading, setIsLoading] = useState(true)
 
-  // const deleteHandler = () => {
-  //   return showConfirmation()
-  // }
+
+  useEffect(() => {
+    setToken(adminTokenAuthentication())
+    setIsLoading(false)
+  }, [])
+
 
   const categories: CategoriesDTO[] = [
     {
@@ -54,7 +60,11 @@ function Categories() {
     <>
     {addNewCategory === true && <AddNewCategory open={addNewCategory} setOpen={setAddNewCategory} setIsUpdated={setIsUpdated} />}
     {editCategory === true && <EditCategory open={editCategory} setOpen={setEditCategory} />}
-    <div>
+
+
+    {
+      isLoading ? ("PLEASE WAIT......") : (
+        <div>
         <AdminLayout title="Categories">
         <div className="px-4 sm:px-6 lg:px-8">
       <div className="sm:flex sm:items-center">
@@ -161,6 +171,8 @@ function Categories() {
         </AdminLayout>
       
     </div>
+      )
+    }
     </>
   )
 }

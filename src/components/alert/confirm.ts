@@ -2,15 +2,15 @@ import Swal from "sweetalert2"
 
 interface ConfirmDTO {
     title: string;
-    text: string;
-    functionHandler: any;
+    description: string;
+    onConfirm: () => void;
 }
 
-const confirm = () => {
+const confirm = ({title, description, onConfirm }: ConfirmDTO) => {
 
     Swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
+        title: `${title}`,
+        text: `${description}`,
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -19,6 +19,7 @@ const confirm = () => {
     }).then((result) => {
         if (result.isConfirmed) {
             //Function Goes Here
+            onConfirm()
             Swal.fire(
                 'Deleted!',
                 'Your file has been deleted.',

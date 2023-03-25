@@ -9,7 +9,7 @@ import deleteCaptionReducer from './Features/caption/deleteCaptionSlice'
 import createCaption from "./Features/caption/createCaption";
 import registerMerchantReducer from "./Features/merchant/registerMerchantSlice";
 import createDonationReducer from "./Features/donation/createDonationSlice";
-
+import createCategoryReducer from "./Features/category/createCategorySlice";
 
 
 export {
@@ -29,7 +29,11 @@ export {
     createCaption,
 
     //DONATIONS
-    createDonationReducer
+    createDonationReducer,
+
+
+    //CATEGORIES
+    createCategoryReducer
 
 }
 

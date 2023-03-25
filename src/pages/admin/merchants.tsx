@@ -15,9 +15,9 @@ import AdminLayout from '@/components/layouts/AdminLayout'
 import { AppDispatch, RootState } from '@/redux/store'
 import Loader from '@/components/loader/Loader'
 
-const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZmUwMjA4NzkxMGMyYmY1ZWNkYmYzZCIsImlhdCI6MTY3OTE2OTEzNywiZXhwIjoxNjgwMDMzMTM3fQ.4anwcwLFJQ2Ri36a3M2PFq5_J6D0BqOqgUdm6-dfeQY"
 
 console.log(getMerchantsAction, "THE MERCHANTS ")
+const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZmUwMjA4NzkxMGMyYmY1ZWNkYmYzZCIsImlhdCI6MTY3OTE2OTEzNywiZXhwIjoxNjgwMDMzMTM3fQ.4anwcwLFJQ2Ri36a3M2PFq5_J6D0BqOqgUdm6-dfeQY"
 
 function Merchants() {
   const dispatch = useDispatch<AppDispatch>()
@@ -29,14 +29,6 @@ function Merchants() {
   const {loading, success, message, merchants} = useSelector((store : RootState) => store.getMerchants)
 
   useEffect(() => {
-  
-    const userToken : string = JSON.parse(window.localStorage.getItem('token') as string)
-    
-    // if (!userToken) {
-    //   showError("Unauthorized Access")
-    //   window.location.href = '/'
-    // }
-
     dispatch (getMerchantsAction(token))
 
   }, [])

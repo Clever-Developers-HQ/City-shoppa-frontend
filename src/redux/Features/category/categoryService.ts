@@ -2,21 +2,17 @@ import API_BASEURL  from "constants";
 import axios from "axios";
 
 
-export interface RegisterMerchantProps {
+export interface CreateCategoryProps {
     name: string;
-    business_name: string,
-    address: string,
-    website: string,
-    email: string,
-    token: string;
+    token: string
 }
 
-export interface MerchantProps {
+export interface CategoryProps {
     id: string,
     token: string,
 }
 
-export interface UpdateMerchantProps {
+export interface UpdateCategoryProps {
   id: string,
   token: string,
   business_name: string,
@@ -26,7 +22,7 @@ export interface UpdateMerchantProps {
   name: string,
 }
 
-const registerMerchant = async ({token, name, business_name, address, website, email}: RegisterMerchantProps) => {
+const createCategory = async ({token, name}: CreateCategoryProps)  =>  {
     console.log("HITTED, i DEY")
   const config = {
         headers: {
@@ -35,13 +31,12 @@ const registerMerchant = async ({token, name, business_name, address, website, e
         },
       };
 
-      
-    const response = await axios.post(`${API_BASEURL}/merchant/register`, {name, business_name, address, website, email}, config);
-    console.log(response.data, "THE DATA")
-    return response.data;
+    const {data} = await axios.post(`${API_BASEURL}/category/create`, {name}, config);
+  
+    return data;
 }
 
-const getMerchants = async (token: string): Promise<{}> => {
+const getCategories = async (token: string): Promise<{}> => {
   console.log(API_BASEURL, "THE BASE URL")
     const config = {
         headers: {
@@ -53,11 +48,11 @@ const getMerchants = async (token: string): Promise<{}> => {
       };
 
       
-    const {data }= await axios.get(`${API_BASEURL}/merchant`, config);
-    return data.merchant;
+    const {data}= await axios.get(`${API_BASEURL}/category`, config);
+    return data.Category;
 }
 
-const getMerchant = async ({id, token}: MerchantProps) => {
+const getCategory = async ({id, token}: CategoryProps) => {
     const config = {
         headers: {
           "Content-Type": "application/json",
@@ -65,11 +60,11 @@ const getMerchant = async ({id, token}: MerchantProps) => {
         },
       };
 
-    const {data} = await axios.get(`${API_BASEURL}/merchant/${id}`, config);
+    const {data} = await axios.get(`${API_BASEURL}/category/${id}`, config);
     return data
 }
 
-const deleteMerchant = async ({id, token}: MerchantProps) => {
+const deleteCategory = async ({id, token}: CategoryProps) => {
     const config = {
         headers: {
           "Content-Type": "application/json",
@@ -77,11 +72,11 @@ const deleteMerchant = async ({id, token}: MerchantProps) => {
         },
       };
 
-    const response = await axios.delete(`${API_BASEURL}/merchant/${id}`, config);
-    return response
+    const response = await axios.delete(`${API_BASEURL}/category/${id}`, config);
+    return response.data
 }
 
-const updateMerchant = async ({id, token, name, business_name, email, website, address}: UpdateMerchantProps) => {
+const updateCategory = async ({id, token, name, business_name, email, website, address}: UpdateCategoryProps) => {
     const config = {
         headers: {
           "Content-Type": "application/json",
@@ -89,18 +84,18 @@ const updateMerchant = async ({id, token, name, business_name, email, website, a
         },
       };
 
-    const response = await axios.put(`${API_BASEURL}/merchant/update/${id}`, { name, business_name, email, website, address}, config);
+    const response = await axios.put(`${API_BASEURL}/Category/update/${id}`, { name, business_name, email, website, address}, config);
     return response.data
 }
 
 
 
-const merchantService = {
-    registerMerchant, 
-    getMerchants,
-    getMerchant,
-    deleteMerchant,
-    updateMerchant
+const CategoryService = {
+    createCategory, 
+    getCategories,
+    deleteCategory,
+    updateCategory,
+    getCategory
 }
 
-export default merchantService
+export default CategoryService

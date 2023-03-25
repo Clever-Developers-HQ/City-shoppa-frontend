@@ -1,6 +1,19 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import authService from './authService';
 import { AuthProps, SignupProps } from "./authDTO";
+import { showSuccess, showInfo } from "@/components/Utils/AlertMsg";
+
+
+let userFromStorage = null;
+const ISSERVER = typeof window === "undefined";
+
+if (!ISSERVER) {
+  userFromStorage = localStorage.getItem("user")
+    // ? JSON.parse(localStorage.getItem("user"))
+    // : null;
+}
+
+
 
 export interface authLoginInterface {
     user: any,
@@ -34,17 +47,21 @@ export const loginUser: any = createAsyncThunk(
                 error.message ||
                 error.toString();
 
-            // showMessage({
-            //     message: "Error",
-            //     description: message,
-            //     type: "danger",
-            //     icon: "danger",
-            //     duration: 3000,
-            // });
-            return thunkAPI.rejectWithValue(message)
+            if (/jwt|unauthenticated/gi.test(message)) {
+                //dispatch logout
+                thunkAPI.dispatch(logout());
+            }
+            showInfo(`${message}`);
+            return thunkAPI.rejectWithValue(message);
         }
     }
 )
+
+export const logout = createAsyncThunk("auth/logout", async ({ }, thunkAPI) => {
+    return showSuccess("Logged Out Successfully")
+});
+
+
 
 export const loginSlice = createSlice({
     name: 'loginUser',

@@ -1,5 +1,5 @@
 import React from 'react'
-import NavBar from '@/components/navBar/NavBar'
+import NavBar from '@/components/navigation/NavBar'
 import NextLink from 'next/link'
 
 function notFound() {

@@ -38,8 +38,6 @@ export default function AddNewMerchant({open, setOpen, setIsUpdated}:AddNewMerch
       setOpen={setOpen}
       title="Add New Merchant"
       >
-
-
      <Formik
      initialValues={{name: "", business_name: "", website: "", address: "",  email: "" }}
      validationSchema={Yup.object({

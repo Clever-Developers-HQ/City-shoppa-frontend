@@ -74,7 +74,7 @@ const deleteCaption = async ({id, token}: CaptionProps ) => {
         },
     };
 
-    const {data} = await axios.delete(`${API_BASEURL}/caption/${id}`, config);
+    const {data} = await axios.delete(`${API_BASEURL}/caption/delete/${id}`, config);
     return data;
 }
 

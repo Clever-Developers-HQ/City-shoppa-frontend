@@ -1,7 +1,7 @@
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import { home, responsive } from "../data";
-import HomeProducts from "./HomeProducts";
+import { home, responsive } from "../Data";
+import HomeProducts from "./homeProduct";
 
 export default function HomeAndDecor() {
   const product = home.map((item) => (

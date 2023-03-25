@@ -7,6 +7,7 @@ import {confirm} from '../../components/alert/confirm';
 import AdminLayout from '@/components/layouts/AdminLayout';
 import AddNewCaption from '@/components/modals/captionsModal/AddNewCaption'
 import { getCaptionsAction } from './../../redux/Features/caption/getCaptionsSlice';
+import { deleteCaptionAction } from '@/redux/Features/caption/deleteCaptionSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '@/redux/store'
 import Loader from '@/components/loader/Loader'
@@ -35,8 +36,28 @@ console.log(captions)
   useEffect(() => {
 
     dispatch (getCaptionsAction(token))
-
   }, [])
+
+  //Refresh the List once a New Data Is Added
+  if (isUpdated){
+    dispatch (getCaptionsAction(token))
+    setIsUpdated(false)
+  }
+
+
+  const deleteHandler = (id: string) => {
+    confirm({
+      title: 'Are you sure you want to delete this caption?',
+      description: 'This action cannot be undone',
+      onConfirm: () => {
+        
+        dispatch(deleteCaptionAction({id, token}))
+        setIsUpdated(true)
+        alert(id)
+        console.log('confirmed')
+      },
+    })
+  }
 
 
   return (
@@ -60,7 +81,8 @@ console.log(captions)
         </div>
       </div>
 
-      {loading ? <Loader /> : (      <div className="mt-8 flex flex-col">
+      {loading ? <Loader /> : ( 
+      <div className="mt-8 flex flex-col">
         <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
             <div className="relative overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
@@ -128,9 +150,9 @@ console.log(captions)
 
                         <span>
                           <RiDeleteBin6Line
-                          onClick={confirm}
+                          onClick={() => deleteHandler(caption._id)}
                           size="20"
-                          className="text-gray-500 hover:text-indigo-900 cursor-pointer"
+                          className="text-gray-500 hover:text-orange cursor-pointer"
                            />
                         </span>
                           </div>
