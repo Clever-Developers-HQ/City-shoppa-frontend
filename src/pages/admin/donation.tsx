@@ -1,4 +1,4 @@
-import React, {useState,} from "react";
+import React, {useEffect, useState,} from "react";
 import AdminLayout from "@/components/layouts/AdminLayout";
 import * as Yup from "yup";
 import { ErrorMessage, Formik } from "formik";
@@ -8,44 +8,52 @@ import Loader from "@/components/loader/Loader";
 import { showSuccess, showError} from "@/components/Utils/AlertMsg";
 import { AppDispatch } from "../../redux/store";
 import { RootState } from "@/redux/store";
-
-
+import { unwrapResult } from "@reduxjs/toolkit";
+import { adminTokenAuthentication } from "@/components/Utils/TokenAuthentication";
+import LoadingScreen from "@/components/loader/loadingScreen";
 
 
 function Donation() {
-  //Get Token from Local Storage
-  const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZmUwMjA4NzkxMGMyYmY1ZWNkYmYzZCIsImlhdCI6MTY3ODA4NTg2OSwiZXhwIjoxNjc4OTQ5ODY5fQ.MEtjdDLrwi-BAfCr6mJZbC8Lb0sp54qf3-fdhEAQb4E";
-
   const dispatch = useDispatch<AppDispatch>();
+
+
+const [token, setToken] = useState<any>("")
+const [loaded, setLoaded] = useState(false)
 
   const { loading, success} = useSelector(
     (store: RootState) => store.createDonation
   );
 
+  useEffect(() => {
+    setToken(adminTokenAuthentication());
+    if (token) {
+      setLoaded(true);
+    }
+  }, [token]);
+
   return (
     <div>
-      <AdminLayout title="Donation">
+      {
+        loaded === false ? <LoadingScreen /> :
+        (
+<AdminLayout title="Donation">
         <section className="bg-[#E9EBF2] h-60 w-full p-5 rounded">
           <Formik
             initialValues={{ amount: "" }}
             validationSchema={Yup.object({
-              amount: Yup.string().required("Amount is Required"),
+              amount: Yup.number().required()
             })}
-             onSubmit={(values: any, { setSubmitting }) => {
-              console.log(values, "THE VALUES");
+             onSubmit={async (values: any, { setSubmitting }) => {
+  
               const amount = values.amount;
-             dispatch(createDonationAction({ token, amount }));
-
-            // if (success) {
-            //   showSuccess(message)
-            //   return
-            // }
-                  //Set the Amount Field to Empty
-                  values.amount = "";
-
-              setSubmitting(false);
-
+             const resultAction= await dispatch(createDonationAction({ token, amount }))
+              const result = unwrapResult(resultAction)
+              if (createDonationAction.fulfilled.match(resultAction)) {
+                showSuccess(result.status)
+                values.amount = ""
+              } else{
+                showError("Something Went Wrong. Please Try Again")
+              }
             }}>
             {({
               values,
@@ -85,7 +93,7 @@ function Donation() {
                     disabled={isSubmitting}
                     type="submit"
                     className="mt-5 md:0 w-full items-center justify-center rounded-md border border-transparent bg-[#F85606] px-4 py-2 text-sm font-medium text-white shadow-sm focus:ring-offset-2 sm:w-auto cursor-pointer">
-                    {loading ? "Please Wait...": "Donate"}
+                    {isSubmitting ? "Please Wait...": "Donate"}
                   </button>
                 </div>
               </form>
@@ -93,6 +101,9 @@ function Donation() {
           </Formik>
         </section>
       </AdminLayout>
+        )
+      }
+      
     </div>
   );
 }

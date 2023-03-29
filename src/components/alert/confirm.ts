@@ -1,30 +1,27 @@
 import Swal from "sweetalert2"
+import {showSuccess} from '../Utils/AlertMsg'
 
 interface ConfirmDTO {
     title: string;
     description: string;
     onConfirm: () => void;
+    message: string
 }
 
-const confirm = ({title, description, onConfirm }: ConfirmDTO) => {
+const confirm = ({title, description, onConfirm, message}: ConfirmDTO) => {
 
     Swal.fire({
         title: `${title}`,
         text: `${description}`,
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
+        confirmButtonColor: '#222932',
         cancelButtonColor: '#d33',
         confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
         if (result.isConfirmed) {
-            //Function Goes Here
             onConfirm()
-            Swal.fire(
-                'Deleted!',
-                'Your file has been deleted.',
-                'success'
-            )
+            showSuccess(message)
         }
     })
 }

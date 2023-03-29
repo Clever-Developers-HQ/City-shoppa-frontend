@@ -2,26 +2,24 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { HYDRATE } from "next-redux-wrapper";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
-import Merchantervice,{ MerchantProps }  from './merchantService'
+import cityService,{ CityProps }  from './cityServices'
 
 
-
-  
   const initialState: any = {
-    merchant: null,
+    City: null,
     loading: false,
     error: false,
     success: false,
     message: "",
   };
 
-//REGISTER MERCHANT
-export const deleteMerchantAction = createAsyncThunk(
-    "/deleteMerchantAction",
-    async ({id,token}:MerchantProps, thunkAPI: any,
+//REGISTER City
+export const deleteCityAction = createAsyncThunk(
+    "/deleteCityAction",
+    async ({id,token}:CityProps, thunkAPI: any,
     ) => {
       try {
-        return await Merchantervice.deleteMerchant({id, token});
+        return await cityService.deleteCity({id, token});
       } catch (error: any) {
         const message =
           (error.response &&
@@ -35,8 +33,8 @@ export const deleteMerchantAction = createAsyncThunk(
     }
   );
   
-  export const deleteMerchantSlice = createSlice({
-    name: "deleteMerchant",
+  export const deleteCitySlice = createSlice({
+    name: "deleteCity",
     initialState,
     reducers: {
       //non asynchronous reducers goes here
@@ -45,31 +43,31 @@ export const deleteMerchantAction = createAsyncThunk(
         state.error = false;
         state.success = false;
         state.message = "";
-        state.merchant = null;
+        state.city = null;
       },
     },
     extraReducers: (builder) => {
       builder
-        .addCase(deleteMerchantAction.pending, (state) => {
+        .addCase(deleteCityAction.pending, (state) => {
           state.loading = true;
         })
-        .addCase(deleteMerchantAction.fulfilled, (state, action) => {
+        .addCase(deleteCityAction.fulfilled, (state, action) => {
 
           state.loading = false;
           state.success = true;
-          state.merchant = action.payload.message;
+          state.city = action.payload.message;
         })
         
-        .addCase(deleteMerchantAction.rejected, (state, action) => {
+        .addCase(deleteCityAction.rejected, (state, action) => {
           state.loading = false;
           state.error = true;
           state.message = "Something Went Wrong";
-          state.merchant = null;
+          state.city = null;
         });
     },
   });
   
   // Action creators are generated for each case reducer function
-  export const { reset } = deleteMerchantSlice.actions;
+  export const { reset } = deleteCitySlice.actions;
   
-  export default deleteMerchantSlice.reducer;
+  export default deleteCitySlice.reducer;

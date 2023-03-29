@@ -68,7 +68,7 @@ export default function SignInPage() {
           <div className="flex flex-col items-center justify-between">
             <button
               type="submit"
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              className="bg-blue-500 hover:bg-primary text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               style={{
                 backgroundColor: "#f85606",
               }}
@@ -79,7 +79,7 @@ export default function SignInPage() {
               <Link href="/login">
               <span className="text-gray-600">Already have an account?</span>
               <div
-                className="text-blue-500 hover:text-blue-700 ml-2"
+                className="text-blue-500 hover:text-primary ml-2"
                 style={{
                   color: "#f85606",
                 }} 

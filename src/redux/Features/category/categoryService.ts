@@ -15,10 +15,6 @@ export interface CategoryProps {
 export interface UpdateCategoryProps {
   id: string,
   token: string,
-  business_name: string,
-  address: string,
-  website: string,
-  email: string,
   name: string,
 }
 
@@ -37,7 +33,6 @@ const createCategory = async ({token, name}: CreateCategoryProps)  =>  {
 }
 
 const getCategories = async (token: string): Promise<{}> => {
-  console.log(API_BASEURL, "THE BASE URL")
     const config = {
         headers: {
           "Content-Type": "application/json",
@@ -49,7 +44,7 @@ const getCategories = async (token: string): Promise<{}> => {
 
       
     const {data}= await axios.get(`${API_BASEURL}/category`, config);
-    return data.Category;
+    return data;
 }
 
 const getCategory = async ({id, token}: CategoryProps) => {
@@ -76,7 +71,7 @@ const deleteCategory = async ({id, token}: CategoryProps) => {
     return response.data
 }
 
-const updateCategory = async ({id, token, name, business_name, email, website, address}: UpdateCategoryProps) => {
+const updateCategory = async ({id, token, name}: UpdateCategoryProps) => {
     const config = {
         headers: {
           "Content-Type": "application/json",
@@ -84,11 +79,9 @@ const updateCategory = async ({id, token, name, business_name, email, website, a
         },
       };
 
-    const response = await axios.put(`${API_BASEURL}/Category/update/${id}`, { name, business_name, email, website, address}, config);
+    const response = await axios.put(`${API_BASEURL}/category/update/${id}`, {name}, config);
     return response.data
 }
-
-
 
 const CategoryService = {
     createCategory, 

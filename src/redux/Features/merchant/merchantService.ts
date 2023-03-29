@@ -78,7 +78,7 @@ const deleteMerchant = async ({id, token}: MerchantProps) => {
       };
 
     const response = await axios.delete(`${API_BASEURL}/merchant/${id}`, config);
-    return response
+    return response.data
 }
 
 const updateMerchant = async ({id, token, name, business_name, email, website, address}: UpdateMerchantProps) => {

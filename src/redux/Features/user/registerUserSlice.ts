@@ -1,27 +1,29 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { HYDRATE } from "next-redux-wrapper";
-import type { PayloadAction } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
-import Merchantervice,{ MerchantProps }  from './merchantService'
-
+import userService, {RegisterUserProps } from './userService'
 
 
   
   const initialState: any = {
-    merchant: null,
+    user: null,
     loading: false,
     error: false,
     success: false,
     message: "",
   };
 
-//REGISTER MERCHANT
-export const deleteMerchantAction = createAsyncThunk(
-    "/deleteMerchantAction",
-    async ({id,token}:MerchantProps, thunkAPI: any,
+
+//REGISTER user
+export const userRegisterAction = createAsyncThunk(
+    "/userRegisterAction",
+    async (
+      { name, token, phone, password, email}: RegisterUserProps,
+      thunkAPI
     ) => {
       try {
-        return await Merchantervice.deleteMerchant({id, token});
+        return await userService.registerUser({
+            name, token, phone, password, email
+        });
       } catch (error: any) {
         const message =
           (error.response &&
@@ -35,8 +37,8 @@ export const deleteMerchantAction = createAsyncThunk(
     }
   );
   
-  export const deleteMerchantSlice = createSlice({
-    name: "deleteMerchant",
+  export const userRegister = createSlice({
+    name: "userRegister",
     initialState,
     reducers: {
       //non asynchronous reducers goes here
@@ -45,31 +47,31 @@ export const deleteMerchantAction = createAsyncThunk(
         state.error = false;
         state.success = false;
         state.message = "";
-        state.merchant = null;
+        state.user = null;
       },
     },
     extraReducers: (builder) => {
+      
       builder
-        .addCase(deleteMerchantAction.pending, (state) => {
+        .addCase(userRegisterAction.pending, (state) => {
           state.loading = true;
         })
-        .addCase(deleteMerchantAction.fulfilled, (state, action) => {
-
+        .addCase(userRegisterAction.fulfilled, (state, action) => {
           state.loading = false;
           state.success = true;
-          state.merchant = action.payload.message;
+          state.user = action.payload.user;
+          state.message = action.payload.status;
         })
-        
-        .addCase(deleteMerchantAction.rejected, (state, action) => {
+        .addCase(userRegisterAction.rejected, (state, action) => {
           state.loading = false;
           state.error = true;
-          state.message = "Something Went Wrong";
-          state.merchant = null;
+          state.message = action.payload;
+          state.user = null;
         });
     },
   });
   
   // Action creators are generated for each case reducer function
-  export const { reset } = deleteMerchantSlice.actions;
+  export const { reset } = userRegister.actions;
   
-  export default deleteMerchantSlice.reducer;
+  export default userRegister.reducer;

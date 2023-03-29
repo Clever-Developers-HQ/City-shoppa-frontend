@@ -1,101 +1,131 @@
-import { Fragment, useRef, useState } from 'react'
-import { Dialog, Transition } from '@headlessui/react'
+import { Fragment, useRef, useState, useEffect } from 'react'
+import { AppDispatch, RootState } from "@/redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import Loader from "@/components/loader/Loader";
+import * as Yup from 'yup';
+import { Formik } from "formik";
+import ModalLayout from "@/components/layouts/ModalLayout";
+import InputField from "@/components/inputs/InputField";
+import SubmitBtn from "@/components/buttons/submitBtn";
+import CancelBtn from "@/components/buttons/cancelButton";
+import { showSuccess, showError } from "@/components/Utils/AlertMsg";
+import { unwrapResult } from "@reduxjs/toolkit";
 
-interface ModalProps{
+import { userRegisterAction } from './../../../redux/Features/user/registerUserSlice';
+
+interface AddNewCategoryProps{
   open: boolean;
   setOpen: any
+  setIsUpdated: any
+  token: string;
 }
 
-export default function AddNewUser({open, setOpen}:ModalProps) {
+const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
 
-  const cancelButtonRef = useRef(null)
+
+export default function AddNewMerchant({open, setOpen, setIsUpdated, token}:AddNewCategoryProps) {
+
+  const dispatch = useDispatch<AppDispatch>()
+  const {loading} = useSelector((store:RootState) => store.registerUser)
+
+
 
   return (
-    <Transition.Root show={open} as={Fragment}>
-      <Dialog as="div" className="fixed z-10 inset-0 overflow-y-auto" initialFocus={cancelButtonRef} onClose={setOpen}>
-        <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
-            <Dialog.Overlay className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
-          </Transition.Child>
-          <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">
-            &#8203;
-          </span>
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-            enterTo="opacity-100 translate-y-0 sm:scale-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100 translate-y-0 sm:scale-100"
-            leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-          >
-            <div className="relative w-full inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
-              <div>
-                <div className="mt-3 text-center sm:mt-5">
-                  <Dialog.Title as="h3" className="text-lg leading-6 font-medium text-gray-900">
-                    <div className="row  items-center justify-center ">
-                    
-                    <p>Add New User </p>
-                    </div>
-                  </Dialog.Title>
-                  <div className="mt-2">
+    <ModalLayout
+      open={open}
+      setOpen={setOpen}
+      title="Add New City"
+      >
 
-                  <div>
-                      <label htmlFor="city" className="block text-sm text-left font-medium text-gray-700 py-3">  
-                       Full Name
-                      </label>
-                    <input
-                      type="text"
-                      name="city"
-                      id="city"
-                      className="shadow-sm focus:ring-primary focus:border-primary block w-full border-gray-300 sm:text-sm rounded-md p-2"  
-                    />
-                    </div>
 
-                  <div>
-                      <label htmlFor="city" className="block text-sm text-left font-medium text-gray-700 py-3">  
-                        Email Address
-                      </label>
-                    <input
-                      type="text"
-                      name="email"
-                      id="email"
-                      className="shadow-sm focus:ring-primary focus:border-primary block w-full border-gray-300 sm:text-sm rounded-md p-2"  
-                    />
-                    </div>
-                  
-                  </div>
-                </div>
-              </div>
-              <div className="mt-5 sm:mt-6 sm:grid sm:grid-cols-2 sm:gap-3 sm:grid-flow-row-dense">
-                <button
-                  type="button"
-                  className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-secondary text-base font-medium text-white hover:bg-primary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:col-start-2 sm:text-sm"
-                  onClick={() => setOpen(false)}
-                >
-                  Add User
-                </button>
-                <button
-                  type="button"
-                  className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:col-start-1 sm:text-sm"
-                  onClick={() => setOpen(false)}
-                  ref={cancelButtonRef}
-                >
-                  Cancel
-                </button>
-              </div>
+     <Formik
+     initialValues={{name: "", email: "", password:"" , phone:""}}
+     validationSchema={Yup.object({
+      name: Yup.string()
+        .required('Name Is Required'), 
+      email: Yup.string()
+      .required('Email Is Required'), 
+
+      password: Yup.string()
+      .required('email Is Required'), 
+
+      phone: Yup.string().matches(phoneRegExp, 'Phone number is not valid').nonNullable()
+
+
+    })}
+     onSubmit={async (values : any, { setSubmitting }) => {
+       const  name = values.name
+        const email = values.email
+        const  password = values.password
+        const  phone = values.phone
+
+            const resultAction = await dispatch(userRegisterAction({name, token, email, password, phone}))
+
+            const result = unwrapResult(resultAction)
+            if (result.user) {
+              showSuccess("User Created Successfully")
+              setIsUpdated(true)
+              setOpen(false)
+            } else {
+              showError(result.status)
+              setSubmitting(false)
+            }
+     }}
+   >
+     {({
+       values,
+       handleChange,
+       handleBlur,
+       handleSubmit,
+       isSubmitting,
+     }) => (
+       <form onSubmit={handleSubmit}>
+
+        <InputField 
+          name="name"
+          id="name"
+          label="Name"
+          value={values.name}
+          onChange={handleChange}
+          onBlur={handleBlur}
+        />
+
+<InputField 
+          name="email"
+          id="email"
+          label="Email"
+          value={values.email}
+          onChange={handleChange}
+          onBlur={handleBlur}
+        />
+
+<InputField 
+          name="phone"
+          id="phone"
+          label="Phone"
+          value={values.phone}
+          onChange={handleChange}
+          onBlur={handleBlur}
+        />
+
+<InputField 
+          name="password"
+          id="password"
+          label="Password"
+          value={values.password}
+          onChange={handleChange}
+          onBlur={handleBlur}
+        />
+          <div className="mt-5 sm:mt-6 sm:grid sm:grid-cols-2 sm:gap-3 sm:grid-flow-row-dense">
+            <SubmitBtn disabled={isSubmitting} text={loading ? "Please Wait" : "Add User"} />
+            <CancelBtn text="Cancel" setOpen={setOpen} />
             </div>
-          </Transition.Child>
-        </div>
-      </Dialog>
-    </Transition.Root>
+
+            {loading && <Loader />}
+
+       </form>
+     )}
+   </Formik>
+    </ModalLayout>
   )
 }

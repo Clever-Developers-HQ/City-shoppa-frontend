@@ -30,11 +30,11 @@ export const getMerchantsAction = createAsyncThunk(
           error.message ||
           error.toString();
 
-          if (message === "Request failed with status code 401" ) {
-            toast.error(`Unauthorized Access`);
-            window.location.href = '/login'
-            return
-          }
+          // if (message === "Request failed with status code 401" ) {
+          //   toast.error(`Unauthorized Access`);
+          //   window.location.href = '/login'
+          //   return
+          // }
         toast.warning(`${message}`);
         return thunkAPI.rejectWithValue(message);
       }

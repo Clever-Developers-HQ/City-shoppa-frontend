@@ -18,9 +18,25 @@ import {
     //DONATIONS
     createDonationReducer,
 
-
     //CATEGORIES
-    createCategoryReducer
+    createCategoryReducer,
+    getCategoriesReducer,
+    updateCategoryReducer,
+    getCategoryReducer,
+    deleteCategoryReducer,
+
+    //CITIES
+    getCitiesReducer,
+    deleteCityReducer,
+    createCityReducer,
+    updateCityReducer,
+    getCityReducer,
+
+
+    //USERS
+    getUsersReducer,
+    registerUserReducer,
+    
 
 
 } from './combineImports'
@@ -46,7 +62,23 @@ const reducers = combineReducers({
     createDonation: createDonationReducer,
 
     //CATEGORY REDUCERS
-    createCategory: createCategoryReducer
+    createCategory: createCategoryReducer,
+    getCategories: getCategoriesReducer,
+    updateCategory: updateCategoryReducer,
+    getCategory: getCategoryReducer,
+    deleteCategory: deleteCategoryReducer,
+
+    // CITIES REDUCERS
+    getCities: getCitiesReducer,
+    deleteCity: deleteCityReducer,
+    createCity: createCityReducer,
+    updateCity: updateCityReducer,
+    getCity: getCityReducer,
+
+
+    //USERS REDUCERS 
+    getUsers: getUsersReducer,
+    registerUser : registerUserReducer,
 
 })
 

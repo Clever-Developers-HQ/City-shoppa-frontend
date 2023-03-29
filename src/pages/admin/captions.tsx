@@ -49,6 +49,7 @@ console.log(captions)
     confirm({
       title: 'Are you sure you want to delete this caption?',
       description: 'This action cannot be undone',
+      message: "Caption Deleted Successfully",
       onConfirm: () => {
         
         dispatch(deleteCaptionAction({id, token}))

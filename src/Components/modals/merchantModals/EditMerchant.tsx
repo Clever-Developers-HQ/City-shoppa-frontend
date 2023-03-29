@@ -10,29 +10,21 @@ import InputField from "@/components/inputs/InputField";
 import SubmitBtn from "@/components/buttons/submitBtn";
 import CancelBtn from "@/components/buttons/cancelButton";
 import { showSuccess, showError } from "@/components/Utils/AlertMsg";
+import { unwrapResult } from "@reduxjs/toolkit";
 
 
 interface ModalProps {
   open: boolean;
   setOpen: any;
   setIsUpdated: any;
+  token: string;
 }
 
-export default function EditMerchant({ open, setOpen, setIsUpdated }: ModalProps) {
+export default function EditMerchant({ open, setOpen, setIsUpdated, token }: ModalProps) {
   const dispatch = useDispatch<AppDispatch>();
   const { loading, success, message, merchant, error } = useSelector(
     (store: RootState) => store.getMerchant
   );
-
-  const updateMerchant = useSelector(
-    (store: RootState) => store.updateMerchant
-  );
-
-
-
-  const { merchant: updatedMerchant, message: updateMessage, error: updatedError} = updateMerchant;
-
-  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZmUwMjA4NzkxMGMyYmY1ZWNkYmYzZCIsImlhdCI6MTY3OTI5NDUzMSwiZXhwIjoxNjgwMTU4NTMxfQ.vjXHZy9wPSyPae3tx148TlZUmhtfaTQoDLITEHTH_TE";
   
   return (
     <ModalLayout
@@ -41,10 +33,9 @@ export default function EditMerchant({ open, setOpen, setIsUpdated }: ModalProps
       title="Edit Merchant"
       >
 
-        {/* LOADING STATE */}
+
       {loading && <Loader />}
 
-      {/* SUCCESS STATE */}
 
       {!loading && (
      <Formik
@@ -58,7 +49,7 @@ export default function EditMerchant({ open, setOpen, setIsUpdated }: ModalProps
       address: Yup.string().required("Address is Required"),
       website: Yup.string().required("Websiter is Required").nullable(),  
     })}
-     onSubmit={(values : any, { setSubmitting }) => {
+     onSubmit={async (values : any, { setSubmitting }) => {
       const id = merchant._id
       const business_name = values.business_name
       const email = values.email
@@ -66,18 +57,16 @@ export default function EditMerchant({ open, setOpen, setIsUpdated }: ModalProps
       const address = values.address
       const name = values.name
 
-        dispatch(updateMerchantAction({id, token,  name, business_name, email, website, address}))
+        const resultAction = await dispatch(updateMerchantAction({id, token,  name, business_name, email, website, address}))
+        const result = unwrapResult(resultAction)
 
-          if(merchant){
-            showSuccess("Merchant Updated Successfully")
-            setOpen(false)
-            setIsUpdated(true)
-          }
-
-          if(updatedError){
-            showError("Something Went Wrong. Please Try Again")
-            setOpen(false)
-          }
+        if(result.merchant){
+          setIsUpdated(true)
+          showSuccess("Merchant Updated Successfully")
+          setOpen(false)
+        } else {
+          showError("Something Went Wrong. Please try Again")
+        }
      }}
    >
      {({

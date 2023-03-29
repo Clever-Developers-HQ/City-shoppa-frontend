@@ -12,25 +12,22 @@ import { merchantRegisterAction } from '@/redux/Features/merchant/registerMercha
 import SubmitBtn from "@/components/buttons/submitBtn";
 import CancelBtn from "@/components/buttons/cancelButton";
 import { showSuccess, showError } from "@/components/Utils/AlertMsg";
+import { unwrapResult } from "@reduxjs/toolkit";
+
+
 
 interface AddNewMerchantProps{
   open: boolean;
   setOpen: any
   setIsUpdated: any
+  token: string
 }
 
-const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZmUwMjA4NzkxMGMyYmY1ZWNkYmYzZCIsImlhdCI6MTY3OTI5NDUzMSwiZXhwIjoxNjgwMTU4NTMxfQ.vjXHZy9wPSyPae3tx148TlZUmhtfaTQoDLITEHTH_TE";
 
-export default function AddNewMerchant({open, setOpen, setIsUpdated}:AddNewMerchantProps) {
+export default function AddNewMerchant({open, setOpen, setIsUpdated, token}:AddNewMerchantProps) {
 
   const dispatch = useDispatch<AppDispatch>()
   const {loading, success, message, merchant, error} = useSelector((store:RootState) => store.registerMerchant)
-
-  console.log(loading, success, message, merchant, error, "THE STATES OOOOOOO")
-
-
-  
-  
 
   return (
     <ModalLayout
@@ -47,27 +44,26 @@ export default function AddNewMerchant({open, setOpen, setIsUpdated}:AddNewMerch
         .required('Business name is Required'),
       email: Yup.string().email('Invalid email address').required('Email is Required'),
       address: Yup.string().required("Address is Required"),
-      website: Yup.string().required("Websiter is Required").nullable(),  
+      website: Yup.string().required("Website is Required").url("Ensure your website url starts wiith https:// or http://")
     })}
-     onSubmit={(values : any, { setSubmitting }) => {
+     onSubmit={async (values : any, { setSubmitting }) => {
       const business_name = values.business_name
       const email = values.email
       const website = values.website
       const address = values.address
       const name = values.name
 
-        dispatch(merchantRegisterAction({token,  name, business_name, email, website, address}))
-
-        if(merchant){
-          showSuccess("Merchant Account Created Successfully")
-          setOpen(false)
+ 
+        const resultAction = await dispatch(merchantRegisterAction({token,  name, business_name, email, website, address}))
+        const result = unwrapResult(resultAction)
+        if (result.merchant) {
+          showSuccess(result.status)
           setIsUpdated(true)
-        }
-      
-        if(error){
+          setOpen(false)
+        } else {
           showError("Something Went Wrong. Please Try Again")
-          // setOpen(false)
         }
+        
      }}
    >
      {({
@@ -125,7 +121,7 @@ export default function AddNewMerchant({open, setOpen, setIsUpdated}:AddNewMerch
         />
 
           <div className="mt-5 sm:mt-6 sm:grid sm:grid-cols-2 sm:gap-3 sm:grid-flow-row-dense">
-            <SubmitBtn disabled={isSubmitting} text="Add Merchant" />
+            <SubmitBtn disabled={isSubmitting} text={isSubmitting? "Please Wait" : "Add Merchant"} />
             <CancelBtn text="Cancel" setOpen={setOpen} />
             </div>
 

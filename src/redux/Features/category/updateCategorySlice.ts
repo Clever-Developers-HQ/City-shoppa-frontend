@@ -1,27 +1,23 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { HYDRATE } from "next-redux-wrapper";
-import type { PayloadAction } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
-import Merchantervice,{ MerchantProps }  from './merchantService'
-
-
+import Categoryervice,{ UpdateCategoryProps }  from './categoryService'
 
   
   const initialState: any = {
-    merchant: null,
+    category: null,
     loading: false,
     error: false,
     success: false,
     message: "",
   };
 
-//REGISTER MERCHANT
-export const deleteMerchantAction = createAsyncThunk(
-    "/deleteMerchantAction",
-    async ({id,token}:MerchantProps, thunkAPI: any,
+
+export const updateCategoryAction = createAsyncThunk(
+    "/updateCategoryAction",
+    async ({id, token,  name}:UpdateCategoryProps, thunkAPI: any,
     ) => {
       try {
-        return await Merchantervice.deleteMerchant({id, token});
+        return await Categoryervice.updateCategory({id, token,  name});
       } catch (error: any) {
         const message =
           (error.response &&
@@ -29,14 +25,14 @@ export const deleteMerchantAction = createAsyncThunk(
             error.response.data.message) ||
           error.message ||
           error.toString();
-        toast.warning(`${message}`);
+        toast.error(`${message}`);
         return thunkAPI.rejectWithValue(message);
       }
     }
   );
   
-  export const deleteMerchantSlice = createSlice({
-    name: "deleteMerchant",
+  export const updateCategorySlice = createSlice({
+    name: "updateCategory",
     initialState,
     reducers: {
       //non asynchronous reducers goes here
@@ -45,31 +41,31 @@ export const deleteMerchantAction = createAsyncThunk(
         state.error = false;
         state.success = false;
         state.message = "";
-        state.merchant = null;
+        state.category = null;
       },
     },
     extraReducers: (builder) => {
       builder
-        .addCase(deleteMerchantAction.pending, (state) => {
+        .addCase(updateCategoryAction.pending, (state) => {
           state.loading = true;
         })
-        .addCase(deleteMerchantAction.fulfilled, (state, action) => {
+        .addCase(updateCategoryAction.fulfilled, (state, action) => {
 
           state.loading = false;
           state.success = true;
-          state.merchant = action.payload.message;
+          state.category = action.payload.category;
+          state.message = "Category Updated Successfully";
         })
-        
-        .addCase(deleteMerchantAction.rejected, (state, action) => {
+        .addCase(updateCategoryAction.rejected, (state, action) => {
           state.loading = false;
           state.error = true;
-          state.message = "Something Went Wrong";
-          state.merchant = null;
+          state.message = "Something went wrong";
+          state.category = null;
         });
     },
   });
   
   // Action creators are generated for each case reducer function
-  export const { reset } = deleteMerchantSlice.actions;
+  export const { reset } = updateCategorySlice.actions;
   
-  export default deleteMerchantSlice.reducer;
+  export default updateCategorySlice.reducer;
