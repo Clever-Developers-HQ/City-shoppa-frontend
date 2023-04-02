@@ -43,11 +43,10 @@ export default function AddNewMerchant({open, setOpen, setIsUpdated, token}:AddN
      validationSchema={Yup.object({
       name: Yup.string()
         .required('Name Is Required'), 
-      email: Yup.string()
+      email: Yup.string().email("Ensure a valid email is entered")
       .required('Email Is Required'), 
-
       password: Yup.string()
-      .required('email Is Required'), 
+      .required('Password Is Required'), 
 
       phone: Yup.string().matches(phoneRegExp, 'Phone number is not valid').nonNullable()
 

@@ -1,16 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { getCategoriesAction } from "../../redux/Features/category/getCategoriesSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
+
 
 interface selectInputProps {
   label: string;
   name: string;
-  options: string[];
 }
 
-export default function SelectInput({
-  label,
-  name,
-  options,
-}: selectInputProps) {
+export default function SelectInput({ label, name }: selectInputProps) {
+  const dispatch = useDispatch();
+
+  const { categories } = useSelector((store: RootState) => store.getCategories);
+
+  useEffect(() => {
+    dispatch(getCategoriesAction({}));
+  }, []);
+
   return (
     <div>
       <label
@@ -21,12 +28,14 @@ export default function SelectInput({
       <select
         id={name}
         name={name}
-        className="mt-1 mb-3 block w-full pl-3 pr-10 py-2. text-base border-gray-300 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm rounded-md"
+        className="mt-1 mb-3 block w-full pl-3 pr-10 py-[40px]. text-base border-gray-300 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm rounded-md"
         defaultValue="Canada">
-        <option>Select Category</option>
-        <option>Furniture</option>
-        <option>Baby</option>
-        <option>Home and Utensils</option>
+        <option value="">Select Category</option>
+        {categories?.map((category: any) => (
+          <option key={category._id} value={category.name}>
+            {category.name}
+          </option>
+        ))}
       </select>
     </div>
   );

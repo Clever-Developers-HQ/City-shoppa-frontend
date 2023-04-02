@@ -12,7 +12,6 @@ export default function AddNewProductModal({ open, setOpen }: ModalProps) {
   const cancelButtonRef = useRef(null);
   const [images, setImages] = useState([]);
   const [productData, setProductData] = useState<any>({});
- 
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -58,7 +57,6 @@ export default function AddNewProductModal({ open, setOpen }: ModalProps) {
                   <div className="mt-2">
                     <SelectInput
                       label="Category"
-                      options={["Category 1", "Category 2", "Category 3"]}
                       name="category"
                     />
 

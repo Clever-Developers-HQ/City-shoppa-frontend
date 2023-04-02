@@ -51,8 +51,6 @@ export default function EditCategory({open, setOpen, token, setIsUpdated}:ModalP
         .required('Category Name Is Required'), 
     })}
      onSubmit={(values : any, { setSubmitting }) => {
-      console.log(values.name, "the name updateddddd")
-      console.log(token, "THE TOKEN HERE OOSOSOSO")
             dispatch(updateCategoryAction({name: values.name, token, id: category._id}))
             .then(unwrapResult)
             .then((result : any) => {

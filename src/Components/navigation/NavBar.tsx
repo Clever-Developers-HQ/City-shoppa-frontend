@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
-import * as React from "react";
+import React, {useState, useEffect} from "react";
 import CategoriesInput from "./CategoriesInput";
 import NavModal from "../NaVModal/NavModal";
 import WhereToVoteIcon from "@mui/icons-material/WhereToVote";
@@ -33,11 +33,26 @@ const userNavigation = [
   { name: "Sign out", href: "#" },
 ];
 
+
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
 export default function NavBar() {
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+
+useEffect(() => {
+
+  const token = localStorage.getItem("token") 
+  if (token) {
+    setIsLoggedIn(true)
+  } 
+}, [])
+
+
+
+
   const [showPassword, setShowPassword] = React.useState(false);
   const [userSignup, setUserSignup] = React.useState(false);
   const [showProfile, setShowProfile] = React.useState(false);
@@ -160,6 +175,8 @@ export default function NavBar() {
               </div>
               <div className="relative z-10 flex items-center lg:hidden">
                 {/* Mobile menu button */}
+
+
                 <Disclosure.Button className="rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
                   <span className="sr-only">Open menu</span>
                   {<NavModal />}
@@ -202,7 +219,7 @@ export default function NavBar() {
                 </Box>
 
                 {/* Profile dropdown */}
-                {userSignup ? (
+                {isLoggedIn ? (
                   <Menu as="div" className="flex-shrink-0 relative ml-4">
                     <button
                       type="button"

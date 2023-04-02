@@ -4,7 +4,6 @@ import { AiOutlineDelete } from "react-icons/ai";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import AddNewMerchant from "@/components/modals/merchantModals/AddNewMerchant";
 import EditMerchant from "@/components/modals/merchantModals/EditMerchant";
-import { showConfirmation, showError } from "@/components/Utils/AlertMsg";
 import { useDispatch, useSelector } from "react-redux";
 import { getMerchantsAction } from "../../redux/Features/merchant/getMerchantsSlice";
 import { getMerchantAction } from "../../redux/Features/merchant/getMerchantSlice";

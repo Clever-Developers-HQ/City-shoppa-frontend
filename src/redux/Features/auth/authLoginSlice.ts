@@ -1,102 +1,82 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import authService from './authService';
 import { AuthProps, SignupProps } from "./authDTO";
-import { showSuccess, showInfo } from "@/components/Utils/AlertMsg";
-
-
-let userFromStorage = null;
-const ISSERVER = typeof window === "undefined";
-
-if (!ISSERVER) {
-  userFromStorage = localStorage.getItem("user")
-    // ? JSON.parse(localStorage.getItem("user"))
-    // : null;
-}
+import { toast } from "react-toastify";
 
 
 
-export interface authLoginInterface {
-    user: any,
-    loading: boolean,
-    error: any,
-    message: any
-    status: any,
-}
-
-const initialState: authLoginInterface = {
+const initialState: any = {
     user: null,
-    status: null,
     loading: false,
-    error: null,
-    message: null
+    error: false,
+    success: false,
+    message: null,
+    token: null
 }
 
+//LOGIN USER
 
-//Login User
-
-export const loginUser: any = createAsyncThunk(
-    'auth/loginUser',
-    async ({ email, password }: AuthProps, thunkAPI) => {
+export const loginAction = createAsyncThunk(
+    "loginAction",
+    async ({email, password}: any, thunkAPI: any) => {
         try {
-            return authService.login({ email, password })
+            return await authService.login({email, password});
         } catch (error: any) {
             const message =
-                (error.response &&
-                    error.response.data &&
-                    error.response.data.message) ||
-                error.message ||
-                error.toString();
-
-            if (/jwt|unauthenticated/gi.test(message)) {
-                //dispatch logout
-                thunkAPI.dispatch(logout());
-            }
-            showInfo(`${message}`);
+              (error.response &&
+                error.response.data &&
+                error.response.data.message) ||
+              error.message ||
+              error.toString();
+            toast.warning(`${message}`);
             return thunkAPI.rejectWithValue(message);
-        }
+          }
     }
 )
 
-export const logout = createAsyncThunk("auth/logout", async ({ }, thunkAPI) => {
-    return showSuccess("Logged Out Successfully")
-});
+//CREATE THE SLICE
 
-
-
-export const loginSlice = createSlice({
-    name: 'loginUser',
+export const authLoginSlice = createSlice({
+    name: "authLogin",
     initialState,
-
     reducers: {
+        //non asynchronous reducers goes here   
         reset: (state) => {
-            state.loading = false
-            state.error = null
-            state.user = null
-            state.message = ""
+            state.loading = false;
+            state.error = false;
+            state.success = false;
+            state.message = "";
+            state.user = null;
+            state.token = null;
         },
     },
 
-    extraReducers: (builder) => {
-        builder.addCase(loginUser.pending, (state) => {
-            state.loading = true
-        })
-        builder.addCase(loginUser.fulfilled, (state, action) => {
-            state.loading = false
-            state.status = action.payload.status
-            state.user = action.payload.user
-            state.error = null
-        })
 
-        builder.addCase(loginUser.rejected, (state, action) => {
-            state.loading = false
-            state.error = action.payload
-            state.status = action.payload.status
-            state.user = null
-            state.message = ""
-        })
+    extraReducers: (builder) => {
+        builder
+            .addCase(loginAction.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(loginAction.fulfilled, (state, action) => {
+                state.loading = false;
+                state.success = true;
+                state.user = action.payload.user;
+                state.token = action.payload.user.token;
+            })
+            .addCase(loginAction.rejected, (state, action) => {
+                state.loading = false;
+                state.error = true;
+                state.message = action.payload;
+                state.user = "I DEYSYSYS"
+            })
     }
 })
 
-export const { reset } = loginSlice.actions
 
-export default loginSlice.reducer
+export const { reset } = authLoginSlice.actions;
+
+export default authLoginSlice.reducer;
+
+
+
+

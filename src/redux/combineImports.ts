@@ -21,6 +21,14 @@ import updateCityReducer from "./Features/city/updateCitySlice";
 import getCityReducer from "./Features/city/getCitySlice";
 import getUsersReducer from "./Features/user/getUsersSlice";
 import registerUserReducer from "./Features/user/registerUserSlice";
+import deleteUser from "./Features/user/deleteUserSlice";
+
+import loginUserReducer  from './Features/auth/authLoginSlice';
+import getProductsReducer from './Features/product/getProductsSlice'
+
+import getFeaturesReducer from "./Features/feature/getFeaturesSlice"
+import deleteFeatureReducer from "./Features/feature/deleteFeatureSlice"
+import createFeatureReducer from "./Features/feature/createFeatureSlice";
 
 export {
     // MERCHANTS 
@@ -59,5 +67,18 @@ export {
     //USERS
     getUsersReducer,
     registerUserReducer,
+    deleteUser,
+    loginUserReducer,
+
+
+    //PRODUCTS
+    getProductsReducer,
+
+
+    //FEATURES
+    getFeaturesReducer,
+    deleteFeatureReducer,
+    createFeatureReducer ,
+    
 }
 

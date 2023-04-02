@@ -26,7 +26,6 @@ function FileUpload({ setImages, images, multiple, label }: FileUploadProps) {
         {({
           imageList,
           onImageUpload,
-          onImageRemoveAll,
           onImageUpdate,
           onImageRemove,
           isDragging,

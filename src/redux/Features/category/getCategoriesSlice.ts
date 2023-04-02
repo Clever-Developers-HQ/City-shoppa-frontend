@@ -16,8 +16,8 @@ const initialState: any = {
 export const getCategoriesAction = createAsyncThunk(
     "/getCategoriesAction",
     async (
-        token: string,
-        thunkAPI: any,
+        token: any,
+        thunkAPI,
     ) => {
         try {
             return await categoryservice.getCategories(token);
