@@ -9,7 +9,7 @@ function Empty({text}: any) {
       <Image
       className="w-[300px]"
        src={EmptyImage} alt="No Data Available CityShoppa" />
-      <p className="text-orange font-bold text-2xl mt-4">
+      <p className="text-orange font-bold text-2xl mt-4 text-center">
        {text}
       </p>
     </div>

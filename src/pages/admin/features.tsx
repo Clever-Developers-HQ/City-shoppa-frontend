@@ -9,7 +9,6 @@ import { adminTokenAuthentication } from "@/components/Utils/TokenAuthentication
 import LoadingScreen from "@/components/loader/loadingScreen";
 import Loader from '@/components/loader/Loader'
 import { getFeaturesAction } from '@/redux/Features/feature/getFeaturesSlice'
-import { showSuccess, showError} from "@/components/Utils/AlertMsg";
 import {deleteFeatureAction} from "@/redux/Features/feature/deleteFeatureSlice"
 import { AppDispatch, RootState } from "../../redux/store";
 import { useDispatch, useSelector } from "react-redux";
@@ -40,7 +39,6 @@ function Features() {
   const {loading, features, message, error} = useSelector(
     (store: RootState) => store.getFeatures
   );
-
 
   if (isUpdated) {
     dispatch(getFeaturesAction(""))

@@ -4,19 +4,27 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 
 
-interface selectInputProps {
+interface SelectInputProps {
   label: string;
   name: string;
 }
 
-export default function SelectInput({ label, name }: selectInputProps) {
+interface empty {
+
+
+}
+
+export default function SelectInput({ label, name }: SelectInputProps) {
   const dispatch = useDispatch();
 
   const { categories } = useSelector((store: RootState) => store.getCategories);
 
-  useEffect(() => {
-    dispatch(getCategoriesAction({}));
-  }, []);
+
+  // useEffect(() => {
+  //   dispatch(getCategoriesAction());
+  // }, []);
+
+  
 
   return (
     <div>

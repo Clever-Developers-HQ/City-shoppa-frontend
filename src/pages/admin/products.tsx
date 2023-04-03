@@ -133,12 +133,6 @@ function Products() {
                             <th
                               scope="col"
                               className="px-3 py-3.5 text-left text-md font-semibold text-gray-500">
-                              Merchant Name
-                            </th>
-  
-                            <th
-                              scope="col"
-                              className="px-3 py-3.5 text-left text-md font-semibold text-gray-500">
                               Status
                             </th>
   

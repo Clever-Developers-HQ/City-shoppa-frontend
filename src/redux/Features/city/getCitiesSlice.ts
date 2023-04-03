@@ -13,7 +13,7 @@ const initialState: any = {
 };
 
 //REGISTER MERCHANT
-export const getCitiesAction = createAsyncThunk(
+export const getCitiesAction : any = createAsyncThunk(
     "/getCitiesAction",
     async (
         token: string,

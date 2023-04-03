@@ -19,7 +19,7 @@ export interface UpdateCategoryProps {
 }
 
 const createCategory = async ({token, name}: CreateCategoryProps)  =>  {
-    console.log("HITTED, i DEY")
+
   const config = {
         headers: {
           "Content-Type": "application/json",
@@ -32,11 +32,11 @@ const createCategory = async ({token, name}: CreateCategoryProps)  =>  {
     return data;
 }
 
-const getCategories = async (token: string): Promise<{}> => {
+const getCategories = async ()  => {
     const config = {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          // Authorization: `Bearer ${token}`,
         },
         credentials: "include",
         mode: "cors",

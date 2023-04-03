@@ -30,6 +30,8 @@ import getFeaturesReducer from "./Features/feature/getFeaturesSlice"
 import deleteFeatureReducer from "./Features/feature/deleteFeatureSlice"
 import createFeatureReducer from "./Features/feature/createFeatureSlice";
 
+import getOrdersReducer from "./Features/order/getOrdersSlice";
+
 export {
     // MERCHANTS 
     getMerchantsReducer,
@@ -79,6 +81,12 @@ export {
     getFeaturesReducer,
     deleteFeatureReducer,
     createFeatureReducer ,
+
+
+
+    // ORDERS
+
+    getOrdersReducer
     
 }
 

@@ -29,7 +29,6 @@ function Post_product() {
                   <div className="mt-2">
                     <SelectInput
                       label="Category"
-                      options={["Category 1", "Category 2", "Category 3"]}
                       name="category"
                     />
 

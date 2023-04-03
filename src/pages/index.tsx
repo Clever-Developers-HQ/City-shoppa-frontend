@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import { useState, useEffect } from 'react';
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
@@ -13,10 +14,39 @@ import Brands from '@/components/brandCarousel/Brands'
 import ProductsList from '@/components/products/productLists/ProductsList'
 import AdsCards from '@/components/ads/AdsCards'
 import Footer from '@/components/footer/Footer'
+import LoadingScreen from '@/components/loader/loadingScreen';
+import { getProductsAction } from '@/redux/Features/product/getProductsSlice';
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/redux/store";
+
+
+//IMPORTING API CALLS AND DATA NEEDED ON THE FRONTEND. 
+
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
+  const [isLoaded, setIsLoaded] = useState(true)
+  const dispatch = useDispatch<AppDispatch>();
+
+  const [products, setProducts] = useState <any>([])
+  const token= ""
+  setTimeout(() => {
+    setIsLoaded(false)
+  }, 5000)
+
+
+  useEffect(()=> {
+    const getProducts = async () => {
+      const resultAction = await dispatch(
+        getProductsAction(token)
+      );
+      const result = resultAction.payload;
+      setProducts(result)
+    }
+    getProducts()
+  }, [])
+
   return (
     <>
       <Head>
@@ -25,7 +55,11 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main >
+
+      {
+        isLoaded ? <LoadingScreen /> : (
+          <div>
+                  <main >
       <NavBar />
         <Hero />
         <Categories />
@@ -90,6 +124,10 @@ export default function Home() {
         <AdsCards/>
         <Footer/>
       </main>
+          </div>
+        )
+      }
+
     </>
   )
 }

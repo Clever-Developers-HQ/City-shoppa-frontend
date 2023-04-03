@@ -50,6 +50,10 @@ import {
     deleteFeatureReducer,
     createFeatureReducer ,
 
+
+    // ORDERS
+    getOrdersReducer,
+
 } from './combineImports'
 
 
@@ -106,6 +110,10 @@ const reducers = combineReducers({
     getFeatures: getFeaturesReducer,
     deleteFeature: deleteFeatureReducer,
     createFeature: createFeatureReducer ,
+
+
+    //ORDERS REDUCERS
+    getOrders: getOrdersReducer,
 
 })
 
