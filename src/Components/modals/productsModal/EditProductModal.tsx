@@ -58,8 +58,7 @@ export default function EditProductModal({ open, setOpen }: ModalProps) {
                   <div className="mt-2">
                     <SelectInput
                       label="Category"
-                      options={["Category 1", "Category 2", "Category 3"]}
-                      name="category"
+                      name="category" 
                     />
 
                     <div>

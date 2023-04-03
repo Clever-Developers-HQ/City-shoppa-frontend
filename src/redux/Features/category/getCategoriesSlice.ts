@@ -13,14 +13,14 @@ const initialState: any = {
 };
 
 //REGISTER MERCHANT
-export const getCategoriesAction = createAsyncThunk(
+export const getCategoriesAction  = createAsyncThunk(
     "/getCategoriesAction",
     async (
-        token: string,
-        thunkAPI: any,
+        _,
+        thunkAPI,
     ) => {
         try {
-            return await categoryservice.getCategories(token);
+            return await categoryservice.getCategories();
         } catch (error: any) {
             const message =
                 (error.response &&

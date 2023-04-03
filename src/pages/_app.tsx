@@ -8,9 +8,14 @@ import { wrapper } from '../redux/store';
 import Fallback from "../components/Fallback/Fallback";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
+import { LiveChatWidget, EventHandlerPayload } from '@livechat/widget-react'
+
 
 
 export default function App({ Component, pageProps, ...rest }: AppProps) {
+  function handleNewEvent(event: EventHandlerPayload<'onNewEvent'>) {
+    console.log('LiveChatWidget.onNewEvent', event)
+  }
 
   const [loading, setLoading] = useState(false);
 
@@ -32,6 +37,11 @@ export default function App({ Component, pageProps, ...rest }: AppProps) {
         <Component {...props.pageProps} />
       {/* </ErrorBoundary> */}
       <ToastContainer />
+      <LiveChatWidget
+        license="15274641"
+        visibility="minimized"
+        onNewEvent={handleNewEvent}
+        />
     </Provider>
     {/* {
       loading ? <LoadingScreen /> : <Component {...pageProps} />

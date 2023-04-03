@@ -11,6 +11,7 @@ import { deleteCaptionAction } from '@/redux/Features/caption/deleteCaptionSlice
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '@/redux/store'
 import Loader from '@/components/loader/Loader'
+import { adminTokenAuthentication } from '@/components/Utils/TokenAuthentication'
 import API_BASEURL from 'constants'
 
 
@@ -27,22 +28,24 @@ function Captions() {
   const [addNewCaption, setAddNewCaption] = useState(false)
   const [editCaption, setEditCaption] = useState(false)
   const [isUpdated, setIsUpdated] = useState(false)
-
-  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZmUwMjA4NzkxMGMyYmY1ZWNkYmYzZCIsImlhdCI6MTY3OTE2OTEzNywiZXhwIjoxNjgwMDMzMTM3fQ.4anwcwLFJQ2Ri36a3M2PFq5_J6D0BqOqgUdm6-dfeQY"
+  const [token, setToken] = useState<any>("")
 
   const {captions, error, loading, message} = useSelector((store : RootState) => store.getCaptions)
 
-console.log(captions)
-  useEffect(() => {
-
-    dispatch (getCaptionsAction(token))
-  }, [])
 
   //Refresh the List once a New Data Is Added
   if (isUpdated){
     dispatch (getCaptionsAction(token))
     setIsUpdated(false)
   }
+
+  useEffect(() => {
+    setToken(adminTokenAuthentication())
+
+    if (token) {
+      dispatch(getCaptionsAction(token))
+    }
+  }, [token])
 
 
   const deleteHandler = (id: string) => {
@@ -54,8 +57,6 @@ console.log(captions)
         
         dispatch(deleteCaptionAction({id, token}))
         setIsUpdated(true)
-        alert(id)
-        console.log('confirmed')
       },
     })
   }
@@ -128,7 +129,7 @@ console.log(captions)
                         {caption.id}
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        <img src={`https://cityshoppa.onrender.com/api/v1/uploads/${caption.image}`}
+                        <img src={caption.image}
                         alt="" 
                         width = '200'
                         height = '200'

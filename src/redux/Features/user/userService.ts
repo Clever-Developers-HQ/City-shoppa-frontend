@@ -78,8 +78,8 @@ const deleteUser = async ({ id, token }: UserProps) => {
     },
   };
 
-  const response = await axios.delete(`${API_BASEURL}/user/delete/${id}`, config);
-  return response.data
+  const {data} = await axios.delete(`${API_BASEURL}/users/${id}`, config);
+  return data
 }
 
 const updateUser = async ({ id, password, token }: UpdateUserPassword) => {

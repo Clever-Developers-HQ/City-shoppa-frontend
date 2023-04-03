@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
-import * as React from "react";
+import React, {useState, useEffect} from "react";
 import CategoriesInput from "./CategoriesInput";
 import NavModal from "../NaVModal/NavModal";
 import WhereToVoteIcon from "@mui/icons-material/WhereToVote";
@@ -14,6 +14,11 @@ import Image from "next/image";
 import Logo from "/public/assets/cityshoppa.png";
 import Profile from "../modals/profileModal";
 import Link from "next/link";
+import { getCitiesAction } from './../../redux/Features/city/getCitiesSlice';
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/redux/store";
+import {AiOutlineSearch} from 'react-icons/ai'
+
 
 const user = {
   name: "Tom Cook",
@@ -21,23 +26,44 @@ const user = {
   imageUrl:
     "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
 };
-const navigation = [
-  { name: "Dashboard", href: "#", current: true },
-  { name: "Team", href: "#", current: false },
-  { name: "Projects", href: "#", current: false },
-  { name: "Calendar", href: "#", current: false },
-];
+
 const userNavigation = [
   { name: "Your Profile", href: "#" },
   { name: "Settings", href: "#" },
   { name: "Sign out", href: "#" },
 ];
 
+
+
 function classNames(...classes: string[]) {
+  
   return classes.filter(Boolean).join(" ");
 }
 
 export default function NavBar() {
+  const dispatch = useDispatch<AppDispatch>();
+
+
+  const {loading, cities, message, } = useSelector(
+    (store: RootState) => store.getCities
+  );
+
+  console.log(cities, "THE CITIES")
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+
+useEffect(() => {
+  const token = localStorage.getItem("token") 
+  dispatch(getCitiesAction(token))
+  if (token) {
+    setIsLoggedIn(true)
+  } 
+
+}, [])
+
+
+
+
   const [showPassword, setShowPassword] = React.useState(false);
   const [userSignup, setUserSignup] = React.useState(false);
   const [showProfile, setShowProfile] = React.useState(false);
@@ -148,18 +174,20 @@ export default function NavBar() {
                       id="location"
                       name="location"
                       className="block w-full bg-white-700 ml-1 border border-transparent rounded-md py-2 pl-10 pr-3 text-sm placeholder-gray-400 focus:outline-none focus:bg-white focus:border-white focus:ring-white focus:text-gray-900 focus:placeholder-orange sm:text-sm "
-                      // defaultValue="Canada"
                     >
-                      <option>Toronto</option>
-                      <option>Ontario</option>
-                      <option>Vancouver</option>
-                      <option>Ottawa</option>
+                        <option disabled value="">Select City</option>
+                        {cities?.map((city: any) => (
+                          <option key={city._id} value={city.name}>{city.name}</option>
+                        ))
+                      }
                     </select>
                   </div>
                 </div>
               </div>
               <div className="relative z-10 flex items-center lg:hidden">
                 {/* Mobile menu button */}
+
+
                 <Disclosure.Button className="rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
                   <span className="sr-only">Open menu</span>
                   {<NavModal />}
@@ -202,7 +230,7 @@ export default function NavBar() {
                 </Box>
 
                 {/* Profile dropdown */}
-                {userSignup ? (
+                {isLoggedIn ? (
                   <Menu as="div" className="flex-shrink-0 relative ml-4">
                     <button
                       type="button"

@@ -12,6 +12,8 @@ import { confirm } from "@/components/alert/confirm";
 import {FaUserEdit, FaUserAltSlash} from 'react-icons/fa'
 import AdminLayout from '@/components/layouts/AdminLayout'
 import { getUsersAction } from '@/redux/Features/user/getUsersSlice'
+import {deleteUserAction} from '@/redux/Features/user/deleteUserSlice'
+
 
 function Users() {
   const dispatch = useDispatch<AppDispatch>();
@@ -39,6 +41,20 @@ function Users() {
     dispatch(getUsersAction(token))
     setIsUpdated(false)
   }
+
+
+  //DELETE FUNCTION HANDLER
+  const deleteHandler = (id: string) => {
+    confirm({
+      title: "Are you sure you want to delete this Merchant?",
+      description: "This action cannot be undone",
+      message: "Merchant deleted Successfully",
+      onConfirm: () => {
+        dispatch(deleteUserAction({ id, token }));
+        setIsUpdated(true);
+      },
+    });
+  };
 
   
   return (
@@ -149,6 +165,7 @@ function Users() {
                           // onClick={() => showConfirmation()} 
                           >
                             <RiDeleteBin6Line
+                            onClick = {() => deleteHandler(user._id)}
                             size="20"
                             className="text-gray-500 hover:text-orange cursor-pointer"
                              />

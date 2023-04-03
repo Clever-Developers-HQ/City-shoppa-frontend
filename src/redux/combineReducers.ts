@@ -36,8 +36,23 @@ import {
     //USERS
     getUsersReducer,
     registerUserReducer,
-    
+    deleteUser,
 
+
+    // LOGIN
+    loginUserReducer,
+
+    // PRODUCTS
+    getProductsReducer,
+
+    //FEATURES
+    getFeaturesReducer,
+    deleteFeatureReducer,
+    createFeatureReducer ,
+
+
+    // ORDERS
+    getOrdersReducer,
 
 } from './combineImports'
 
@@ -79,6 +94,26 @@ const reducers = combineReducers({
     //USERS REDUCERS 
     getUsers: getUsersReducer,
     registerUser : registerUserReducer,
+    delete : deleteUser,
+
+
+    //LOGIN REDUCERS
+    authUser: loginUserReducer ,
+
+
+
+    // PRODUCTS
+    getProducts : getProductsReducer,
+
+
+    //FEATURES REDUCERS
+    getFeatures: getFeaturesReducer,
+    deleteFeature: deleteFeatureReducer,
+    createFeature: createFeatureReducer ,
+
+
+    //ORDERS REDUCERS
+    getOrders: getOrdersReducer,
 
 })
 

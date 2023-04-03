@@ -1,38 +1,26 @@
+import API_BASEURL  from "constants";
+import axios from "axios";
+
 
 import { AuthProps, SignupProps } from './authDTO'
 
-interface userDataProps {
-  email: any
-  password: any,
-  uid: any
-  username: any,
-  accessToken: any,
+
+const login = async ({email, password}: AuthProps) => {
+  const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    console.log("BEFORE ")
+
+  const {data} = await axios.post(`${API_BASEURL}/users/login`, {email, password}, config);
+  console.log("AFTER ")
+  return data
 }
-
-const signup = async ({ email, password, username }: SignupProps) => {
-  let user: any;
-
-}
-
-const login = async ({ email, password }: AuthProps) => {
-
-}
-
-const forgetPassword = async (email: string) => {
-
-}
-
-const logOut = async () => {
-
-}
-
 
 
 const authService = {
-  signup,
   login,
-  forgetPassword,
-  logOut
 }
 
 export default authService

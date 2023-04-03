@@ -52,6 +52,7 @@ export const getMerchantsAction = createAsyncThunk(
         state.success = false;
         state.message = "";
         state.merchants = null;
+
       },
     },
     extraReducers: (builder) => {

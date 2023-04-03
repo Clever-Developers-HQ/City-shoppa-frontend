@@ -1,33 +1,28 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { HYDRATE } from "next-redux-wrapper";
-import type { PayloadAction } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
-import merchantService,{ MerchantProps }  from './merchantService'
-
+import orderservice from './orderService'
 
   const initialState: any = {
-    merchant: null,
+    orders: null,
     loading: false,
     error: false,
     success: false,
     message: "",
-    products: []
   };
 
-//REGISTER MERCHANT
-export const getMerchantAction = createAsyncThunk(
-    "/getMerchantAction",
-    async ({id,token}:any, thunkAPI: any,
+
+export const getOrdersAction = createAsyncThunk(
+    "/getUserAction",
+    async (token:string, thunkAPI: any,
     ) => {
       try {
-        return await merchantService.getMerchant({id, token});
+        return await orderservice.getOrders(token);
       } catch (error: any) {
         const message =
           (error.response &&
             error.response.data &&
             error.response.data.message) ||
           error.message ||
-          error.error ||
           error.toString();
         toast.warning(`${message}`);
         return thunkAPI.rejectWithValue(message);
@@ -35,8 +30,9 @@ export const getMerchantAction = createAsyncThunk(
     }
   );
   
-  export const getMerchantSlice = createSlice({
-    name: "getMerchant",
+  
+  export const getOrdersSlice = createSlice({
+    name: "getUser",
     initialState,
     reducers: {
       //non asynchronous reducers goes here
@@ -45,33 +41,31 @@ export const getMerchantAction = createAsyncThunk(
         state.error = false;
         state.success = false;
         state.message = "";
-        state.merchant = null;
-        state.products = []
+        state.orders = null;
       },
     },
     extraReducers: (builder) => {
       builder
-        .addCase(getMerchantAction.pending, (state) => {
+        .addCase(getOrdersAction.pending, (state) => {
           state.loading = true;
         })
-        .addCase(getMerchantAction.fulfilled, (state, action) => {
+        .addCase(getOrdersAction.fulfilled, (state, action) => {
 
           state.loading = false;
           state.success = true;
-          state.merchant = action.payload.merchant;
-          state.products = action.payload.merchantProducts
+          state.orders = action.payload.responses;
         })
-        .addCase(getMerchantAction.rejected, (state, action) => {
+        
+        .addCase(getOrdersAction.rejected, (state, action) => {
           state.loading = false;
           state.error = true;
           state.message = action.payload || "Something went wrong";
-          state.merchant = null;
-          state.products = []
+          state.orders = null;
         });
     },
   });
   
   // Action creators are generated for each case reducer function
-  export const { reset } = getMerchantSlice.actions;
+  export const { reset } = getOrdersSlice.actions;
   
-  export default getMerchantSlice.reducer;
+  export default getOrdersSlice.reducer;

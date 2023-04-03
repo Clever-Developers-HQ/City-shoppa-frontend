@@ -12,7 +12,6 @@ export interface DonationProps {
     token: string,
 }
 
-export
 
 const createDonation = async ({token, amount}: CreateDonationProps) => {
  
