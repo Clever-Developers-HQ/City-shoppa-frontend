@@ -403,3 +403,14 @@ body,
     min-height: 300px;
   }
 }
+.flex_row{
+  display: flex;
+  padding-top: 20px;
+}
+
+.thumbnail{
+padding-left: 20px;
+}
+.clicked{
+border: 1px solid black;
+}
