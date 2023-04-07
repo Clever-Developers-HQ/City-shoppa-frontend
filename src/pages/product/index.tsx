@@ -1,8 +1,9 @@
-import NavBar from "@/Components/NavBar/NavBar";
-import DiscountedProducts from "@/Components/ProductDetails/DiscountedProducts";
-import ImageSlider from "@/Components/ProductDetails/ImageSlider";
-import Quantity from "@/Components/ProductDetails/Quantity";
-import SellerModal from "@/Components/ProductDetails/SellerModal";
+import NavBar from "@/components/navigation/NavBar";
+import DiscountedProducts from "@/components/ProductDetails/DiscountedProducts";
+import ImageSlider from "@/components/ProductDetails/ImageSlider";
+import Quantity from "@/components/ProductDetails/Quantity";
+import SellerModal from "@/components/ProductDetails/SellerModal";
+// import Footer
 import React, { useState } from "react";
 
 const ProductDetails = () => {

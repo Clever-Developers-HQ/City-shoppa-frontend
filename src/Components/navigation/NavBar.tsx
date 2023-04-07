@@ -17,7 +17,6 @@ import Link from "next/link";
 import { getCitiesAction } from './../../redux/Features/city/getCitiesSlice';
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
-import {AiOutlineSearch} from 'react-icons/ai'
 
 
 const user = {

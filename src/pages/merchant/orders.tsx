@@ -8,7 +8,7 @@ function index() {
   return (
     <div>
         <MerchantLayout title="Orders">
-          <OrdersCard />
+          <OrdersCard orders={[]}/>
           
         </MerchantLayout>
     </div>
