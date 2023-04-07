@@ -1,19 +1,4 @@
-/*
-  This example requires Tailwind CSS v2.0+ 
-  
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/aspect-ratio'),
-    ],
-  }
-  ```
-*/
+
 const products = [
   {
     id: 1,
@@ -148,8 +133,8 @@ export default function ProductsList() {
           margin: "auto",
         }}
       >
-        <h1 className="text-3xl">Just For You</h1>
-        <h2 className="text-1xl mr-10 text-gray-900 cursor-pointer hover: bg-slate-100 p-2">SHOP MORE</h2>
+        <h1 className="text-2xl font-bold">Just For You</h1>
+        <h2 className="text-1xl mr-10 text-white cursor-pointer hover: bg-orange p-2">SHOP MORE</h2>
       </div>
       <div className="max-w-2xl mx-auto py-5 px-4 bg-slate-100 sm:px-6 lg:max-w-7xl lg:px-4">
         <div className="grid grid-cols-1 gap-y-4 sm:grid-cols-2 gap-x-6 lg:grid-cols-3 xl:grid-cols-6 xl:gap-x-8">

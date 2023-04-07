@@ -1,26 +1,15 @@
-import { useState } from 'react';
-import ImageSlider from './ImageSlider';
+import { useState, useEffect } from 'react';
+import ImageSlider from './imageSliderComponent';
 import HeroImage1 from "/public/assets/hero.png";
 import HeroImage2 from "/public/assets/hero.png";
 import HeroImage3 from "/public/assets/hero.png";
 import NextLink from 'next/link';
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/redux/store";
+import { getCategoriesAction } from "../../redux/Features/category/getCategoriesSlice";
+import router, { useRouter } from 'next/router'
 
-const Categories = [
-  "Food",
-  "Consumer Electronics",
-  "Bags & Accessories",
-  "Mens Wear",
-  "Art & Craft",
-  "Furniture",
-  "Home & Garden",
-  "Health & Beauty",
-  "Shoes & Accessories",
-  "Home Improvement",
-  "Computer & Networking",
-  "Toys & Hobbies",
-  "Sports & Outdoors",
-  "Jewelry & Watches",
-];
+
 
 const style = {
   textStyle: {
@@ -39,8 +28,12 @@ const style = {
 };
 
 function HeroSection() {
+  const dispatch = useDispatch<AppDispatch>();
   const [images] = useState<any>([HeroImage1, HeroImage2, HeroImage3]);
   const [currentImageIndex, setCurrentImageIndex] = useState<any>(0);
+
+  const { categories } = useSelector((store: RootState) => store.getCategories);
+
 
   const nextImage = () => {
     setCurrentImageIndex((currentImageIndex + 1) % images.length);
@@ -49,15 +42,24 @@ function HeroSection() {
     setCurrentImageIndex((currentImageIndex - 1 + images.length) % images.length);
   };
 
+  useEffect(() => {
+    dispatch (getCategoriesAction())
+  }, [])
+
+
   return (
-    <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-    <div className="col-span-1 md:col-span-1 mt-4 hidden md:block">
-      {Categories.map((category, index) => (
-        <NextLink href="/categories" key={index}>
-          <p className="text-gray-500 font-medium text-lg px-4 py-2 bg-white hover:bg-gray-100 rounded-md transition-colors duration-300 leading-none cursor-pointer mb-2">{category}</p>
+    <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mx-0 md:mx-10">
+    <div className="col-span-1 md:col-span-1 pt-2 hidden lg:block bg-[#F1EEEE]">
+      {categories?.slice(0,15).map((category: any) => (
+        <NextLink href={`/category/${category.name}`} as={`/category/${category.name}`} key={category._id}>
+
+          <p className="text-gray-500 font-medium text-md  px-4 py-1.5 bg-[#F1EEEE] hover:bg-orange hover:text-white rounded-md transition-colors duration-300 leading-none cursor-pointer mb-2">{category.name}</p>
+  
         </NextLink>
       ))}
-      <p className="text-orange-500 font-bold text-lg px-4 py-3 bg-white hover:bg-gray-100 rounded-md transition-colors duration-300 leading-none cursor-pointer">All Categories</p>
+      <NextLink href="categories"> 
+      <p className="text-orange-500 font-bold text-lg px-4 py-3 bg-[#F1EEEE] hover:bg-orange hover:text-white rounded-md transition-colors duration-300 leading-none cursor-pointer">All Categories</p>
+      </NextLink>
     </div>
     <div className="col-span-1 md:col-span-4 relative">
       <ImageSlider
@@ -72,11 +74,3 @@ function HeroSection() {
 }
 
 export default HeroSection;
-
-
-
-
-
-
-
-import HeroImage from "/public/assets/hero.png";

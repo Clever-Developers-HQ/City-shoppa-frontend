@@ -1,6 +1,8 @@
 /* eslint-disable react/no-unescaped-entities */
 import { useState } from "react";
 import { EyeIcon, EyeOffIcon } from "@heroicons/react/solid";
+import NavBar from "@/components/navigation/NavBar";
+import Link from "next/link";
 
 export default function SignInPage() {
   const [email, setEmail] = useState("");
@@ -17,6 +19,8 @@ export default function SignInPage() {
   };
 
   return (
+    <>
+      <NavBar />
     <div className="min-h-screen flex justify-center items-center">
       <div className="w-full max-w-md rounded-[42px] shadow-[0_35px_130px_-65px_rgb(248,86,6)] p-10 bg-white">
         <div className="flex flex-col justify-center items-center">
@@ -64,7 +68,7 @@ export default function SignInPage() {
           <div className="flex flex-col items-center justify-between">
             <button
               type="submit"
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              className="bg-blue-500 hover:bg-primary text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               style={{
                 backgroundColor: "#f85606",
               }}
@@ -72,20 +76,22 @@ export default function SignInPage() {
               Sign Up
             </button>
             <div className="ml-4">
+              <Link href="/login">
               <span className="text-gray-600">Already have an account?</span>
-              <a
-                href="/login"
-                className="text-blue-500 hover:text-blue-700 ml-2"
+              <div
+                className="text-blue-500 hover:text-primary ml-2"
                 style={{
                   color: "#f85606",
-                }}
+                }} 
               >
                 Sign in
-              </a>
+              </div>
+              </Link>
             </div>
           </div>
         </form>
       </div>
     </div>
+    </>
   );
 }

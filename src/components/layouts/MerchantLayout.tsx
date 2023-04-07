@@ -3,23 +3,25 @@ import {AiFillBell, AiOutlineSearch, AiOutlineHome, AiFillFileAdd} from 'react-i
 import {MdOutlineProductionQuantityLimits, MdPayment, MdCancel, MdMenu} from 'react-icons/md';
 import {RiShoppingBagFill,RiCoupon2Fill} from 'react-icons/ri';
 import {TbDeviceAnalytics} from 'react-icons/tb';
+import {IoMdCheckmarkCircle} from 'react-icons/io';
 import Image from 'next/image';
 import Logo from '../../assets/images/city-shoppa-logo.png'
-
 import { Fragment, useState } from 'react'
 import { Dialog, Menu, Transition } from '@headlessui/react'
+import NextLink from 'next/link';
+
 
 const navigation = [ 
-  { name: 'Post New Product', href: '#', icon: <AiFillFileAdd size='20'/>, current: true },
+  { name: 'Post New Product', href: '/merchant/post_product', icon: <AiFillFileAdd size='20'/>, current: false },
   { name: 'Activate User Coupon', href: '/merchant/coupons', icon: <RiCoupon2Fill size={20}/>,  current: false },
   { name: 'Product List', href: '/merchant/products', icon: <MdOutlineProductionQuantityLimits size='20'/>,  current: false },
   { name: 'Number of Visitors', href: '/merchant/visitors', icon: <TbDeviceAnalytics size='20'/>, current: false },
   { name: 'Completed Orders', href: '/merchant/orders', icon: <RiShoppingBagFill size='20'/>,  current: false },
   { name: 'Subscriptions', href: '/merchant/subscriptions', icon: <MdPayment size='20'/>, current: false },
+  { name: 'Claimed Coupon', href: '/merchant/claimed', icon: <IoMdCheckmarkCircle size='20'/>, current: false },
 ]
 const userNavigation = [
   { name: 'Your Profile', href: '#' },
-  { name: 'Settings', href: '#' },
   { name: 'Sign out', href: '#' },
 ]
 
@@ -36,14 +38,6 @@ export default function MerchantLayout({children, title}: any) {
 
   return (
     <>
-      {/*
-        This example requires updating your template:
-
-        ```
-        <html class="h-full bg-gray-100">
-        <body class="h-full">
-        ```
-      */}
       <div>
         <Transition.Root show={sidebarOpen} as={Fragment}>
           <Dialog as="div" className="fixed inset-0 flex z-40 md:hidden" onClose={setSidebarOpen}>
@@ -103,12 +97,12 @@ export default function MerchantLayout({children, title}: any) {
                 <div className="mt-5 flex-1 h-0 overflow-y-auto">
                   <nav className="px-2 space-y-1">
                     {navigation.map((item) => (
-                      <a
+                      <NextLink
                       onClick={() => item.current === true}
                         key={item.name}
                         href={item.href}
                         className={classNames(
-                          item.current ? 'bg-indigo-800 text-white' : 'text-indigo-100 hover:bg-indigo-600',
+                          item.current ? 'bg-orange text-white' : 'text-indigo-100 hover:bg-orange',
                           'group flex items-center px-2 py-2 text-base font-medium rounded-md'
                         )}
                       >
@@ -119,7 +113,7 @@ export default function MerchantLayout({children, title}: any) {
                         </div>
               
                         {item.name}
-                      </a>
+                      </NextLink>
                     ))}
                   </nav>
                 </div>
@@ -146,11 +140,11 @@ export default function MerchantLayout({children, title}: any) {
             <div className="mt-5 flex-1 flex flex-col">
               <nav className="flex-1 px-2 pb-4 space-y-1">
                 {navigation.map((item) => (
-                  <a
+                  <NextLink
                     key={item.name}
                     href={item.href}
                     className={classNames(
-                      item.current ? 'bg-indigo-800 text-white' : 'text-indigo-100 hover:bg-indigo-600 active:text-black',
+                      item.current ? 'bg-indigo-800 text-white' : 'text-indigo-100 hover:bg-orange active:text-black',
                       'group flex items-center px-2 py-2 text-sm font-medium rounded-md'
                     )}
                   >
@@ -160,7 +154,7 @@ export default function MerchantLayout({children, title}: any) {
                     {item.icon}
                     </span>
                     {item.name}
-                  </a>
+                  </NextLink>
                 ))}
               </nav>
             </div>
@@ -170,7 +164,7 @@ export default function MerchantLayout({children, title}: any) {
           <div className="sticky top-0 z-10 flex-shrink-0 flex h-16 bg-white shadow">
             <button
               type="button"
-              className="px-4 border-r border-gray-200 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 md:hidden"
+              className="px-4 border-r border-gray-200 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-orange md:hidden"
               onClick={() => setSidebarOpen(true)}
             >
               <span className="sr-only">Open sidebar</span>

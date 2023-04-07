@@ -1,6 +1,6 @@
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import { mart, responsive } from "../data";
+import { mart, responsive } from "../Data";
 import MartProducts from "./MartProducts";
 
 export default function Mart() {

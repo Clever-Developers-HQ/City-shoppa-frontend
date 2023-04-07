@@ -67,7 +67,7 @@ function  Coupons() {
                 {
                     coupon.isActivated ? (
                         <button
-                        className="bg-gray-400 p-2 text-white roundedm cursor-none"
+                        className="bg-gray-400 p-2 text-white rounded cursor-none"
                        >
                           Activated
                        </button>
