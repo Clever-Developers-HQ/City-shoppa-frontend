@@ -46,10 +46,10 @@ export default function NavModal() {
       cursor: "pointer",
       "&:hover": {
         background:
-          "radial-gradient(65.28% 65.28% at 26.39% 20.83%, rgba(255, 255, 255, 0.413) 0%, rgba(255, 255, 255, 0) 69.79%, rgba(255, 255, 255, 0) 100%), #7551E9",
+        "radial-gradient(65.28% 65.28% at 26.39% 20.83%, rgba(255, 255, 255, 0.413) 0%, rgba(255, 255, 255, 0) 69.79%, rgba(255, 255, 255, 0) 100%), #FF7235",
         width: "6rem",
         height: "2.25rem",
-        borderRadius: "3rem",
+        borderRadius: "0rem",
         border: "none",
         padding: "0.rem 1.7rem",
         fontSize: "0.8rem",
