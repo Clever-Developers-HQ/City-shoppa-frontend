@@ -42,7 +42,7 @@ export default function AddNewFeaturesModal({
     }
   };
 
-  console.log(images[0]?.data_url, "THE IMAGES");
+  console.log(images[0]?.file);
 
   return (
     <ModalLayout open={open} setOpen={setOpen} title="Add New Features">
@@ -54,16 +54,16 @@ export default function AddNewFeaturesModal({
         })}
         onSubmit={async (values: any, { setSubmitting }) => {
           validateImage();
-          const image = images[0]?.data_url;
+          const image = images;
 
-          console.log("dispatched")
+          console.log(token, "dispatched")
           const resultAction = await dispatch(
             createFeatureAction({ token, image })
           );
 
           const result = unwrapResult(resultAction);
           if (result.user) {
-            showSuccess("User Created Successfully");
+            showSuccess("Feature Created Successfully");
             setIsUpdated(true);
             setOpen(false);
           } else {

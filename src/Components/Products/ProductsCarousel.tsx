@@ -3,15 +3,22 @@ import "react-multi-carousel/lib/styles.css";
 import Product from "./Product";
 import { beauty, responsive } from "./Data";
 
-export default function App() {
-  const product = beauty.map((item) => (
+export default function App({products}: any ) {
+
+  console.log(products, "THE FILTEREDF PRODUCTS")
+ 
+ const theProducts = products?.map((item: any) => (
     <Product
-      key={item.id}
-      imageurl={item.imageurl}
-      name={item.name}
-      price={item.price}
+      key={item._id}
+      imageurl={item.mainImage}
+      name={item.product_name}
+      price={item.product_price}
       Discountprice={item.Discountprice}
       description={item.description}
+      images= {item.images}
+      id={item._id}
+      categoryId = {item.category_id}
+      merchantId =  {item.merchant_id}
     />
   ))
 
@@ -30,7 +37,7 @@ export default function App() {
         infinite={true}
         responsive={responsive}
       >
-        {product}
+        {theProducts}
       </Carousel>
     </div>
   );

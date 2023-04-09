@@ -12,8 +12,8 @@ export interface RegisterMerchantProps {
 }
 
 export interface MerchantProps {
-    id: string,
-    token: string,
+    id: any,
+    token: any,
 }
 
 export interface UpdateMerchantProps {

@@ -31,6 +31,15 @@ import deleteFeatureReducer from "./Features/feature/deleteFeatureSlice"
 import createFeatureReducer from "./Features/feature/createFeatureSlice";
 
 import getOrdersReducer from "./Features/order/getOrdersSlice";
+import getOrderReducer from "./Features/order/getOrderSlice";
+import createOrderReducer from "./Features/order/createOrderSlice"
+
+import getProductReducer from './Features/product/getProductSlice'
+
+import getDisputes from './Features/dispute/getDisputesSlice'
+import updateDispute from './Features/dispute/updateDisputeSlice'
+import createDispute from './Features/dispute/createDisputeSlice'
+
 
 export {
     // MERCHANTS 
@@ -75,6 +84,7 @@ export {
 
     //PRODUCTS
     getProductsReducer,
+    getProductReducer,
 
 
     //FEATURES
@@ -85,8 +95,16 @@ export {
 
 
     // ORDERS
+    getOrdersReducer,
+    getOrderReducer,
+    createOrderReducer,
 
-    getOrdersReducer
+
+    // DISPUTES
+    updateDispute,
+    createDispute,
+    getDisputes,
+
     
 }
 

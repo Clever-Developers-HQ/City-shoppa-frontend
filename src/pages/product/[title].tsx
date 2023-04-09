@@ -3,12 +3,48 @@ import DiscountedProducts from "@/components/ProductDetails/DiscountedProducts";
 import ImageSlider from "@/components/ProductDetails/ImageSlider";
 import Quantity from "@/components/ProductDetails/Quantity";
 import SellerModal from "@/components/ProductDetails/SellerModal";
-// import Footer
-import React, { useState } from "react";
+import Footer from "@/components/footer/Footer"
+import React, { useState, useEffect } from "react";
+import { useRouter } from 'next/router'
+import { useDispatch, useSelector } from 'react-redux';
+import { getMerchantAction } from '../../redux/Features/merchant/getMerchantSlice';
+import {getProductAction} from '../../redux/Features/product/getProductSlice';
+import { RootState } from "@/redux/store";
 
 const ProductDetails = () => {
+  const dispatch = useDispatch();
+
   const [selectedSize, setSelectedSize] = useState();
   const [showError, setShowError] = useState(false);
+
+
+  //GET THE ID FROM ROUTER QUERY 
+  const token = "NO TOKEN"
+
+  const router = useRouter();
+
+  const {merchant, id}:any = router.query
+
+
+
+
+  const {product } = useSelector(
+    (store: RootState) => store.getProduct
+  );
+  console.log(product, "IN STATE")
+
+  useEffect(() => {
+
+    // const {merchant, id} = router.query
+
+    if (id && merchant) {
+      // dispatch(getMerchantAction({id : merchant, token}))
+      // dispatch(getProductAction(id))
+    }
+  
+
+  }, [id, merchant, dispatch])
+
 
   return (
     <>
@@ -62,6 +98,8 @@ const ProductDetails = () => {
       <div>
               <DiscountedProducts/>
             </div>
+
+            <Footer/>
     </>
   );
 };

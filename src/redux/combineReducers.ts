@@ -44,6 +44,7 @@ import {
 
     // PRODUCTS
     getProductsReducer,
+    getProductReducer,
 
     //FEATURES
     getFeaturesReducer,
@@ -53,6 +54,11 @@ import {
 
     // ORDERS
     getOrdersReducer,
+
+    // DISPUTES
+    updateDispute,
+    createDispute,
+    getDisputes,
 
 } from './combineImports'
 
@@ -104,6 +110,7 @@ const reducers = combineReducers({
 
     // PRODUCTS
     getProducts : getProductsReducer,
+    getProduct : getProductReducer,
 
 
     //FEATURES REDUCERS
@@ -115,6 +122,10 @@ const reducers = combineReducers({
     //ORDERS REDUCERS
     getOrders: getOrdersReducer,
 
+    // DISPUTE REDUCERS
+    updateDispute: updateDispute,
+    createDispute: createDispute,
+    getDisputes: getDisputes,
 })
 
 export { reducers };

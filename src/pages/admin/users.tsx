@@ -134,7 +134,7 @@ function Users() {
                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{user.email}</td>
                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{user.status}</td>
                         {
-                          user.isActive === true ? (
+                          user.isDisabled === false ? (
                               <td className="whitespace-nowrap px-3 py-4 text-sm text-[#31AB5B]">Active</td>
                           ) : (
                               <td className="whitespace-nowrap px-3 py-4 text-sm text-[#FF0000]">Disabled</td>

@@ -34,7 +34,7 @@ function Features() {
       dispatch(getFeaturesAction(""))
     }
 
-  }, [token])
+  }, [token, dispatch])
 
   const {loading, features, message, error} = useSelector(
     (store: RootState) => store.getFeatures
@@ -64,7 +64,7 @@ function Features() {
   return (
     <div>
       {addFeatures && (
-        <AddNewFeaturesModal token="hshshs" setIsUpdated={setIsUpdated} open={addFeatures} setOpen={setAddFeatures} />
+        <AddNewFeaturesModal token={token} setIsUpdated={setIsUpdated} open={addFeatures} setOpen={setAddFeatures} />
       )}
 
       {editFeatures && (

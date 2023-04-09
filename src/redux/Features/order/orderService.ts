@@ -3,9 +3,9 @@ import axios from "axios";
 
 
 interface CreateOrder {
-    token: string;
     products: string;
     quantity: any
+    userId: string
 }
 
 
@@ -25,7 +25,7 @@ const getOrders = async (token: string): Promise<{}> => {
   }
 
 
-    const createOrder = async ({ token, products, quantity }: CreateOrder) => {
+    const createOrder = async ({products, quantity, userId, token }: CreateOrder) => {
     const config = {
       headers: {
         "Content-Type": "application/json",
@@ -33,16 +33,30 @@ const getOrders = async (token: string): Promise<{}> => {
       },
     };
 
-    const { data } = await axios.post(`${API_BASEURL}/order/add`, { products, quantity }, config);
+    const { data } = await axios.post(`${API_BASEURL}/order/add`, { products, quantity, userId}, config);
     return data;
     }
 
+
+    const getOrder = async (id:string) => {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          // Authorization: `Bearer ${token}`,
+        },
+      };
+  
+      const { data } = await axios.get(`${API_BASEURL}/order/${id}`, config);
+      return data;
+      }
+  
 
 
 
   const orderService = {
     getOrders,
-    createOrder
+    createOrder,
+    getOrder
   }
   
   export default orderService
