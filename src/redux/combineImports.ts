@@ -35,6 +35,7 @@ import getOrderReducer from "./Features/order/getOrderSlice";
 import createOrderReducer from "./Features/order/createOrderSlice"
 
 import getProductReducer from './Features/product/getProductSlice'
+import createProductReducer from './Features/product/getProductSlice'
 
 import getDisputes from './Features/dispute/getDisputesSlice'
 import updateDispute from './Features/dispute/updateDisputeSlice'
@@ -85,6 +86,7 @@ export {
     //PRODUCTS
     getProductsReducer,
     getProductReducer,
+    createProductReducer,
 
 
     //FEATURES

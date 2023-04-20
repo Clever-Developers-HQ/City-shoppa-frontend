@@ -16,11 +16,11 @@ const initialState: any = {
 export const getCategoriesAction  = createAsyncThunk(
     "/getCategoriesAction",
     async (
-        _,
+        token: string,
         thunkAPI,
     ) => {
         try {
-            return await categoryservice.getCategories();
+            return await categoryservice.getCategories(token);
         } catch (error: any) {
             const message =
                 (error.response &&
@@ -52,11 +52,13 @@ export const getCategoriesSlice = createSlice({
             .addCase(getCategoriesAction.pending, (state) => {
                 state.loading = true;
             })
+            
             .addCase(getCategoriesAction.fulfilled, (state, action) => {
                 state.loading = false;
                 state.success = true;
-                state.categories = action.payload.category;
+                state.categories = action.payload;
             })
+
             .addCase(getCategoriesAction.rejected, (state, action) => {
                 state.loading = false;
                 state.error = true;
@@ -65,7 +67,6 @@ export const getCategoriesSlice = createSlice({
             });
     },
 });
-
 // Action creators are generated for each case reducer function
 export const { reset } = getCategoriesSlice.actions;
 

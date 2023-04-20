@@ -45,6 +45,7 @@ import {
     // PRODUCTS
     getProductsReducer,
     getProductReducer,
+    createProductReducer,
 
     //FEATURES
     getFeaturesReducer,
@@ -111,6 +112,7 @@ const reducers = combineReducers({
     // PRODUCTS
     getProducts : getProductsReducer,
     getProduct : getProductReducer,
+    createProduct : createProductReducer, 
 
 
     //FEATURES REDUCERS

@@ -1,83 +1,182 @@
-import { Fragment, useRef, useState } from "react";
+import { Fragment, useRef, useState, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import FileUpload from "@/components/inputs/FileUpload";
 import SelectInput from "@/components/inputs/SelectMenu";
+import InputField from "@/components/inputs/InputField";
+import ModalLayout from "@/components/layouts/ModalLayout";
+import { Formik, ErrorMessage } from "formik";
+import SubmitBtn from "@/components/buttons/submitBtn";
+import CancelBtn from "@/components/buttons/cancelButton";
+import { showSuccess, showError } from "@/components/Utils/AlertMsg";
+import { unwrapResult } from "@reduxjs/toolkit";
+import { uploadFile, multipleUploadFile } from "@/components/Utils/cloudinaryUpload";
+import * as Yup from "yup";
+import {createProductAction} from "@/redux/Features/product/createProductSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/redux/store";
+
+
 
 interface ModalProps {
   open: boolean;
   setOpen: any;
+  setIsUpdated: any;
+  token: string;
 }
 
-export default function AddNewProductModal({ open, setOpen }: ModalProps) {
-  const cancelButtonRef = useRef(null);
-  const [images, setImages] = useState([]);
-  const [productData, setProductData] = useState<any>({});
+export default function AddNewProductModal({ open, setOpen, token, setIsUpdated }: ModalProps) {
+  let [images, setImages] = useState<any>([]);
+  const [id, setId] = useState<any>("")
+  const [uploading, setUploading] = useState(false)
+
+
+  const dispatch = useDispatch<AppDispatch>();
+
+  const {loading, product, message, } = useSelector(
+    (store: RootState) => store.createProduct
+  );
+  console.log(loading, message, "THGE STATES")
+
+  useEffect(() => {
+    //Get the user id  from objectdata from local Storage
+    const user_id = JSON.parse(localStorage.getItem("user") || "{}")._id;
+    setId(user_id)
+  }, [id])
 
   return (
-    <Transition.Root show={open} as={Fragment}>
-      <Dialog
-        as="div"
-        className="fixed z-10 inset-0 overflow-y-auto"
-        initialFocus={cancelButtonRef}
-        onClose={() => setOpen(true)}>
-        <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0">
-            <Dialog.Overlay className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
-          </Transition.Child>
-          <span
-            className="hidden sm:inline-block sm:align-middle sm:h-screen"
-            aria-hidden="true">
-            &#8203;
-          </span>
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-            enterTo="opacity-100 translate-y-0 sm:scale-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100 translate-y-0 sm:scale-100"
-            leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
-            <div className="relative w-full inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
+    <ModalLayout open={open} setOpen={setOpen} title="Add New Product">
+      <Formik
+        initialValues={{
+          product_name: "",
+          description: "",
+          product_price: "",
+          category_id: "",
+          product_images: [],
+          discount: "",
+          brand: "",
+          qty: "",
+        }}
+        validationSchema={Yup.object({
+          product_name: Yup.string().required("Product Name Is Required"),
+          qty: Yup.number().required("Quantity Is Required"),
+          product_price: Yup.number().required("Product Price Is required"),
+          discount: Yup.number()
+            .required("Discount Is Required")
+            .test(
+              "is-number",
+              "Discount must be a number",
+              (value) => !isNaN(value)
+            )
+            .test(
+              "max-value",
+              "Discount must be less than or equal to 100",
+              (value) => Number(value) <= 100
+            ),
+
+          description: Yup.string().required("Product description Is Required"),
+
+          category_id: Yup.string().required("Category Is Required"),
+        })}
+        onSubmit={async (values: any, { setSubmitting }) => {
+
+          const product_name = values.product_name
+          const product_price = values.product_price
+          const discount = values.discount
+          const description = values.description
+          const category_id = values.category_id
+          const qty = values.qty
+          const brand = values.brand
+
+          if (images.length === 0) {
+            return showError("Missing Product Images ");
+          }
+      
+          //Check if the images array is greater than 5
+          if (images.length > 4) {
+            return showError("Ensure Product Image Is Not Greater Than 4");
+          }
+
+          const results :any = [];
+          //Upload every images in the array by calling the uploadFile function
+          setUploading(true)
+          images.forEach(async (image: any) => {
+
+            const result = await uploadFile(image.data_url);
+            results.push(result);
+          if (results.length === images.length) {
+            setUploading(false)
+            const resultAction = await dispatch(createProductAction({
+              product_price, 
+              product_name, 
+              discount, qty, 
+              brand, 
+              category_id,
+              description, 
+              token,
+              merchant_id: id,
+              mainImage: results[0],
+              imageTop: results[1] || "",
+              imageBack: results[2] || "",
+              imageSide: results[3] || "",
+            }))
+          const result = unwrapResult(resultAction);
+          if (result.product) {
+            showSuccess(result.status)
+            setIsUpdated(true)
+            setOpen(false)
+          }
+          } 
+          });
+        }}>
+        {({ values, handleChange, handleBlur, handleSubmit, isSubmitting }) => (
+          <form onSubmit={handleSubmit}>
+            <div className="relative w-full inline-block align-bottom rounded-lg px-2  text-left overflow-hidden transform transition-all sm:align-middle sm:max-w-lg sm:w-full ">
               <div>
                 <div className="mt-3 text-center sm:mt-5">
-                  <Dialog.Title
-                    as="h3"
-                    className="text-lg leading-6 font-medium text-gray-900">
-                    <div className="row  items-center justify-center ">
-                      <p>Add New Product </p>
-                    </div>
-                  </Dialog.Title>
                   <div className="mt-2">
                     <SelectInput
                       label="Category"
-                      name="category"
+                      name="category_id"
+                      value={values.category}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
                     />
 
-                    <div>
-                      <label
-                        htmlFor="city"
-                        className="block text-sm text-left font-medium text-gray-700 py-3">
-                        Product Name
-                      </label>
-                      <input
-                        type="text"
-                        name="product name"
-                        id="product name"
-                        className="shadow-sm focus:ring-primary focus:border-primary block w-full border-gray-300 sm:text-sm rounded-md p-2"
+                    <InputField
+                      name="product_name"
+                      id="product_name"
+                      label="Product Name"
+                      value={values.product_name}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+
+                    <div className="w-full flex items-center">
+                      <div className="w-72">
+                        <InputField
+                          name="brand"
+                          id="brand"
+                          label="Brand"
+                          value={values.brand}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                        />
+                      </div>
+
+                      <InputField
+                        name="qty"
+                        id="qty"
+                        label="Quantity"
+                        value={values.qty}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
                       />
                     </div>
 
                     <div className="w-full flex justify-between items-center">
                       <div>
                         <label
-                          htmlFor="city"
+                          htmlFor="product_price"
                           className="block text-sm text-left font-medium text-gray-700 py-3">
                           Product Price
                         </label>
@@ -87,8 +186,10 @@ export default function AddNewProductModal({ open, setOpen }: ModalProps) {
                           </div>
                           <input
                             type="text"
-                            name="price"
-                            id="price"
+                            name="product_price"
+                            id="product_price"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
                             className="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
                             placeholder="0.00"
                           />
@@ -105,6 +206,9 @@ export default function AddNewProductModal({ open, setOpen }: ModalProps) {
                             </select>
                           </div>
                         </div>
+                        <div className="text-orange text-sm italic text-start text">
+                          <ErrorMessage name="product_price" />
+                        </div>
                       </div>
                       <div className="w-40">
                         <div>
@@ -117,8 +221,13 @@ export default function AddNewProductModal({ open, setOpen }: ModalProps) {
                             type="text"
                             name="discount"
                             id="discount"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
                             className="shadow-sm focus:ring-primary focus:border-primary block w-full border-gray-300 sm:text-sm rounded-md p-2"
                           />
+                        </div>
+                        <div className="text-orange text-sm italic text-start text">
+                          <ErrorMessage name="discount" />
                         </div>
                       </div>
                     </div>
@@ -133,9 +242,15 @@ export default function AddNewProductModal({ open, setOpen }: ModalProps) {
                         rows={5}
                         name="description"
                         id="description"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
                         className="shadow-sm focus:ring-primary focus:border-primary block w-full sm:text-sm border-gray-300 rounded-md"
                         placeholder="Describe your product"
                       />
+
+                      <div className="text-orange text-sm italic text-start text">
+                        <ErrorMessage name="description" />
+                      </div>
                     </div>
 
                     <div className="w-full my-5">
@@ -149,25 +264,16 @@ export default function AddNewProductModal({ open, setOpen }: ModalProps) {
                   </div>
                 </div>
               </div>
-              <div className="mt-5 sm:mt-6 sm:grid sm:grid-cols-2 sm:gap-3 sm:grid-flow-row-dense">
-                <button
-                  type="button"
-                  className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-secondary text-base font-medium text-white hover:bg-primary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:col-start-2 sm:text-sm"
-                  onClick={() => setOpen(false)}>
-                  Publish
-                </button>
-                <button
-                  type="button"
-                  className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary sm:mt-0 sm:col-start-1 sm:text-sm"
-                  onClick={() => setOpen(false)}
-                  ref={cancelButtonRef}>
-                  Cancel
-                </button>
-              </div>
             </div>
-          </Transition.Child>
-        </div>
-      </Dialog>
-    </Transition.Root>
+            <div className="mt-5 sm:mt-6 sm:grid sm:grid-cols-2 sm:gap-3 sm:grid-flow-row-dense">
+              <SubmitBtn disabled={isSubmitting} text={uploading ? "Processing, Please Wait": "Add Product"} />
+              <CancelBtn text="Cancel" setOpen={() => setOpen(false)} />
+            </div>
+
+            {/* {loading && <Loader />} */}
+          </form>
+        )}
+      </Formik>
+    </ModalLayout>
   );
 }

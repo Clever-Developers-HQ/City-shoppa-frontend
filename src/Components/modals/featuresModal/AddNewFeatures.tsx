@@ -3,7 +3,6 @@ import { Dialog, Transition } from "@headlessui/react";
 import FileUpload from "@/components/inputs/FileUpload";
 import * as Yup from "yup";
 import ModalLayout from "@/components/layouts/ModalLayout";
-import InputField from "@/components/inputs/InputField";
 import SubmitBtn from "@/components/buttons/submitBtn";
 import CancelBtn from "@/components/buttons/cancelButton";
 import { createFeatureAction } from "@/redux/Features/feature/createFeatureSlice";
@@ -12,6 +11,7 @@ import { unwrapResult } from "@reduxjs/toolkit";
 import { ErrorMessage, Formik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
+import {uploadFile} from "@/components/Utils/cloudinaryUpload"
 
 interface ModalProps {
   open: boolean;
@@ -26,8 +26,10 @@ export default function AddNewFeaturesModal({
   setIsUpdated,
   token,
 }: ModalProps) {
+  
   let [images, setImages] = useState<any>([]);
   const [error, setError] = useState("");
+  const [isUploaded, setIsUploaded] = useState(false)
 
   const dispatch = useDispatch<AppDispatch>();
 
@@ -42,27 +44,25 @@ export default function AddNewFeaturesModal({
     }
   };
 
-  console.log(images[0]?.file);
-
   return (
     <ModalLayout open={open} setOpen={setOpen} title="Add New Features">
       <Formik
         initialValues={{ image: "" }}
         validationSchema={Yup.object({
-          // image: Yup.string()
-          //   .required('Ensure Feature Image Is Uploaded'),
         })}
         onSubmit={async (values: any, { setSubmitting }) => {
           validateImage();
-          const image = images;
-
-          console.log(token, "dispatched")
+          const image = images[0]?.data_url;
+          setIsUploaded(true)
+         const uploaded = await uploadFile(image);
+         if (uploaded) {
+          setIsUploaded(false)
           const resultAction = await dispatch(
-            createFeatureAction({ token, image })
+            createFeatureAction({ token, image:uploaded })
           );
 
           const result = unwrapResult(resultAction);
-          if (result.user) {
+          if (result.feature) {
             showSuccess("Feature Created Successfully");
             setIsUpdated(true);
             setOpen(false);
@@ -70,6 +70,12 @@ export default function AddNewFeaturesModal({
             showError(result.status);
             setSubmitting(false);
           }
+         } else {
+            showError("Error Uploading Image")
+            setIsUploaded(false)
+         }
+
+
         }}>
         {({
           values,
@@ -104,7 +110,10 @@ export default function AddNewFeaturesModal({
             </div>
 
             <div className="mt-5 sm:mt-6 sm:grid sm:grid-cols-2 sm:gap-3 sm:grid-flow-row-dense">
-              <SubmitBtn disabled={isSubmitting} text={loading? "Please Wait....." : "Add Features" }/>
+              {
+                isUploaded === true ?  <SubmitBtn disabled={isSubmitting} text="Uploading..."/> :<SubmitBtn disabled={isSubmitting} text={loading? "Please Wait....." : "Add Features" }/>
+
+              }
               <CancelBtn text="Cancel" setOpen={() => setOpen(false)} />
             </div>
           </form>

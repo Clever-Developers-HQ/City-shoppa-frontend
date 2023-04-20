@@ -4,6 +4,8 @@ import bgImg from "../../../public/assets/reg.png";
 import logo from "../../../public/assets/cityshoppa.png";
 import { Path, useForm, UseFormRegister, SubmitHandler } from "react-hook-form";
 import Image from "next/image";
+import NavBar from "@/components/navigation/NavBar";
+import Footer from "@/components/footer/Footer";
 
 interface IFormValues {
   "First Name": string;
@@ -25,6 +27,12 @@ type InputProps = {
   required: boolean;
 };
 
+//Get UserDetails From Local Storage 
+
+const user = JSON.parse(localStorage.getItem('user') || '{}')
+
+
+
 export default function Form() {
   const {
     register,
@@ -44,6 +52,8 @@ export default function Form() {
   );
 
   return (
+    <>
+    <NavBar/>
     <section
       style={{
         display: "flex",
@@ -64,23 +74,24 @@ export default function Form() {
             }}
           >
             <Image src={bgImg} alt="bg" />
-            <h2
+            <h3
               style={{
                 position: "absolute",
-                top: "20%",
+                top: "30%",
                 left: "50%",
                 transform: "translate(-50%, -50%)",
-                fontSize: "4rem",
+                fontSize: "3rem",
                 marginTop: "30px",
                 fontWeight: "bold",
                 color: "#f85606",
                 cursor: "pointer",
                 zIndex: "1px",
+                textAlign: 'center'
               }}
-              className="logintext"
+              className="logintext md:block hidden"
             >
-              Login<span style={{ color: "#fff" }}>in</span>
-            </h2>
+              Become A <span style={{ color: "#fff" }}>Merchant</span>
+            </h3>
             <Image
               src={logo}
               alt="logo"
@@ -99,19 +110,10 @@ export default function Form() {
           </div>
         </div>
         <div className="col-1">
-          <span
-            style={{
-              fontSize: "0.9rem",
-              fontWeight: 400,
-              color: "#333",
-            }}
-          >
-            Register on Cityshoppa and enjoy the service
-          </span>
 
           <form
             id="form"
-            className="flex flex-col"
+            className="flex flex-col w-full"
             onSubmit={handleSubmit(onSubmit)}
           >
             <h6 style={{marginBottom: '-0.5rem'}}>Name</h6>
@@ -127,12 +129,7 @@ export default function Form() {
               {...register("businessname")}
               placeholder="Business Name"
             />
-             <h6 style={{marginBottom: '-0.5rem'}}>Company Name</h6>
-            <input
-              type="text"
-              {...register("companyname")}
-              placeholder="Company Name"
-            />
+            
              <h6 style={{marginBottom: '-0.5rem'}}>Address</h6>
             <input type="text" {...register("address")} placeholder="Address" />
             <h6 style={{marginBottom: '-0.5rem'}}>Website</h6>
@@ -151,5 +148,7 @@ export default function Form() {
         </div>
       </div>
     </section>
+    <Footer />
+    </>
   );
 }

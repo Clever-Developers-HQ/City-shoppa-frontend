@@ -5,6 +5,7 @@ import {GiShoppingCart}  from 'react-icons/gi'
 import OrdersCard from '@/components/cards/ordersCard'
 import DisputeModal from '@/components/modals/disputeModal'
 import SubmitBtn from '@/components/buttons/submitBtn'
+// import {userTokenAuthentication}
 
 
 
@@ -21,7 +22,7 @@ function Orders() {
   return (
     <>
 
-    {createDispute && <DisputeModal open={createDispute} setOpen={setCreateDispute      } />}
+    {createDispute && <DisputeModal open={createDispute} setOpen={setCreateDispute} />}
     <NavBar />
     <div className="md:mx-10 mx-5">
 
@@ -81,6 +82,9 @@ function Orders() {
  
     <div className=" p-4 mt-3 bg-secondary rounded">
         <p className="mb-3 text-white">Pending Orders </p>
+        {/* //Check if the order status is pending */}
+
+
     <OrdersCard  orders={[]} />
     </div>
 

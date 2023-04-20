@@ -4,7 +4,7 @@ import productService, {AddProductProps } from './productServices'
 
 
   const initialState: any = {
-    Product: null,
+    product: null,
     loading: false,
     coupon: null,
     error: false,
@@ -12,17 +12,16 @@ import productService, {AddProductProps } from './productServices'
     message: "",
   };
 
-
 //create Product
 export const createProductAction = createAsyncThunk(
     "/createProductAction",
     async (
-      { category_id, product_name, description, product_price, user_id, merchant_id, qty, token, brand, image, discount, imageTop, imageSide, imageBack}: AddProductProps,
+      { category_id, product_name, description, product_price, merchant_id, qty, token, brand, mainImage, discount, imageTop, imageSide, imageBack}: AddProductProps,
       thunkAPI
     ) => {
       try {
         return await productService.createProduct({
-            category_id, product_name, description, product_price, user_id, merchant_id, qty, token, brand, image, discount, imageTop, imageSide, imageBack
+            category_id, product_name, description, product_price, merchant_id, qty, token, brand, mainImage, discount, imageTop, imageSide, imageBack
         });
       } catch (error: any) {
         const message =
@@ -47,7 +46,7 @@ export const createProductAction = createAsyncThunk(
         state.error = false;
         state.success = false;
         state.message = "";
-        state.Product = null;
+        state.product = null;
         state.coupon = null;
       },
     },
@@ -59,16 +58,14 @@ export const createProductAction = createAsyncThunk(
         .addCase(createProductAction.fulfilled, (state, action) => {
           state.loading = false;
           state.success = true;
-          state.Product = action.payload.cart;
+          state.product = action.payload.product;
           state.message = action.payload.status;
-          state.coupon = action.payload.coupon
         })
         .addCase(createProductAction.rejected, (state, action) => {
           state.loading = false;
           state.error = true;
           state.message = action.payload ? action.payload : action.error.message;
-          state.Product = null;
-          state.coupon = null;
+          state.product = null;
         });
     },
   });

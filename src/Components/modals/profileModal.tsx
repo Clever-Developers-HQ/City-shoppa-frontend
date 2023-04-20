@@ -4,6 +4,12 @@ import { Dialog, Transition } from '@headlessui/react'
 import { HeartIcon, XIcon } from '@heroicons/react/outline'
 import { PencilIcon, PlusSmIcon } from '@heroicons/react/solid'
 import {FiEdit2} from 'react-icons/fi'
+import { AppDispatch, RootState } from "../../redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import Loader from '@/components/loader/Loader'
+
+
+
 interface ModalProps {
   open: boolean,
   setOpen: any,
@@ -15,6 +21,12 @@ export default function Profile({ open, setOpen}: ModalProps) {
   const [isEditEmail, setIsEditEmail] = useState(false)
   const [isEditPhone, setIsEditPhone] = useState(false)
   const [isEditPassword, setIsEditPassword] = useState(false)
+
+  //Get the iserDetails from Local Storage
+
+  const user = JSON.parse(localStorage.getItem('user') || '{}')
+
+  console.log(user, "THE DETAILS ")
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -93,7 +105,7 @@ export default function Profile({ open, setOpen}: ModalProps) {
                     <div>
                       <dl className="mt-2 divide-y divide-gray-200 border-t border-b border-gray-200">
                         <div className="flex flex-col justify-between py-3 text-sm font-medium">
-                          <dt className="text-gray-500">Username</dt>
+                          <dt className="text-gray-500">User Name</dt>
                           <div className= 'flex justify-between items-center'> 
                           {
                             isEditUserName=== true ? ( 
@@ -103,7 +115,7 @@ export default function Profile({ open, setOpen}: ModalProps) {
                               id="userName"
                               className="shadow-sm mt-2 mr-2 focus:ring-primary focus:border-primary block w-full border-gray-300 sm:text-sm rounded-md p-2"
                             />) : (
-                               <dd className="text-gray-900 mt-2">KayodeJegede75</dd> 
+                               <dd className="text-gray-900 mt-2">{user?.name}</dd> 
                             )
                           }
 
@@ -125,7 +137,7 @@ export default function Profile({ open, setOpen}: ModalProps) {
                               id="email"
                               className="shadow-sm mt-2 mr-2 focus:ring-primary focus:border-primary block w-full border-gray-300 sm:text-sm rounded-md p-2"
                             />) : (
-                               <dd className="text-gray-900 mt-2">marco65@gmail.com</dd> 
+                               <dd className="text-gray-900 mt-2">{user?.email}</dd> 
                             )
                           }
 
@@ -147,7 +159,7 @@ export default function Profile({ open, setOpen}: ModalProps) {
                               id="discount"
                               className="shadow-sm mt-2 mr-2 focus:ring-primary focus:border-primary block w-full border-gray-300 sm:text-sm rounded-md p-2"
                             />) : (
-                               <dd className="text-gray-900 mt-2">+1 (306) 115 - 4504 </dd> 
+                               <dd className="text-gray-900 mt-2">{user?.phone} </dd> 
                             )
                           }
 
@@ -178,8 +190,19 @@ export default function Profile({ open, setOpen}: ModalProps) {
                           className="cursor-pointer"/>}
                           </div>
                         </div>
+
+
                       </dl>
                     </div>
+
+                    <div className="flex justify-center hover:bg-orange text-white font-bold  items-center bg-primary px-4 py-3 rounded-xl">
+                    <button
+                    onClick = {() => console.log("LOGGED OUT")}
+                    type="button" >
+                          Log Out
+                        </button>
+                      </div>
+
                   </div>
                 </div>
               </div>

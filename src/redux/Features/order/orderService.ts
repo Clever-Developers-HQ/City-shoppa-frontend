@@ -2,10 +2,11 @@ import API_BASEURL from "constants";
 import axios from "axios";
 
 
-interface CreateOrder {
+interface CreateOrderProps {
     products: string;
     quantity: any
     userId: string
+    token: string
 }
 
 
@@ -25,7 +26,7 @@ const getOrders = async (token: string): Promise<{}> => {
   }
 
 
-    const createOrder = async ({products, quantity, userId, token }: CreateOrder) => {
+    const createOrder = async ({products, quantity, userId, token }: CreateOrderProps) => {
     const config = {
       headers: {
         "Content-Type": "application/json",

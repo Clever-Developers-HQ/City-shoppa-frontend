@@ -26,7 +26,7 @@ const ProductDetails = () => {
   const {merchant, id}:any = router.query
 
 
-
+  // window.scrollTo(0, 0)
 
   const {product } = useSelector(
     (store: RootState) => store.getProduct
@@ -34,7 +34,7 @@ const ProductDetails = () => {
   console.log(product, "IN STATE")
 
   useEffect(() => {
-
+    window.scrollTo(0, 0)
     // const {merchant, id} = router.query
 
     if (id && merchant) {

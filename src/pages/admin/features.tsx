@@ -13,6 +13,7 @@ import {deleteFeatureAction} from "@/redux/Features/feature/deleteFeatureSlice"
 import { AppDispatch, RootState } from "../../redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import {confirm} from '../../components/alert/confirm';
+// import {getFeatureAction} from '@/redux/Features/feature/getFeatureSlice'
 
 
 function Features() {
@@ -22,7 +23,7 @@ function Features() {
   const [addFeatures, setAddFeatures] = useState(false)
   const [isUpdated, setIsUpdated] = useState(false)
   const [loaded, setLoaded] = useState(false)
-
+  const [feature, setFeature] = useState<any>()
 
   const [token, setToken] = useState<any>("")
 
@@ -36,13 +37,18 @@ function Features() {
 
   }, [token, dispatch])
 
-  const {loading, features, message, error} = useSelector(
+  const {loading, features} = useSelector(
     (store: RootState) => store.getFeatures
   );
 
   if (isUpdated) {
     dispatch(getFeaturesAction(""))
     setIsUpdated(false)
+  }
+
+  const updateHandler = (feature: any) => {
+    setEditFeatures(true)
+    setFeature(feature)
   }
 
 
@@ -68,7 +74,7 @@ function Features() {
       )}
 
       {editFeatures && (
-        <EditFeaturesModal open={editFeatures} setOpen={setEditFeatures} />
+        <EditFeaturesModal feature={feature} token={token} open={editFeatures} setIsUpdated={setIsUpdated} setOpen={setEditFeatures} />
       )}
 
       {
@@ -162,7 +168,7 @@ function Features() {
                               <td className="whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                                 <div className="flex justify-between items-center">
                                   <span
-                                    onClick={() => setEditFeatures(true)}
+                                    onClick={() => updateHandler(feature)}
                                     className="text-gray-500 hover:text-indigo-900 cursor-pointer"
                                   >
                                     <MdOutlineModeEdit size="20" />

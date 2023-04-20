@@ -1,5 +1,6 @@
 import React from "react";
 import Link from 'next/link'
+import Image from "next/image";
 import { useRouter } from 'next/router'
 
 export default function ProductsCarousel(props: {
@@ -39,10 +40,12 @@ export default function ProductsCarousel(props: {
         }
       })}
     className="card">
-      <img
-        className="product--image"
+      <Image 
         src={props.imageurl}
-        alt="product image"
+        alt={props.name}
+        className="product--image"
+        width={500}
+        height={500}
       />
       <h2
         style={{

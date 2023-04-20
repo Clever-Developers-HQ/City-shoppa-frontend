@@ -1,128 +1,12 @@
+import React from 'react'
 
-const products = [
-  {
-    id: 1,
-    name: "Zebronics ZEB-JUKE BAR DOLBY ",
-    href: "#",
-    price: "$599",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-01.jpg",
-    imageAlt:
-      "Tall slender porcelain bottle with natural clay textured body and cork stopper.",
-  },
-  {
-    id: 2,
-    name: "Zebronics ZEB-JUKE BAR DOLBY ",
-    href: "#",
-    price: "$599",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-02.jpg",
-    imageAlt:
-      "Olive drab green insulated bottle with flared screw lid and flat top.",
-  },
-  {
-    id: 3,
-    name: "Zebronics ZEB-JUKE BAR DOLBY ",
-    href: "#",
-    price: "$599",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-03.jpg",
-    imageAlt:
-      "Person using a pen to cross a task off a productivity paper card.",
-  },
-  {
-    id: 4,
-    name: "Zebronics ZEB-JUKE BAR DOLBY ",
-    href: "#",
-    price: "$599",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-04.jpg",
-    imageAlt:
-      "Hand holding black machined steel mechanical pencil with brass tip and top.",
-  },
-  {
-    id: 5,
-    name: "Zebronics ZEB-JUKE BAR DOLBY ",
-    href: "#",
-    price: "$48",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-01.jpg",
-    imageAlt:
-      "Tall slender porcelain bottle with natural clay textured body and cork stopper.",
-  },
-  {
-    id: 6,
-    name: "Zebronics ZEB-JUKE BAR DOLBY ",
-    href: "#",
-    price: "$599",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-02.jpg",
-    imageAlt:
-      "Olive drab green insulated bottle with flared screw lid and flat top.",
-  },
-  {
-    id: 7,
-    name: "Zebronics ZEB-JUKE BAR DOLBY ",
-    href: "#",
-    price: "$599",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-03.jpg",
-    imageAlt:
-      "Person using a pen to cross a task off a productivity paper card.",
-  },
-  {
-    id: 8,
-    name: "Zebronics ZEB-JUKE BAR DOLBY ",
-    href: "#",
-    price: "$599",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-04.jpg",
-    imageAlt:
-      "Hand holding black machined steel mechanical pencil with brass tip and top.",
-  },
-  {
-    id: 9,
-    name: "Zebronics ZEB-JUKE BAR DOLBY ",
-    href: "#",
-    price: "$599",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-04.jpg",
-    imageAlt:
-      "Hand holding black machined steel mechanical pencil with brass tip and top.",
-  },
-  {
-    id: 10,
-    name: "Zebronics ZEB-JUKE BAR DOLBY ",
-    href: "#",
-    price: "$599",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-04.jpg",
-    imageAlt:
-      "Hand holding black machined steel mechanical pencil with brass tip and top.",
-  },
-  {
-    id: 11,
-    name: "Zebronics ZEB-JUKE BAR DOLBY ",
-    href: "#",
-    price: "$599",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-04.jpg",
-    imageAlt:
-      "Hand holding black machined steel mechanical pencil with brass tip and top.",
-  },
-  {
-    id: 12,
-    name: "Zebronics ZEB-JUKE BAR DOLBY ",
-    href: "#",
-    price: "$599",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-04.jpg",
-    imageAlt:
-      "Hand holding black machined steel mechanical pencil with brass tip and top.",
-  },
-];
+interface ProductListProps {
+  products: any[]
+}
+export default function ProductsList({products}: ProductListProps) {
 
-export default function ProductsList() {
+
+
   return (
     <div className="bg-white mb-10">
       <div
@@ -134,7 +18,7 @@ export default function ProductsList() {
         }}
       >
         <h1 className="text-2xl font-bold">Just For You</h1>
-        <h2 className="text-1xl mr-10 text-white cursor-pointer hover: bg-orange p-2">SHOP MORE</h2>
+        <h2 className="text-1xl font-bold rounded mr-10 text-white cursor-pointer hover: bg-orange p-2">SHOP MORE</h2>
       </div>
       <div className="max-w-2xl mx-auto py-5 px-4 bg-slate-100 sm:px-6 lg:max-w-7xl lg:px-4">
         <div className="grid grid-cols-1 gap-y-4 sm:grid-cols-2 gap-x-6 lg:grid-cols-3 xl:grid-cols-6 xl:gap-x-8">

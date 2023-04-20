@@ -10,6 +10,7 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { useRouter } from "next/router";
 import NextLink from 'next/link';
+import ProductCard from "@/components/products/productCard"
 
 
 
@@ -36,13 +37,13 @@ function ProductCategory() {
       <>
         <NavBar />
         <div
+        className="mr-5 md:mx-20"
           style={{
             marginBottom: "2rem",
-            maxWidth: "1350px",
-            margin: "0px auto",
-            padding: "0 1rem",
+            // margin: "0px auto",
+            // padding: "0 1rem",
           }}>
-          <div className="md:flex justify-between items-center my-10" style={{}}>
+          <div className="md:flex justify-between items-center my-10">
             <h1
               style={{
                 fontSize: "2rem",
@@ -70,33 +71,31 @@ function ProductCategory() {
             </NextLink>
           </div>
 
-          <Carousel
-            showDots={false}
-            autoPlay={true}
-            autoPlaySpeed={3000}
-            infinite={true}
-            responsive={responsive}>
-            {product}
-          </Carousel>
+          <div className='grid m-5 flex-wrap justify-center items-center w-full grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-0'>
 
-          <Carousel
-            showDots={false}
-            autoPlay={true}
-            autoPlaySpeed={3000}
-            infinite={true}
-            responsive={responsive}>
-            {product}
-          </Carousel>
+{
+  mart?.map((product: any) => (
+        <div key={product._id} className="flex justify-center">
+            <ProductCard 
+                id={product._id}
+                name={product.product_name}
+                price={product.product_price}
+                imageUrl={product.mainImage}
+                description={product.description}
+                brand={product.brand}
+                category_id={product.category}
+                merchant_id={product.merchant}
+                images={product.images}
+                discountPrice={product.discount}
+            />
+        </div>
+        
+    ))
+}
+
+</div>
 
 
-          <Carousel
-            showDots={false}
-            autoPlay={true}
-            autoPlaySpeed={3000}
-            infinite={true}
-            responsive={responsive}>
-            {product}
-          </Carousel>
           <Stack
             spacing={2}
             style={{

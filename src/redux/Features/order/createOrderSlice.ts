@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
-import orderService, {CreateOrder} from './orderService'
+import orderService, {CreateOrderProps} from './orderService'
 
 
   const initialState: any = {
@@ -17,7 +17,7 @@ import orderService, {CreateOrder} from './orderService'
 export const createOrderAction = createAsyncThunk(
     "/createOrderAction",
     async (
-      { products, quantity, userId}: CreateOrder,
+      { products, quantity, userId}: CreateOrderProps,
       thunkAPI
     ) => {
       try {

@@ -6,12 +6,11 @@ export interface AddProductProps {
     product_name: string
     description: string
     product_price: number
-    user_id: string
     merchant_id : string
     qty: number
     token: string
     brand: string
-    image: string
+    mainImage: string
     discount: string
     imageTop : any
     imageSide : any
@@ -60,7 +59,7 @@ const getProduct = async (product_id: string) => {
 
 
 const createProduct = async ({ 
-    category_id, product_name, description, product_price, user_id, merchant_id, qty, token, brand, image, discount, imageTop, imageSide, imageBack
+    category_id, product_name, description, product_price, merchant_id, qty, token, brand, mainImage, discount, imageTop, imageSide, imageBack
 
 }: AddProductProps) => {
     const config = {
@@ -71,7 +70,7 @@ const createProduct = async ({
     };
 
     const response = await axios.post(`${API_BASEURL}/product/create`, {     
-        category_id, product_name, description, product_price, user_id, merchant_id, qty, token, brand, image, discount, imageTop, imageSide, imageBack }, config);
+        category_id, product_name, description, product_price, merchant_id, qty, token, brand, mainImage, discount, imageTop, imageSide, imageBack }, config);
     return response.data;
 }
 

@@ -56,10 +56,10 @@ export default function EditProductModal({ open, setOpen }: ModalProps) {
                     </div>
                   </Dialog.Title>
                   <div className="mt-2">
-                    <SelectInput
+                    {/* <SelectInput
                       label="Category"
                       name="category" 
-                    />
+                    /> */}
 
                     <div>
                       <label

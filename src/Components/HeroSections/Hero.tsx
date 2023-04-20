@@ -43,7 +43,7 @@ function HeroSection() {
   };
 
   useEffect(() => {
-    dispatch (getCategoriesAction())
+    dispatch (getCategoriesAction("token"))
   }, [])
 
 

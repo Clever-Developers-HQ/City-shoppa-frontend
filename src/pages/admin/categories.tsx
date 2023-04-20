@@ -71,13 +71,13 @@ function Categories() {
 
     if (token) {
       setIsLoading(false)
-      dispatch(getCategoriesAction())
+      dispatch(getCategoriesAction("token"))
     }
 
   }, [token])
 
   if(isUpdated){
-    dispatch(getCategoriesAction())
+    dispatch(getCategoriesAction("token"))
     setIsUpdated(false)
   }
 
