@@ -1,6 +1,4 @@
 import { Fragment, useRef, useState } from 'react'
-import { Dialog, Transition } from '@headlessui/react'
-import {FaCity} from 'react-icons/fa'
 import { AppDispatch, RootState } from "@/redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "@/components/loader/Loader";
@@ -27,7 +25,7 @@ interface AddNewMerchantProps{
 export default function AddNewMerchant({open, setOpen, setIsUpdated, token}:AddNewMerchantProps) {
 
   const dispatch = useDispatch<AppDispatch>()
-  const {loading, success, message, merchant, error} = useSelector((store:RootState) => store.registerMerchant)
+  const {loading} = useSelector((store:RootState) => store.registerMerchant)
 
   return (
     <ModalLayout

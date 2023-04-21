@@ -92,7 +92,7 @@ const AdsCards = () => {
               with EMI, <br /> or <br />{" "}
               <span className="text-1xl font-bold text-white sm:text-1xl">
                 MRP $239.00
-              </span>{" "}
+              </span>
               <br />
               (Incl. of all taxes)
             </p>

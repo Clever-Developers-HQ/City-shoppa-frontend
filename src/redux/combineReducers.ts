@@ -37,6 +37,7 @@ import {
     getUsersReducer,
     registerUserReducer,
     deleteUser,
+    getUserReducer,
 
 
     // LOGIN
@@ -102,6 +103,7 @@ const reducers = combineReducers({
     getUsers: getUsersReducer,
     registerUser : registerUserReducer,
     delete : deleteUser,
+    getUser: getUserReducer,
 
 
     //LOGIN REDUCERS

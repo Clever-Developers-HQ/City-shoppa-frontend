@@ -49,6 +49,7 @@ export default function Home() {
     return filteredProducts;
   };
 
+
   console.log(products, "THE PRODUCT");
 
   return (
@@ -92,6 +93,8 @@ export default function Home() {
             <HealthAndFitness />
             <Brands />
             <ProductsList products={products} />
+
+          {/* map out the first 30 products in the array */}
             <AdsCards />
             <Footer />
           </main>

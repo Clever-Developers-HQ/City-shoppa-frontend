@@ -16,5 +16,4 @@ function Empty({text}: any) {
   </div>
   )
 }
-
 export default Empty

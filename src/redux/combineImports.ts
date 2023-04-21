@@ -22,6 +22,7 @@ import getCityReducer from "./Features/city/getCitySlice";
 import getUsersReducer from "./Features/user/getUsersSlice";
 import registerUserReducer from "./Features/user/registerUserSlice";
 import deleteUser from "./Features/user/deleteUserSlice";
+import getUserReducer from "./Features/user/getUserSlice";
 
 import loginUserReducer  from './Features/auth/authLoginSlice';
 import getProductsReducer from './Features/product/getProductsSlice'
@@ -81,6 +82,7 @@ export {
     registerUserReducer,
     deleteUser,
     loginUserReducer,
+    getUserReducer,
 
 
     //PRODUCTS

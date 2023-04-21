@@ -10,7 +10,7 @@ import { userRegisterAction } from "@/redux/Features/user/registerUserSlice";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { unwrapResult } from "@reduxjs/toolkit";
-import { showError, showSuccess } from "@/components/Utils/AlertMsg";
+import { showSuccess } from "@/components/Utils/AlertMsg";
 import { AppDispatch } from "@/redux/store";
 import { useRouter } from "next/router";
 import Loader from "@/components/loader/Loader";
@@ -49,8 +49,6 @@ export default function Form() {
   } = useForm();
   const onSubmit = (data: any) =>{
     const {name, phone, email, password} = data
-
-    console.log(errors, "THE ERRORS")
 
     dispatch(userRegisterAction({email, phone, password, name, token: ""}))
     .then(unwrapResult)

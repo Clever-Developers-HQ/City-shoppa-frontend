@@ -24,7 +24,7 @@ export default function Categories() {
   const token = "EMPTY"
 
   useEffect(() => {
-    dispatch(getCategoriesAction())
+    dispatch(getCategoriesAction("token"))
     dispatch(getProductsAction(token))
   }, [])
 

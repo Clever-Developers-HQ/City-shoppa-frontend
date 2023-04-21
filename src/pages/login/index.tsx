@@ -26,10 +26,7 @@ export default function SignInPage() {
   const dispatch = useDispatch<AppDispatch>()
 
   useEffect(() => {
-// Check if User IAlready Logged In or has a Token Saved in Local Storage
-
     const token = localStorage.getItem("token")
-
     if (token) {
       router.push("/")
       return

@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { HYDRATE } from "next-redux-wrapper";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
-import orderService,{ OrderProps }  from './orderService'
+import orderService from './orderService'
 
 
   const initialState: any = {

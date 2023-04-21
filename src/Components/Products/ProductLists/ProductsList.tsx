@@ -23,11 +23,11 @@ export default function ProductsList({products}: ProductListProps) {
       <div className="max-w-2xl mx-auto py-5 px-4 bg-slate-100 sm:px-6 lg:max-w-7xl lg:px-4">
         <div className="grid grid-cols-1 gap-y-4 sm:grid-cols-2 gap-x-6 lg:grid-cols-3 xl:grid-cols-6 xl:gap-x-8">
           {products.map((product) => (
-            <a key={product.id} href={product.href} className="group">
+            <a key={product._id} href={product.href} className="group">
               <div className="w-full aspect-w-1 aspect-h-1 bg-gray-100 rounded-lg overflow-hidden xl:aspect-w-7 xl:aspect-h-8">
                 <img
-                  src={product.imageSrc}
-                  alt={product.imageAlt}
+                  src={product.mainImage}
+                  alt={product.product_name}
                   className="w-full h-full object-center object-cover group-hover:opacity-75"
                 />
               </div>
@@ -35,9 +35,9 @@ export default function ProductsList({products}: ProductListProps) {
                 className="mt-4 flex justify-between"
                 style={{ height: "100px" }}
               >
-                <h3 className=" text-sm text-gray-700">{product.name}</h3>
+                <h3 className=" text-sm text-gray-700">{product.product_name}</h3>
                 <p className="mt-1 text-lg font-medium text-gray-900">
-                  {product.price}
+                  $ {product.product_price}
                 </p>
               </div>
             </a>

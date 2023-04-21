@@ -55,7 +55,8 @@ export const getUserAction = createAsyncThunk(
 
           state.loading = false;
           state.success = true;
-          state.user = action.payload.User;
+          state.user = action.payload.user;
+          state.orders = action.payload.userOrder;
         })
         
         .addCase(getUserAction.rejected, (state, action) => {
