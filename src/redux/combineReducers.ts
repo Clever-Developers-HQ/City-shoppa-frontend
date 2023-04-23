@@ -7,6 +7,8 @@ import {
     updateMerchantReducer,
     getMerchantReducer,
     registerMerchantReducer,
+    disableMerchantReducer,
+    reactivateMerchantReducer,
 
     // CAPTIONS
     getCaptionReducer,
@@ -47,6 +49,7 @@ import {
     getProductsReducer,
     getProductReducer,
     createProductReducer,
+    getProductsCategoryReducer,
 
     //FEATURES
     getFeaturesReducer,
@@ -73,6 +76,9 @@ const reducers = combineReducers({
     updateMerchant: updateMerchantReducer,
     getMerchant:  getMerchantReducer,
     registerMerchant: registerMerchantReducer,
+    disableMerchant : disableMerchantReducer, 
+    reactivateMerchant: reactivateMerchantReducer,
+
 
     // CAPTION REDUCERS
     getCaption: getCaptionReducer,
@@ -115,6 +121,7 @@ const reducers = combineReducers({
     getProducts : getProductsReducer,
     getProduct : getProductReducer,
     createProduct : createProductReducer, 
+    getProductsCategory : getProductsCategoryReducer,
 
 
     //FEATURES REDUCERS

@@ -49,7 +49,7 @@ export default function SignInPage() {
 
     await axios.post(`${API_BASEURL}/users/login`, {email, password}, config)
     .then(response => {
-      console.log(response, "THE RESPONSE")
+      // console.log(response, "THE RESPONSE")
       if (response.data.status === "success") {
         showSuccess(`Welcome Back ${response.data.user?.name}`)
         //Save the User and Token Token To Local Storage

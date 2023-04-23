@@ -8,6 +8,7 @@ interface ConfirmDTO {
     message: string
 }
 
+
 const confirm = ({title, description, onConfirm, message}: ConfirmDTO) => {
 
     Swal.fire({
@@ -17,7 +18,7 @@ const confirm = ({title, description, onConfirm, message}: ConfirmDTO) => {
         showCancelButton: true,
         confirmButtonColor: '#222932',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!'
+        confirmButtonText: 'Yes, Proceed!'
     }).then((result) => {
         if (result.isConfirmed) {
             onConfirm()

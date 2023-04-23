@@ -20,17 +20,10 @@ import { GrView } from "react-icons/gr";
 import { deleteProductAction } from "@/redux/Features/product/deleteProductSlice";
 import { confirm } from "@/components/alert/confirm";
 
-// interface ProductsDTO {
-//   id: string;
-//   name: string;
-//   description: string;
-//   image: string;
-//   status: string;
-// }
+
 interface UserDTO {
   id: string;
   token: string;
-  // add other properties as needed
 }
 
 function Products() {
@@ -52,7 +45,7 @@ function Products() {
     if (userInfo.token) {
       setUser(userInfo);
       setIsLoaded(true);
-      dispatch(getMerchantAction(userInfo));
+      dispatch(getMerchantAction(userInfo?.id));
     }
   }, []);
 

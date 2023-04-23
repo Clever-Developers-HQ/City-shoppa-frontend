@@ -5,8 +5,6 @@ import { beauty, responsive } from "./Data";
 
 export default function App({products}: any ) {
 
-  console.log(products, "THE FILTEREDF PRODUCTS")
- 
  const theProducts = products?.map((item: any) => (
     <Product
       key={item._id}

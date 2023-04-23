@@ -48,15 +48,13 @@ export default function Form() {
   } = useForm();
   const onSubmit = (data: any) => {
     const {name, email, business_name, website, address} = data
-    setIsSubmitting(true)
     dispatch(merchantRegisterAction({name, email, business_name, website, address, token}))
     .then(unwrapResult)
     .then((result) => {
       if (result.merchant) {
         showSuccess(`Merchant Account Created Successflly`)
-        setIsSubmitting(false)
         router.push("/merchant")
-      }
+      } 
     })
   }
 
@@ -66,6 +64,9 @@ export default function Form() {
       <input {...register(label, { required })} />
     </>
   );
+
+  const {loading} = useSelector((state: any) => state.registerMerchant)
+
 
   useEffect(() => {
     setToken(userAuthenticateToken()?.token)
@@ -171,9 +172,9 @@ export default function Form() {
             <input type="text" {...register("website", { required: true })} placeholder="URL" />
             {errors.website && <p className="text-orange">Website is Required</p>}
             
-            <button className="btn">{isSubmitting ? "Processing... Please wait" : "Register"}</button>
+            <button className="btn">{loading ? "Processing... Please wait" : "Register"}</button>
             {
-              isSubmitting && <Loader/>
+              loading && <Loader/>
             }
           </form>
           <div

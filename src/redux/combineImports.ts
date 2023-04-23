@@ -2,6 +2,11 @@ import getMerchantsReducer from "./Features/merchant/getMerchantsSlice";
 import deleteMerchantReducer from "./Features/merchant/deleteMerchantSlice";
 import updateMerchantReducer from "./Features/merchant/updateMerchantSlice";
 import getMerchantReducer from "./Features/merchant/getMerchantSlice";
+import disableMerchantReducer from "./Features/merchant/disableMerchantSlice";
+import reactivateMerchantReducer from "./Features/merchant/reactivateMerchantSlice";
+
+
+
 import getCaptionReducer from './Features/caption/getCaptionSlice'
 import updateCaptionReducer from './Features/caption/updateCaptionSlice'
 import getCaptionsReducer from './Features/caption/getCaptionsSlice'
@@ -37,10 +42,12 @@ import createOrderReducer from "./Features/order/createOrderSlice"
 
 import getProductReducer from './Features/product/getProductSlice'
 import createProductReducer from './Features/product/getProductSlice'
+import getProductsCategoryReducer from './Features/product/getProductsCategorySlice'
 
 import getDisputes from './Features/dispute/getDisputesSlice'
 import updateDispute from './Features/dispute/updateDisputeSlice'
 import createDispute from './Features/dispute/createDisputeSlice'
+
 
 
 export {
@@ -50,6 +57,8 @@ export {
     updateMerchantReducer,
     getMerchantReducer,
     registerMerchantReducer,
+    disableMerchantReducer, 
+    reactivateMerchantReducer,
 
 
     // CAPTIONS
@@ -89,6 +98,7 @@ export {
     getProductsReducer,
     getProductReducer,
     createProductReducer,
+    getProductsCategoryReducer,
 
 
     //FEATURES

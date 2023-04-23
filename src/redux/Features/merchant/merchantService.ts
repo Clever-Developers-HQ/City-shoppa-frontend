@@ -57,11 +57,11 @@ const getMerchants = async (token: string): Promise<{}> => {
     return data.merchant;
 }
 
-const getMerchant = async ({id, token}: MerchantProps) => {
+const getMerchant = async (id : string) => {
     const config = {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          // Authorization: `Bearer ${token}`,
         },
       };
 
@@ -81,6 +81,18 @@ const deleteMerchant = async ({id, token}: MerchantProps) => {
     return response.data
 }
 
+const disableMerchant = async ({id, token}: MerchantProps) => {
+  const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+  const response = await axios.put(`${API_BASEURL}/merchant/disablemerchant/${id}`, config);
+  return response.data
+}
+
 const updateMerchant = async ({id, token, name, business_name, email, website, address}: UpdateMerchantProps) => {
     const config = {
         headers: {
@@ -93,6 +105,19 @@ const updateMerchant = async ({id, token, name, business_name, email, website, a
     return response.data
 }
 
+const reactivateMerchant = async ({id, token}: MerchantProps) => {
+  // console.log(token, id,  "THAT ENTERED")
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const response = await axios.put(`${API_BASEURL}/merchant/reactivate/${id}`, config);
+  console.log(response, "THE RESPONSE BACK")
+  return response.data
+}
+
 
 
 const merchantService = {
@@ -100,7 +125,9 @@ const merchantService = {
     getMerchants,
     getMerchant,
     deleteMerchant,
-    updateMerchant
+    updateMerchant,
+    disableMerchant,
+    reactivateMerchant,
 }
 
 export default merchantService

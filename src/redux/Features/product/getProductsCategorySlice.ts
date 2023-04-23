@@ -1,34 +1,33 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { HYDRATE } from "next-redux-wrapper";import type { PayloadAction } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
-import productService from './productServices'
+import Productservice from './productServices'
+
 
 
   const initialState: any = {
-    product: null,
+    products: null,
     loading: false,
     error: false,
     success: false,
     message: "",
-    discounted: null,
-    rating: ""
   };
 
-//REGISTER Product
-export const getProductAction = createAsyncThunk(
-    "/getProductAction",
+
+export const getProductsCategoryAction = createAsyncThunk(
+    "/getProductsCategoryAction",
     async (
-      product_id : string, 
-      thunkAPI,
+        category_id : string,
+      thunkAPI: any,
     ) => {
       try {
-        return await productService.getProduct(product_id);
+        return await Productservice.getProductsCategory(category_id);
       } catch (error: any) {
         const message =
           (error.response &&
             error.response.data &&
             error.response.data.message) ||
           error.message ||
-          error.error ||
           error.toString();
         toast.warning(`${message}`);
         return thunkAPI.rejectWithValue(message);
@@ -36,8 +35,8 @@ export const getProductAction = createAsyncThunk(
     }
   );
   
-  export const getProductSlice = createSlice({
-    name: "getProduct",
+  export const getProductsCategorySlice = createSlice({
+    name: "getProductsCategory",
     initialState,
     reducers: {
       //non asynchronous reducers goes here
@@ -46,35 +45,31 @@ export const getProductAction = createAsyncThunk(
         state.error = false;
         state.success = false;
         state.message = "";
-        state.product = null;
-        state.discounted =  null;
-        state.rating = null;
+        state.products = null;
+
       },
     },
     extraReducers: (builder) => {
       builder
-        .addCase(getProductAction.pending, (state) => {
+        .addCase(getProductsCategoryAction.pending, (state) => {
           state.loading = true;
         })
-        .addCase(getProductAction.fulfilled, (state, action) => {
-
+        .addCase(getProductsCategoryAction.fulfilled, (state, action) => {
           state.loading = false;
           state.success = true;
-          state.product = action.payload.response.product;
-          state.discounted = action.payload.response.discountedProducts;
-          state.rating = action.payload.response.rating;
+          state.products = action.payload.categoryProduct;
+          state.message = action.payload.status
         })
-        .addCase(getProductAction.rejected, (state, action) => {
+        .addCase(getProductsCategoryAction.rejected, (state, action) => {
           state.loading = false;
           state.error = true;
-          state.message = action.payload || "Something went wrong";
-          state.Product = null;
-          state.products = []
+          state.message = action.payload || "Something  Went Wrong. Please Try Again";
+          state.products = null;
         });
     },
   });
   
   // Action creators are generated for each case reducer function
-  export const { reset } = getProductSlice.actions;
+  export const { reset } = getProductsCategorySlice.actions;
   
-  export default getProductSlice.reducer;
+  export default getProductsCategorySlice.reducer;

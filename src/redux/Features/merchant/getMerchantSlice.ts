@@ -17,10 +17,12 @@ import merchantService,{ MerchantProps }  from './merchantService'
 //REGISTER MERCHANT
 export const getMerchantAction = createAsyncThunk(
     "/getMerchantAction",
-    async ({id,token}:MerchantProps, thunkAPI: any,
+    async (
+      id:string, 
+      thunkAPI,
     ) => {
       try {
-        return await merchantService.getMerchant({id, token});
+        return await merchantService.getMerchant(id);
       } catch (error: any) {
         const message =
           (error.response &&

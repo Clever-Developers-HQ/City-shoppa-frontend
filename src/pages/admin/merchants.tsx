@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { MdOutlineModeEdit, MdOutlineBlock } from "react-icons/md";
 import { AiOutlineDelete } from "react-icons/ai";
 import { RiDeleteBin6Line } from "react-icons/ri";
+import {FaUserCheck} from "react-icons/fa";
 import AddNewMerchant from "@/components/modals/merchantModals/AddNewMerchant";
 import EditMerchant from "@/components/modals/merchantModals/EditMerchant";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,6 +16,9 @@ import { adminTokenAuthentication } from "@/components/Utils/TokenAuthentication
 import LoadingScreen from "@/components/loader/loadingScreen";
 import { confirm } from "@/components/alert/confirm";
 import {ImUserMinus} from 'react-icons/im'
+import { disableMerchantAction } from "../../redux/Features/merchant/disableMerchantSlice";
+import { reactivateMerchantAction } from "../../redux/Features/merchant/reactivateMerchantSlice";
+
 
 function Merchants() {
   const dispatch = useDispatch<AppDispatch>();
@@ -50,6 +54,34 @@ function Merchants() {
       message: "Merchant deleted Successfully",
       onConfirm: () => {
         dispatch(deleteMerchantAction({ id, token }));
+        setIsUpdated(true);
+      },
+    });
+  };
+
+  //DISABLE FUNCION HANDLER 
+  const disableHandler = (id: string) => {
+    confirm({
+      title: "Are you sure you want to DEACTIVATE this Merchant?",
+      description: "This action cannot be undone",
+      message: "Merchant Disabled Successfully",
+      onConfirm: () => {
+        dispatch(disableMerchantAction({ id, token }));
+        setIsUpdated(true);
+      },
+    });
+  };
+
+  // REACIVATE ACCOUNT HANDLER 
+
+  const reactivateHandler = (id: string) => {
+  
+    confirm({
+      title: "Are you sure you want to reactivate this Merchant?",
+      description: "This action cannot be undone",
+      message: "Merchant Reactivated Successfully",
+      onConfirm: () => {
+        dispatch(reactivateMerchantAction({ id, token }));
         setIsUpdated(true);
       },
     });
@@ -179,23 +211,40 @@ function Merchants() {
                                   <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                     {merchant.website}
                                   </td>
-                                  {merchant.state === "Active" ? (
+                                  {merchant.isDisabled !== true ? (
                                     <td className="whitespace-nowrap px-3 py-4 text-sm text-[#31AB5B]">
-                                      {merchant.state}
+                                      Active
                                     </td>
                                   ) : (
                                     <td className="whitespace-nowrap px-3 py-4 text-sm text-[#FF0000]">
-                                      {merchant.state}
+                                      Disabled
                                     </td>
                                   )}
                                   <td className="whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                                     <div className="flex justify-between items-center">
-                                      <span>
-                                        <ImUserMinus
-                                          size="20"
-                                          className="text-gray-500 hover:text-orange cursor-pointer"
-                                        />
-                                      </span>
+                                      {
+                                        merchant?.isDisabled ? (
+                                          <span
+                                          onClick = {() => reactivateHandler(merchant._id)}
+                                          >
+                                          <ImUserMinus
+                                            size="20"
+                                            color={"#FF0000"}
+                                            className="text-gray-500 hover:text-orange cursor-pointer"
+                                          />
+                                        </span>
+                                        ) : (                                          
+                                        <span
+                                        onClick = {() => disableHandler(merchant._id)}
+                                        >
+                                          <FaUserCheck
+                                            size="20"
+                                            color={"#31AB5B"}
+                                            className="text-gray-500 hover:text-orange cursor-pointer"
+                                          />
+                                        </span>)
+                                      }
+
 
                                       <span
                                         onClick={() =>

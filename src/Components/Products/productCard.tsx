@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import { useRouter } from 'next/router'
+import { formatMoney } from "../Utils/utilFuncs";
 
 export default function ProductCard(props: {
   imageUrl: string;
@@ -26,7 +27,7 @@ export default function ProductCard(props: {
         merchant: props.merchant_id
       }
     })}
-    className="cards">
+    className="">
       <Image 
         src={props.imageUrl}
         alt={props.name}
@@ -45,25 +46,24 @@ export default function ProductCard(props: {
         <h2
         className="my-3"
           style={{
-            // fontSize: "1.1rem",
             fontWeight: 500,
             color: "#000",
-            // margin: "1rem 0.5rem",
             fontFamily: "Poppins",
-            width: "70%"
+            width: "70%",
           }}>
           {props.name}
         </h2>
         <p
           style={{
-            fontSize: "1.1rem",
+            fontSize: "14px",
             fontWeight: 700,
             color: "#000",
             margin: "0.5rem",
-            // marginLeft: "1rem",
             fontFamily: "Poppins",
+            // isplay: 'flex',
+            // flexWrap: 'nowrap'
           }}>
-         $ {props.price} 
+         ${formatMoney(props.price)}
         </p>
       </div>
     </div>

@@ -1,12 +1,9 @@
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import { beauty, responsive } from "./Data";
+import { responsive } from "./Data";
 import ProductCard from './productCard'
 
 export default function ProductCarousel({products}: any ) {
-
-  console.log(products, "THE FILTEREDF PRODUCTS")
- 
  const theProducts = products?.map((item: any) => (
     <ProductCard
       key={item._id}

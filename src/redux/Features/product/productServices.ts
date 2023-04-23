@@ -98,13 +98,26 @@ const deleteProduct = async ({token, product_id}: ProductProps) => {
     return data;
 }
 
+const getProductsCategory = async (category_id: string) => {
+    const config = {
+        headers: {
+            "Content-Type": "application/json",
+            // Authorization: `Bearer ${token}`,
+        },
+    };
+
+    const {data} = await axios.get(`${API_BASEURL}/productss/${category_id}`, config);
+    return data;
+}
+
 
 const productService = {
     getProducts,
     getProduct,
     createProduct,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    getProductsCategory
 }
 
 export default productService

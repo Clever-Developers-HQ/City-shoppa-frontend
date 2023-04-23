@@ -1,110 +1,9 @@
-/* eslint-disable @next/next/no-img-element */
-const products = [
-  {
-    id: 1,
-    name: "Machined Pen",
-    color: "Black",
-    price: "$35",
-    discount: "50",
-    href: "#",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/home-page-02-product-01.jpg",
-    imageAlt:
-      "Black machined steel pen with hexagonal grip and small white logo at top.",
-    availableColors: [
-      { name: "Black", colorBg: "#111827" },
-      { name: "Brass", colorBg: "#FDE68A" },
-      { name: "Chrome", colorBg: "#E5E7EB" },
-    ],
-  },
-  {
-    id: 2,
-    name: "Leather Desk Pad",
-    color: "Brown",
-    price: "$45",
-    discount: "50",
-    href: "#",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/home-page-02-product-02.jpg",
-    imageAlt:
-      "Rustic brown leather desk pad with stitched edges and a small white logo at bottom right corner.",
-    availableColors: [
-      { name: "Brown", colorBg: "#A78B6D" },
-      { name: "Black", colorBg: "#111827" },
-      { name: "White", colorBg: "#F9FAFB" },
-    ],
-  },
-  {
-    id: 3,
-    name: "Leather Desk Pad",
-    color: "Black",
-    price: "$45",
-    discount: "50",
-    href: "#",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/home-page-02-product-03.jpg",
-    imageAlt:
-      "Black leather desk pad with stitched edges and a small white logo at bottom right corner.",
-    availableColors: [
-      { name: "Brown", colorBg: "#A78B6D" },
-      { name: "Black", colorBg: "#111827" },
-      { name: "White", colorBg: "#F9FAFB" },
-    ],
-  },
-  {
-    id: 4,
-    name: "Leather Desk Pad",
-    color: "White",
-    price: "$45",
-    discount: "50",
-    href: "#",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/home-page-02-product-04.jpg",
-    imageAlt:
-      "White leather desk pad with stitched edges and a small white logo at bottom right corner.",
-    availableColors: [
-      { name: "Brown", colorBg: "#A78B6D" },
-      { name: "Black", colorBg: "#111827" },
-      { name: "White", colorBg: "#F9FAFB" },
-    ],
-  },
-  {
-    id: 5,
-    name: "Leather Desk Pad",
-    color: "Brown",
-    price: "$45",
-    discount: "50",
-    href: "#",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/home-page-02-product-04.jpg",
-    imageAlt:
-      "Rustic brown leather desk pad with stitched edges and a small white logo at bottom right corner.",
-    availableColors: [
-      { name: "Brown", colorBg: "#A78B6D" },
-      { name: "Black", colorBg: "#111827" },
-      { name: "White", colorBg: "#F9FAFB" },
-    ],
-  },
-  {
-    id: 6,
-    name: "Leather Desk Pad",
-    color: "Black",
-    price: "$45",
-    discount: "50",
-    href: "#",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/home-page-02-product-04.jpg",
-    imageAlt:
-      "Black leather desk pad with stitched edges and a small white logo at bottom right corner.",
-    availableColors: [
-      { name: "Brown", colorBg: "#A78B6D" },
-      { name: "Black", colorBg: "#111827" },
-      { name: "White", colorBg: "#F9FAFB" },
-    ],
-  },
-];
 
-export default function DiscountedProducts() {
+interface DiscountProductDTO {
+  discounted: any
+}
+
+export default function DiscountedProducts({discounted}: DiscountProductDTO) {
   return (
     <div className="bg-white">
       <div className="py-16 sm:py-24 lg:max-w-7xl lg:mx-auto lg:px-8">
@@ -117,7 +16,7 @@ export default function DiscountedProducts() {
             }}
           >
             <h2 className="text-[20px] tracking-tight text-gray-500">
-              Discount Products And Services Coupen{" "}
+              Discounted Products And Services Coupon
             </h2>
           </a>
         </div>
@@ -128,16 +27,16 @@ export default function DiscountedProducts() {
               role="list"
               className="mx-4 inline-flex space-x-8 sm:mx-6 lg:mx-0 lg:space-x-0 lg:grid lg:grid-cols-6 lg:gap-x-8"
             >
-              {products.map((product) => (
+              {discounted?.map((product : any) => (
                 <li
-                  key={product.id}
+                  key={product._id}
                   className="w-64 inline-flex flex-col text-center lg:w-auto"
                 >
                   <div className="group relative bg-[#d7d7d7]">
                     <div className="w-full bg-gray-100 rounded-md overflow-hidden aspect-w-1 aspect-h-1">
                       <img
-                        src={product.imageSrc}
-                        alt={product.imageAlt}
+                        src={product.mainImage}
+                        alt={product.product_name}
                         className="w-full h-full object-center object-cover group-hover:opacity-75"
                       />
                     </div>
@@ -145,7 +44,7 @@ export default function DiscountedProducts() {
                       <h3 className="mt-1 font-semibold text-gray-900">
                         <a href={product.href}>
                           <span className="absolute inset-0" />
-                          {product.name}
+                          {product.product_name}
                         </a>
                       </h3>
                       <p className="mt-1 text-gray-900">{product.price}</p>

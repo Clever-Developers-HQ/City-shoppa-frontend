@@ -6,9 +6,7 @@ import NavBar from "@/components/navigation/NavBar";
 import Hero from "@/components/heroSections/Hero";
 import Categories from "@/components/categories/Categories";
 import ProductsCarousel from "@/components/products/productsCarousel";
-import Mart from "@/components/products/mart/Mart";
-import HealthAndFitness from "@/components/products/healthAndFitness/HealthAndFitness";
-import Brands from "@/components/brandCarousel/Brands";
+import AllProductsCarousel from "@/components/products/productCarousel";
 import ProductsList from "@/components/products/productLists/ProductsList";
 import AdsCards from "@/components/ads/AdsCards";
 import Footer from "@/components/footer/Footer";
@@ -18,6 +16,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
 import HomeProductsCategory from "@/components/home/homeProducts";
 import { getCategoriesAction } from "@/redux/Features/category/getCategoriesSlice";
+import { unwrapResult } from "@reduxjs/toolkit";
+import router, { useRouter } from 'next/router'
+
 
 //IMPORTING API CALLS AND DATA NEEDED ON THE FRONTEND.
 
@@ -28,6 +29,7 @@ export default function Home() {
   const dispatch = useDispatch<AppDispatch>();
 
   const [products, setProducts] = useState<any>([]);
+  const {loading, categories} = useSelector((state: RootState) => state.getCategories)
 
   const token = "";
 
@@ -47,10 +49,14 @@ export default function Home() {
       (product: any) => product.category_id === id
     );
     return filteredProducts;
-  };
+  }
 
-
-  console.log(products, "THE PRODUCT");
+  const clickHandlerProductCategory = (category_name: string, category_id: string) => {
+    router.push({
+      pathname: `/category/${category_name}`,
+      query: { category_id: category_id }
+    })
+  }
 
   return (
     <>
@@ -71,30 +77,30 @@ export default function Home() {
             <Categories />
 
             <HomeProductsCategory
-              category="Bags & Accessories"
+              category="Trending Products"
               clickHandler={() => console.log("clicked")}
             />
-
+            
             <ProductsCarousel
               products={filteredProducts("641052477e87c1f95843282a")}
             />
 
-            <HomeProductsCategory
-              category="Home Decor"
-              clickHandler={() => console.log("clicked")}
+            {
+              categories.map((category: any) => (
+                <>
+                <HomeProductsCategory
+              category={category.name}
+              clickHandler={() => clickHandlerProductCategory(category.name, category._id)}
             />
-            <Mart />
-
-            <HomeProductsCategory
-              category="All Services"
-              clickHandler={() => console.log("clicked")}
+            <AllProductsCarousel
+            products={filteredProducts(category._id)}
             />
-
-            <HealthAndFitness />
-            <Brands />
+                </>
+              ))
+            }
+            
             <ProductsList products={products} />
 
-          {/* map out the first 30 products in the array */}
             <AdsCards />
             <Footer />
           </main>

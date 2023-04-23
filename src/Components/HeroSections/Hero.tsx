@@ -7,7 +7,7 @@ import NextLink from 'next/link';
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
 import { getCategoriesAction } from "../../redux/Features/category/getCategoriesSlice";
-import router, { useRouter } from 'next/router'
+import router from 'next/router'
 
 
 
@@ -44,18 +44,25 @@ function HeroSection() {
 
   useEffect(() => {
     dispatch (getCategoriesAction("token"))
-  }, [])
+  }, [dispatch])
 
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mx-0 md:mx-10">
     <div className="col-span-1 md:col-span-1 pt-2 hidden lg:block bg-[#F1EEEE]">
       {categories?.slice(0,15).map((category: any) => (
-        <NextLink href={`/category/${category.name}`} as={`/category/${category.name}`} key={category._id}>
+        <>
+          <p 
+          onClick={() => router.push({
+            pathname: `/category/${category.name}`,
+            query: { category_id: category._id }
+          })}
 
-          <p className="text-gray-500 font-medium text-md  px-4 py-1.5 bg-[#F1EEEE] hover:bg-orange hover:text-white rounded-md transition-colors duration-300 leading-none cursor-pointer mb-2">{category.name}</p>
-  
-        </NextLink>
+          className="text-gray-500 font-medium text-md  px-4 py-1.5 bg-[#F1EEEE] hover:bg-orange hover:text-white rounded-md transition-colors duration-300 leading-none cursor-pointer mb-2">
+            {category.name}
+            </p>
+  </>
+
       ))}
       <NextLink href="categories"> 
       <p className="text-orange-500 font-bold text-lg px-4 py-3 bg-[#F1EEEE] hover:bg-orange hover:text-white rounded-md transition-colors duration-300 leading-none cursor-pointer">All Categories</p>

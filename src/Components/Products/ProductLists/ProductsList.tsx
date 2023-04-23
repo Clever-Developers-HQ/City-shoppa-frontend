@@ -1,4 +1,5 @@
 import React from 'react'
+import NextLink from 'next/link'
 
 interface ProductListProps {
   products: any[]
@@ -48,9 +49,11 @@ export default function ProductsList({products}: ProductListProps) {
         className="flex justify-center items-center"
         style={{ height: "100px" }}
       >
+        <NextLink  href={`/product/all`}>
         <button className="text-white px-4 py-2 rounded-md" style={{backgroundColor: "#f85606"}}>
           Load More
         </button>
+        </NextLink>
       </div>
     </div>
   );
