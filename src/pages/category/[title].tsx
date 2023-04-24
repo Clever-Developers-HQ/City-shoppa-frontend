@@ -4,8 +4,6 @@ import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import NavBar from "@/components/navigation/NavBar";
 import Footer from "@/components/footer/Footer";
-import { mart, responsive } from "@/components/products/Data";
-import EachProducts from "@/components/eachProductCategories/EachProducts";
 import "react-multi-carousel/lib/styles.css";
 import { useRouter } from "next/router";
 import NextLink from 'next/link';
