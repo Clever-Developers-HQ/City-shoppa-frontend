@@ -36,8 +36,8 @@ const ProductDetails = () => {
     window.scrollTo(0, 0)
   
       if (router.query && typeof router.query.merchant === "string" && typeof router.query.id === "string" ) {
-        dispatch(getMerchantAction(router.query.merchant))
-        dispatch(getProductAction(router.query.id))
+        dispatch(getMerchantAction(router.query.merchant) as any)
+        dispatch(getProductAction(router.query.id) as any)
         }
   }, [dispatch, router.query])
 
