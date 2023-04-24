@@ -7,6 +7,8 @@ import {
     updateMerchantReducer,
     getMerchantReducer,
     registerMerchantReducer,
+    disableMerchantReducer,
+    reactivateMerchantReducer,
 
     // CAPTIONS
     getCaptionReducer,
@@ -37,6 +39,7 @@ import {
     getUsersReducer,
     registerUserReducer,
     deleteUser,
+    getUserReducer,
 
 
     // LOGIN
@@ -44,6 +47,9 @@ import {
 
     // PRODUCTS
     getProductsReducer,
+    getProductReducer,
+    createProductReducer,
+    getProductsCategoryReducer,
 
     //FEATURES
     getFeaturesReducer,
@@ -53,6 +59,11 @@ import {
 
     // ORDERS
     getOrdersReducer,
+
+    // DISPUTES
+    updateDispute,
+    createDispute,
+    getDisputes,
 
 } from './combineImports'
 
@@ -65,6 +76,9 @@ const reducers = combineReducers({
     updateMerchant: updateMerchantReducer,
     getMerchant:  getMerchantReducer,
     registerMerchant: registerMerchantReducer,
+    disableMerchant : disableMerchantReducer, 
+    reactivateMerchant: reactivateMerchantReducer,
+
 
     // CAPTION REDUCERS
     getCaption: getCaptionReducer,
@@ -95,6 +109,7 @@ const reducers = combineReducers({
     getUsers: getUsersReducer,
     registerUser : registerUserReducer,
     delete : deleteUser,
+    getUser: getUserReducer,
 
 
     //LOGIN REDUCERS
@@ -104,6 +119,9 @@ const reducers = combineReducers({
 
     // PRODUCTS
     getProducts : getProductsReducer,
+    getProduct : getProductReducer,
+    createProduct : createProductReducer, 
+    getProductsCategory : getProductsCategoryReducer,
 
 
     //FEATURES REDUCERS
@@ -115,6 +133,10 @@ const reducers = combineReducers({
     //ORDERS REDUCERS
     getOrders: getOrdersReducer,
 
+    // DISPUTE REDUCERS
+    updateDispute: updateDispute,
+    createDispute: createDispute,
+    getDisputes: getDisputes,
 })
 
 export { reducers };

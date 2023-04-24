@@ -7,6 +7,8 @@ import React, {useEffect, useState} from "react"
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
 import { useRouter } from "next/router";
+import Loader from '@/components/loader/Loader'
+import Link from 'next/link'
 
 export default function Categories() {
 
@@ -22,7 +24,7 @@ export default function Categories() {
   const token = "EMPTY"
 
   useEffect(() => {
-    dispatch(getCategoriesAction())
+    dispatch(getCategoriesAction("token"))
     dispatch(getProductsAction(token))
   }, [])
 
@@ -61,12 +63,15 @@ export default function Categories() {
         Back
       </button>
     </div>
-
     {
-      loading ? "LOADING..." : (
+      loading ? <Loader/> : (
         <div className="-mx-px border-l border-gray-200 grid grid-cols-2 sm:mx-0 md:grid-cols-3 lg:grid-cols-4">
         {categories?.map((product:any) => (
           <div key={product._id} className="group relative p-4 border-r border-b border-gray-200 sm:p-6">
+
+            <Link href={`/category/${product.name}`} as={`/category/${product.name}`}  > 
+            
+
             <div
               className="relative rounded-lg overflow-hidden bg-black aspect-w-1 aspect-h-1 cursor-pointer">
   
@@ -77,6 +82,7 @@ export default function Categories() {
                 </div>
               </div>
             </div>
+            </Link>
           </div>
         ))}
       </div>

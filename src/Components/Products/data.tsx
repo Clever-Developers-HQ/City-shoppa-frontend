@@ -90,7 +90,7 @@ export const home = [
     id: 2,
     imageurl:
       "https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8cHJvZHVjdHN8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60",
-    name: "Spicy Pizza",
+    name: "Spicy Pizzaddddddd",
     price: "$599",
     description: "Some text about the product..",
   },
@@ -172,6 +172,14 @@ export const mart = [
   },
   {
     id: 6,
+    imageurl:
+      "https://images.unsplash.com/photo-1585386959984-a4155224a1ad?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MzV8fHByb2R1Y3RzfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60",
+    name: "Laptop open  acessories",
+    price: "$599",
+    description: "Some text about the product..",
+  },
+  {
+    id: 7,
     imageurl:
       "https://images.unsplash.com/photo-1585386959984-a4155224a1ad?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MzV8fHByb2R1Y3RzfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60",
     name: "Laptop open  acessories",

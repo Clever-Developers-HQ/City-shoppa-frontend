@@ -2,16 +2,19 @@ import API_BASEURL from "constants";
 import axios from "axios";
 
 export interface AddProductProps {
+    category_id:string
     product_name: string
     description: string
-    produvt_price: number
-    category_id: string
+    product_price: number
+    merchant_id : string
     qty: number
     token: string
     brand: string
-    image: string
-    merchant_id: string
-    discount: any
+    mainImage: string
+    discount: string
+    imageTop : any
+    imageSide : any
+    imageBack: any
 }
 
 export interface UpdateProductProps {
@@ -42,20 +45,23 @@ const getProducts = async (): Promise<{}> => {
     return data
 }
 
-const getProduct = async ({ product_id, token }: ProductProps) => {
+const getProduct = async (product_id: string) => {
     const config = {
         headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            // Authorization: `Bearer ${token}`,
         },
     };
 
-    const {data} = await axios.get(`${API_BASEURL}/products/${product_id}`, config);
+    const {data} = await axios.get(`${API_BASEURL}/product/${product_id}`, config);
     return data;
 }
 
 
-const addProduct = async ({ product_name, description, produvt_price, category_id, qty, token, brand, image, merchant_id, discount }: AddProductProps) => {
+const createProduct = async ({ 
+    category_id, product_name, description, product_price, merchant_id, qty, token, brand, mainImage, discount, imageTop, imageSide, imageBack
+
+}: AddProductProps) => {
     const config = {
         headers: {
             "Content-Type": "application/json",
@@ -63,7 +69,8 @@ const addProduct = async ({ product_name, description, produvt_price, category_i
         },
     };
 
-    const response = await axios.post(`${API_BASEURL}/products`, { product_name, description, produvt_price, category_id, qty, brand, image, merchant_id, discount }, config);
+    const response = await axios.post(`${API_BASEURL}/product/create`, {     
+        category_id, product_name, description, product_price, merchant_id, qty, token, brand, mainImage, discount, imageTop, imageSide, imageBack }, config);
     return response.data;
 }
 
@@ -91,13 +98,26 @@ const deleteProduct = async ({token, product_id}: ProductProps) => {
     return data;
 }
 
+const getProductsCategory = async (category_id: string) => {
+    const config = {
+        headers: {
+            "Content-Type": "application/json",
+            // Authorization: `Bearer ${token}`,
+        },
+    };
+
+    const {data} = await axios.get(`${API_BASEURL}/productss/${category_id}`, config);
+    return data;
+}
+
 
 const productService = {
     getProducts,
     getProduct,
-    addProduct,
+    createProduct,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    getProductsCategory
 }
 
 export default productService

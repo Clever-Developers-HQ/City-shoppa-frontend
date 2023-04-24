@@ -32,11 +32,11 @@ const createCategory = async ({token, name}: CreateCategoryProps)  =>  {
     return data;
 }
 
-const getCategories = async ()  => {
+const getCategories = async (token: string): Promise<{}>  => {
     const config = {
         headers: {
           "Content-Type": "application/json",
-          // Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
         credentials: "include",
         mode: "cors",
@@ -44,7 +44,7 @@ const getCategories = async ()  => {
 
       
     const {data}= await axios.get(`${API_BASEURL}/category`, config);
-    return data;
+    return data.category;
 }
 
 const getCategory = async ({id, token}: CategoryProps) => {

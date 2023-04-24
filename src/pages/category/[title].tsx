@@ -6,43 +6,43 @@ import NavBar from "@/components/navigation/NavBar";
 import Footer from "@/components/footer/Footer";
 import { mart, responsive } from "@/components/products/Data";
 import EachProducts from "@/components/eachProductCategories/EachProducts";
-import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { useRouter } from "next/router";
 import NextLink from 'next/link';
-
-
-
+import ProductCard from "@/components/products/productCard"
+import {useEffect, useState} from 'react'
+import {getProductsCategoryAction} from "@/redux/Features/product/getProductsCategorySlice";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/redux/store";
+import Loader from "@/components/loader/Loader"
 
 function ProductCategory() {
   const router = useRouter();
   const { title } = router.query;
 
-  console.log(router.query, "THE ROUTER QUERY")
+  const dispatch = useDispatch<AppDispatch>()
+  const {loading, products} = useSelector((state: RootState) => state.getProductsCategory)
+  useEffect(() => {
+    if (router.query && typeof router.query.category_id === "string" ) {
+    dispatch(getProductsCategoryAction(router.query.category_id));
+    }
 
+  }, [dispatch, router.query])
 
-  const product = mart.map((item) => (
-    <EachProducts
-      key={item.id}
-      imageurl={item.imageurl}
-      name={item.name}
-      price={item.price}
-      description={item.description}
-    />
-  ));
+  console.log(products, "THE PRODUCTS")
 
   return (
     <div>
       <>
         <NavBar />
         <div
+        className="mr-5 md:mx-20"
           style={{
             marginBottom: "2rem",
-            maxWidth: "1350px",
-            margin: "0px auto",
-            padding: "0 1rem",
+            // margin: "0px auto",
+            // padding: "0 1rem",
           }}>
-          <div className="md:flex justify-between items-center my-10" style={{}}>
+          <div className="md:flex justify-between items-center my-10">
             <h1
               style={{
                 fontSize: "2rem",
@@ -69,34 +69,32 @@ function ProductCategory() {
             </Button>
             </NextLink>
           </div>
+          {
+              loading && <Loader/>
+            }
 
-          <Carousel
-            showDots={false}
-            autoPlay={true}
-            autoPlaySpeed={3000}
-            infinite={true}
-            responsive={responsive}>
-            {product}
-          </Carousel>
+          <div className='grid m-5 flex-wrap justify-center items-center w-full grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-0'>
+{
+  products?.map((product: any) => (
+        <div key={product._id} className="flex justify-center">
+            <ProductCard 
+                id={product._id}
+                name={product.product_name}
+                price={product.product_price}
+                imageUrl={product.mainImage}
+                description={product.description}
+                brand={product.brand}
+                category_id={product.category}
+                merchant_id={product.merchant}
+                images={product.images}
+                discountPrice={product.discount}
+            />
+        </div>
+        
+    ))
+}
 
-          <Carousel
-            showDots={false}
-            autoPlay={true}
-            autoPlaySpeed={3000}
-            infinite={true}
-            responsive={responsive}>
-            {product}
-          </Carousel>
-
-
-          <Carousel
-            showDots={false}
-            autoPlay={true}
-            autoPlaySpeed={3000}
-            infinite={true}
-            responsive={responsive}>
-            {product}
-          </Carousel>
+</div>
           <Stack
             spacing={2}
             style={{

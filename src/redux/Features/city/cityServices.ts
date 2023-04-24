@@ -48,7 +48,6 @@ const getCities = async (token: string): Promise<{}> => {
 
 
   const { data } = await axios.get(`${API_BASEURL}/city`, config);
-  console.log(data, "THE DATA")
   return data;
 }
 

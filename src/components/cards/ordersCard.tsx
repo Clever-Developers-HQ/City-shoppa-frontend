@@ -81,7 +81,6 @@ function OrdersCard({orders}: OrderProps) {
                             > 
                             <span className="text-[#5582F6]"> www.cityshopper.com</span>
                             </a>
-        
                         </p>
                     </div>
 

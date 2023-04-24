@@ -71,13 +71,13 @@ function Categories() {
 
     if (token) {
       setIsLoading(false)
-      dispatch(getCategoriesAction())
+      dispatch(getCategoriesAction("token"))
     }
 
-  }, [token])
+  }, [token, dispatch])
 
   if(isUpdated){
-    dispatch(getCategoriesAction())
+    dispatch(getCategoriesAction("token"))
     setIsUpdated(false)
   }
 
@@ -90,7 +90,6 @@ function Categories() {
     <>
     {addNewCategory === true && <AddNewCategory open={addNewCategory} setOpen={setAddNewCategory} setIsUpdated={setIsUpdated} token={token} />}
     {editCategory === true && <EditCategory open={editCategory} setOpen={setEditCategory} setIsUpdated={setIsUpdated} token={token} />}
-
     {
       isLoading ? <LoadingScreen/> : (
         <div>

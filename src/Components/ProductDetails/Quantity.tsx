@@ -1,11 +1,12 @@
 import { useState } from "react";
 
 interface QuantityProps {
-  initialValue?: number;
+  quantity: any;
+  setQuantity: any;
 }
 
-const Quantity: React.FC<QuantityProps> = ({ initialValue = 1 }) => {
-  const [quantity, setQuantity] = useState<number>(initialValue);
+const Quantity: React.FC<QuantityProps> = ({ quantity, setQuantity }) => {
+
 
   const handleDecrement = () => {
     if (quantity <= 1) return;
@@ -19,25 +20,27 @@ const Quantity: React.FC<QuantityProps> = ({ initialValue = 1 }) => {
   return (
     <div className="flex items-center mt-4">
       <p className="text-l text-gray-500">Quantity:</p>
+      <div> 
       <button
-        className="bg-gray-200 mr-[-10px] text-gray-800 px-2 rounded-l font-bold"
+        className="bg-gray-200 text-gray-800 px-2 mx-2 rounded-l font-bold"
         onClick={handleDecrement}
       >
         -
       </button>
       <input
-        className=" w-7 text-center border-gray-300 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 focus:outline-none"
-        type="number"
+        className=" w-8 h-8 p-1 text-center border-gray-300 focus:border-orange focus:ring-1 focus:ring-orangefocus:outline-none"
+        type="text"
         id="quantity"
         name="quantity"
         value={quantity}
       />
       <button
-        className="bg-gray-200 ml-[-20px] text-gray-800 px-2 rounded-r font-bold"
+        className="bg-gray-200 mx-2 text-gray-800 px-2 rounded-r font-bold"
         onClick={handleIncrement}
       >
         +
       </button>
+      </div>
     </div>
   );
 };

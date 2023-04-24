@@ -12,6 +12,7 @@ function FileUpload({ setImages, images, multiple, label }: FileUploadProps) {
   const maxNumber = 69;
 
   const onChange = (imageList: any, addUpdateIndex: any) => {
+    console.log(imageList)
     setImages(imageList);
   };
 

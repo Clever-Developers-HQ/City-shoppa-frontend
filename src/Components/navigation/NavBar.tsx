@@ -17,6 +17,7 @@ import Link from "next/link";
 import { getCitiesAction } from './../../redux/Features/city/getCitiesSlice';
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
+import ProfileModal from "../modals/profileModal"
 
 
 const user = {
@@ -34,6 +35,7 @@ const userNavigation = [
 
 
 
+
 function classNames(...classes: string[]) {
   
   return classes.filter(Boolean).join(" ");
@@ -47,9 +49,9 @@ export default function NavBar() {
     (store: RootState) => store.getCities
   );
 
-  console.log(cities, "THE CITIES")
-
   const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [viewProfile, setViewProfile] = useState(false)
+
 
 useEffect(() => {
   const token = localStorage.getItem("token") 
@@ -108,7 +110,11 @@ useEffect(() => {
     },
   };
   return (
-    <Disclosure as="header" className="bg-[#FF7235]">
+    <>
+    {
+      showProfile && <ProfileModal open={showProfile} setOpen={setShowProfile}/>
+    }
+        <Disclosure as="header" className="bg-[#FF7235]">
       {({ open }) => (
         <>
         {showProfile && <Profile open={showProfile} setOpen={setShowProfile} />}
@@ -230,7 +236,7 @@ useEffect(() => {
 
                 {/* Profile dropdown */}
                 {isLoggedIn ? (
-                  <Menu as="div" className="flex-shrink-0 relative ml-4">
+                  <Menu as="div" className="flex-shrink-0 relative ml-4 flex ">
                     <button
                       type="button"
                       className="flex-shrink-0 rounded-full p-1 text-white hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
@@ -247,10 +253,11 @@ useEffect(() => {
                     </button>
                     <div>
                       <Menu.Button 
-                      // onClick={() => setShowProfile(true)}
+                      
                       className="bg-white rounded-full flex focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                         <span className="sr-only">Open user menu</span>
                         <img
+                        onClick={() => setShowProfile(true)}
                           className="h-8 w-8 rounded-full"
                           src={user.imageUrl}
                           alt=""
@@ -305,5 +312,7 @@ useEffect(() => {
         </>
       )}
     </Disclosure>
+    </>
+
   );
 }

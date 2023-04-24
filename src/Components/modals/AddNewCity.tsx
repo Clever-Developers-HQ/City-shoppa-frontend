@@ -25,8 +25,6 @@ export default function AddNewMerchant({open, setOpen, setIsUpdated, token}:AddN
   const dispatch = useDispatch<AppDispatch>()
   const {loading} = useSelector((store:RootState) => store.createCity)
 
-
-
   return (
     <ModalLayout
       open={open}

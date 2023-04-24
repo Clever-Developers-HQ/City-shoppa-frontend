@@ -88,11 +88,11 @@ const AdsCards = () => {
               </span>
             </p>
             <p className="mt-2 max-w-prose mx-auto text-1xl text-slate-100">
-              From ₹3095.00/mo. Per Month <br />
+              From $3095.00/mo. Per Month <br />
               with EMI, <br /> or <br />{" "}
               <span className="text-1xl font-bold text-white sm:text-1xl">
                 MRP $239.00
-              </span>{" "}
+              </span>
               <br />
               (Incl. of all taxes)
             </p>

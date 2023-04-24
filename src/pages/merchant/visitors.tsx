@@ -30,6 +30,7 @@ function Products() {
 
   const [addNewProduct, setAddNewProduct] = useState(false)
   const [editProduct, setEditProduct] = useState(false)
+  const [isUpdated, setIsUpdated] = useState(false)
 
   
   function classNames(...classes : any) {
@@ -40,7 +41,7 @@ function Products() {
   return (
     <div>
 
-      {addNewProduct && <AddNewProductModal open={addNewProduct} setOpen={setAddNewProduct} />}
+      {addNewProduct && <AddNewProductModal token={"TOKEN"} setIsUpdated={setIsUpdated} open={addNewProduct} setOpen={setAddNewProduct} />}
       {editProduct && <EditProductModal open={editProduct} setOpen={setEditProduct} />}
 
 

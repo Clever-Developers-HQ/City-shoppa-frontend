@@ -18,7 +18,7 @@ export const getMerchantsAction = createAsyncThunk(
     "/getMerchantsAction",
     async (
     token:string,
-      thunkAPI: any,
+      thunkAPI
     ) => {
       try {
         return await merchantService.getMerchants(token);

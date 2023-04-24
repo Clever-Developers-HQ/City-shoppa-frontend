@@ -66,7 +66,7 @@ function Products() {
   return (
     <>
       {addNewProduct && (
-        <AddNewProductModal open={addNewProduct} setOpen={setAddNewProduct} />
+        <AddNewProductModal open={addNewProduct} setOpen={setAddNewProduct} token={token} setIsUpdated={setIsUpdated} />
       )}
 
       {editNewProduct && (

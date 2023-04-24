@@ -21,7 +21,11 @@ const style = {
   p: 4,
 };
 
-export default function SellerModal () {
+interface SellerData {
+  merchant: any
+}
+
+export default function SellerModal ({merchant}:SellerData ) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -127,7 +131,7 @@ export default function SellerModal () {
                               letterSpacing: "1px",
                           }}
                           >
-                             Marco Davied
+                            {merchant?.name}
                           </Typography>
                           <Typography id="modal-modal-description" sx={{ mt: 2 }} style={{
                               color: "#F85606",
@@ -135,7 +139,7 @@ export default function SellerModal () {
                               letterSpacing: "1px",
                           }}
                           >
-                             14 Brent street, Ontario Canada.
+                            {merchant?.address}
                           </Typography>
                           <Link
                               href="tel:88787124334"
@@ -147,35 +151,30 @@ export default function SellerModal () {
                               letterSpacing: "1px",
                           }}
                           >
-                          88787124334
+                          {merchant?.phone || "Not Available"}
                               </Typography>
                           </Link>
-                          <Link
-                              href="mailto:marco185@gmail.com"
-                              passHref
-                            >
+                          <a href={`mailto:${merchant?.email}`}>
                           <Typography id="modal-modal-description" sx={{ mt: 2 }} style={{
                               color: "#000",
                               fontSize: "15px",
                               letterSpacing: "1px",
                           }}
                           >
-                            marco185@gmail.com
+                          {merchant?.email}
                               </Typography>
-                          </Link>
-                          <Link
-                              href="https://www.marcostore.com"
-                              passHref
-                            >
+                          </a>
+
+                          <a href={`${merchant?.website}`} >
                           <Typography id="modal-modal-description" sx={{ mt: 2 }} style={{
-                              color: "#000",
+                              // color: "#000",
                               fontSize: "15px",
                               letterSpacing: "1px",
                           }}
                           >
-                            www.marcostore.com
+                            {merchant?.website}
                               </Typography>
-                            </Link>
+                            </a>
                       </Box>
                   </Box>
         </Box>

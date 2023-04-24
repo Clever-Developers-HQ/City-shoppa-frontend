@@ -26,10 +26,7 @@ export default function SignInPage() {
   const dispatch = useDispatch<AppDispatch>()
 
   useEffect(() => {
-// Check if User IAlready Logged In or has a Token Saved in Local Storage
-
     const token = localStorage.getItem("token")
-
     if (token) {
       router.push("/")
       return
@@ -52,7 +49,7 @@ export default function SignInPage() {
 
     await axios.post(`${API_BASEURL}/users/login`, {email, password}, config)
     .then(response => {
-      console.log(response, "THE RESPONSE")
+      // console.log(response, "THE RESPONSE")
       if (response.data.status === "success") {
         showSuccess(`Welcome Back ${response.data.user?.name}`)
         //Save the User and Token Token To Local Storage

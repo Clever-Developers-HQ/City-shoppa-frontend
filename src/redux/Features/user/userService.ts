@@ -66,7 +66,7 @@ const getUser = async ({ id, token }: UserProps) => {
     },
   };
 
-  const { data } = await axios.get(`${API_BASEURL}/user/${id}`, config);
+  const { data } = await axios.get(`${API_BASEURL}/users/${id}`, config);
   return data
 }
 
