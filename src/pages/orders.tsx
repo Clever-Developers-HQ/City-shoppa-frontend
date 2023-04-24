@@ -35,6 +35,7 @@ function Orders() {
       router.push("/disabled")
     }
     dispatch(getUserAction({id: userDetails._id, token: userDetails.token}))
+    
   }, [dispatch]);
 
 
