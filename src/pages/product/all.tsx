@@ -4,7 +4,7 @@ import Footer from '@/components/footer/Footer'
 import { useRouter } from 'next/router'
 import { useDispatch, useSelector } from 'react-redux';
 import {getProductsAction} from '../../redux/Features/product/getProductsSlice';
-import { AppDispatch } from "@/redux/store";
+import { AppDispatch, RootState } from "@/redux/store";
 import ProductCard from "@/components/products/productCard"
 import Loader from "@/components/loader/Loader"
 

@@ -90,7 +90,7 @@ function Merchants() {
   //UPDATE FUNCTION HANDLER
   const updateHandler = async (id: string) => {
     setEditMerchant(true);
-    await dispatch(getMerchantAction({ id, token }));
+    await dispatch(getMerchantAction(id));
   };
 
   return (
