@@ -18,7 +18,7 @@ function ImageSlider( {mainImage, image1, image2, image3}: ImageSliderDTO ) {
     ];
     const [wordData,setWordData]=useState(imgs[0]);
   
-    console.log(mainImage, "IM SLIDER")
+   
     const handleClick=(index: number)=>{
       console.log(index)
       const wordSlider=imgs[index];

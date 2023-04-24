@@ -22,6 +22,7 @@ function ProductCategory() {
 
   const dispatch = useDispatch<AppDispatch>()
   const {loading, products} = useSelector((state: RootState) => state.getProductsCategory)
+  
   useEffect(() => {
     if (router.query && typeof router.query.category_id === "string" ) {
     dispatch(getProductsCategoryAction(router.query.category_id));
