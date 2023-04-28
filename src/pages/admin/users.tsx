@@ -13,6 +13,7 @@ import {FaUserEdit, FaUserAltSlash} from 'react-icons/fa'
 import AdminLayout from '@/components/layouts/AdminLayout'
 import { getUsersAction } from '@/redux/Features/user/getUsersSlice'
 import {deleteUserAction} from '@/redux/Features/user/deleteUserSlice'
+import { formatPhoneNumber } from '@/components/Utils/utilFuncs'
 
 
 function Users() {
@@ -92,11 +93,11 @@ function Users() {
                     <tr>
                       <th scope="col" className="relative w-12 px-6 sm:w-16 sm:px-8">
                       </th>
-                      <th scope="col" className="min-w-[4rem] py-3.5 pr-3 text-left text-md font-semibold text-gray-500">
+                      {/* <th scope="col" className="min-w-[4rem] py-3.5 pr-3 text-left text-md font-semibold text-gray-500">
                         User ID
-                      </th>
+                      </th> */}
                       <th scope="col" className="px-3 py-3.5 text-left text-md font-semibold text-gray-500">
-                        User Name
+                        Name
                       </th>
                       <th scope="col" className="px-3 py-3.5 text-left text-md font-semibold text-gray-500">
                        Email
@@ -114,7 +115,7 @@ function Users() {
                   </thead>
                   <tbody className="divide-y divide-gray-200 bg-white ">
                     {users.map((user :any) => (
-                      <tr key={user.id} className='bg-gray-50 hover:bg-[#F5F5F5]'>
+                      <tr key={user._id} className='bg-gray-50 hover:bg-[#F5F5F5]'>
                         <td className="relative w-12 px-6 sm:w-16 sm:px-8">
       
                           <input
@@ -122,16 +123,13 @@ function Users() {
                             className="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 sm:left-6"
                           />
                         </td>
-                        <td
-                          className= 'whitespace-nowrap py-4 pr-3 text-sm font-medium text-gray-500'
-                        >
-                          {user._id}
-                        </td>
+
                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                        {user.name} 
       
                         </td>
                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{user.email}</td>
+                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{formatPhoneNumber(user?.phone)}</td>
                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{user.status}</td>
                         {
                           user.isDisabled === false ? (

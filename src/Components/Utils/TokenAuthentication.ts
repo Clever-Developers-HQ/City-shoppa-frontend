@@ -36,6 +36,15 @@ export const userAuthenticateToken = () => {
     }
 
     console.log("ENTERED HERE")
+
+    if (user.merchant_id) {
+      return {
+        token: token,
+        merchant_id: user?.merchant_id || null,
+        id: user?._id || null,
+      }
+    }
+
     return {
       token : token,
       id: user?._id || null,

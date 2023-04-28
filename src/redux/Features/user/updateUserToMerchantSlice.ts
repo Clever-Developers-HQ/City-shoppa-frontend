@@ -14,10 +14,10 @@ import userService,{ UpdateUserPassword }  from './userService'
 
 export const updateUserAction = createAsyncThunk(
     "/updateUserAction",
-    async ({id, token, password}:UpdateUserPassword, thunkAPI: any,
+    async ({id, token, merchant_id, role}:UpdateUserPassword, thunkAPI: any,
     ) => {
       try {
-        return await userService.updateUser({id, token, password});
+        return await userService.updateUser({id, token, merchant_id, role});
       } catch (error: any) {
         const message =
           (error.response &&

@@ -4,6 +4,7 @@ import updateMerchantReducer from "./Features/merchant/updateMerchantSlice";
 import getMerchantReducer from "./Features/merchant/getMerchantSlice";
 import disableMerchantReducer from "./Features/merchant/disableMerchantSlice";
 import reactivateMerchantReducer from "./Features/merchant/reactivateMerchantSlice";
+import approveMerchantReducer from "./Features/merchant/approveMerchant";
 
 
 
@@ -28,9 +29,11 @@ import getUsersReducer from "./Features/user/getUsersSlice";
 import registerUserReducer from "./Features/user/registerUserSlice";
 import deleteUser from "./Features/user/deleteUserSlice";
 import getUserReducer from "./Features/user/getUserSlice";
+import forgetPasswordReducer  from "./Features/auth/authForgetPasswordSlice";
 
 import loginUserReducer  from './Features/auth/authLoginSlice';
-import getProductsReducer from './Features/product/getProductsSlice'
+import getProductsReducer from './Features/product/getProductsSlice';
+import resetPasswordReducer  from "./Features/auth/authResetPasswordSlice";
 
 import getFeaturesReducer from "./Features/feature/getFeaturesSlice"
 import deleteFeatureReducer from "./Features/feature/deleteFeatureSlice"
@@ -50,6 +53,7 @@ import createDispute from './Features/dispute/createDisputeSlice'
 
 
 
+
 export {
     // MERCHANTS 
     getMerchantsReducer,
@@ -59,6 +63,7 @@ export {
     registerMerchantReducer,
     disableMerchantReducer, 
     reactivateMerchantReducer,
+    approveMerchantReducer,
 
 
     // CAPTIONS
@@ -92,6 +97,8 @@ export {
     deleteUser,
     loginUserReducer,
     getUserReducer,
+    forgetPasswordReducer,
+    resetPasswordReducer,
 
 
     //PRODUCTS

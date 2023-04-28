@@ -13,6 +13,7 @@ import router, { useRouter } from 'next/router'
 import axios from 'axios'
 import API_BASEURL  from "constants";
 import Loader from "@/components/loader/Loader";
+import NextLink from 'next/link';
 
 
 export default function SignInPage() {
@@ -82,13 +83,10 @@ export default function SignInPage() {
         if (response.data.user?.role === 'merchant') {
           router.push("/merchant")
         }
-  
-        return
       }
     }).catch (err => {
         showError("Invalid Login Credentials")
         setIsSubmitting(false)
-        return
     })
   }
 
@@ -148,9 +146,9 @@ export default function SignInPage() {
                 )}
               </div>
               <div className="mt-2">
-                <a href="#" className="text-sm font-bold text-blue-500 hover:text-blue-700">
+                <NextLink href="/forget-password" className="text-sm font-bold text-blue-500 hover:text-blue-700">
                   Forgot password?
-                </a>
+                </NextLink>
               </div>
             </div>
             <div className="flex flex-col items-center justify-between">

@@ -14,6 +14,24 @@ const initialState: any = {
     token: null
 }
 
+export const logOutAction = () => {
+    //Clear tHE dETAILS saved in Local Storage 
+
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    localStorage.removeItem("cart");
+
+    //Toast The User That Log Out Sucecssfull
+
+    toast.success("Logout Successfully");
+    
+    //Redirect the user to Home after 5 seconds 
+
+    setTimeout(() => {
+        window.location.href = "/";
+    }, 3000)
+}
+
 //LOGIN USER
 
 export const loginAction = createAsyncThunk(

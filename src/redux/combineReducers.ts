@@ -9,6 +9,7 @@ import {
     registerMerchantReducer,
     disableMerchantReducer,
     reactivateMerchantReducer,
+    approveMerchantReducer,
 
     // CAPTIONS
     getCaptionReducer,
@@ -40,6 +41,8 @@ import {
     registerUserReducer,
     deleteUser,
     getUserReducer,
+    forgetPasswordReducer,
+    resetPasswordReducer,
 
 
     // LOGIN
@@ -78,6 +81,7 @@ const reducers = combineReducers({
     registerMerchant: registerMerchantReducer,
     disableMerchant : disableMerchantReducer, 
     reactivateMerchant: reactivateMerchantReducer,
+    approveMerchant : approveMerchantReducer, 
 
 
     // CAPTION REDUCERS
@@ -110,6 +114,8 @@ const reducers = combineReducers({
     registerUser : registerUserReducer,
     delete : deleteUser,
     getUser: getUserReducer,
+    forgetPassword: forgetPasswordReducer, 
+    resetPassword: resetPasswordReducer,
 
 
     //LOGIN REDUCERS

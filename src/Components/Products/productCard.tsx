@@ -27,11 +27,10 @@ export default function ProductCard(props: {
         merchant: props.merchant_id
       }
     })}
-    className="">
+    className=" mx-1 cursor-pointer h-[220px] ease-in-out duration-300 drop-shadow-2xl">
       <Image 
         src={props.imageUrl}
         alt={props.name}
-        // placeholder="blur"
         className="product--image"
         width={500}
         height={500}
@@ -44,24 +43,28 @@ export default function ProductCard(props: {
           flexDirection: "row",
         }}>
         <h2
-        className="my-3"
+        className="my-3 py-3"
           style={{
+            fontSize: "16px", 
             fontWeight: 500,
             color: "#000",
             fontFamily: "Poppins",
             width: "70%",
+            // whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            maxWidth: '20ch',
+            textAlign: 'center'
           }}>
           {props.name}
         </h2>
         <p
           style={{
-            fontSize: "14px",
+            fontSize: "16px",
             fontWeight: 700,
             color: "#000",
             margin: "0.5rem",
             fontFamily: "Poppins",
-            // isplay: 'flex',
-            // flexWrap: 'nowrap'
           }}>
          ${formatMoney(props.price)}
         </p>

@@ -2,11 +2,12 @@ import API_BASEURL from "constants";
 import axios from "axios";
 
 
-interface CreateOrderProps {
+export interface CreateOrderProps {
     products: string;
     quantity: any
     userId: string
     token: string
+    discounted_productId: string
 }
 
 
@@ -14,7 +15,6 @@ const getOrders = async (token: string): Promise<{}> => {
     const config = {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
       },
       credentials: "include",
       mode: "cors",
@@ -26,7 +26,7 @@ const getOrders = async (token: string): Promise<{}> => {
   }
 
 
-    const createOrder = async ({products, quantity, userId, token }: CreateOrderProps) => {
+    const createOrder = async ({products, quantity, userId, token, discounted_productId }: CreateOrderProps) => {
     const config = {
       headers: {
         "Content-Type": "application/json",

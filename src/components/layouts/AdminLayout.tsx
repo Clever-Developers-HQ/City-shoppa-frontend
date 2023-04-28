@@ -2,14 +2,17 @@
 import { FaCity } from 'react-icons/fa';
 import { BiCaptions, BiDonateBlood, BiCategory, BiUserCircle} from 'react-icons/bi';
 import { BsFillStarFill} from 'react-icons/bs';
-import {AiFillBell, AiOutlineSearch, AiOutlineHome, AiOutlineMenuUnfold} from 'react-icons/ai';
+import {AiFillBell, AiOutlineSearch, AiOutlineHome} from 'react-icons/ai';
 import {TbBrandAdobe} from 'react-icons/tb';
 import {FiUsers} from 'react-icons/fi';
 import {MdOutlineProductionQuantityLimits, MdOutlineRemoveShoppingCart, MdCancel, MdMenu} from 'react-icons/md';
-import {RiShoppingBagFill, RiUserStarFill} from 'react-icons/ri';
+import {RiShoppingBagFill, RiUserStarFill, RiUserShared2Line} from 'react-icons/ri';
 import Image from 'next/image';
-import Logo from '../../assets/images/city-shoppa-logo.png'
-import NextLink from 'next/link'
+import Logo from '../../assets/images/city-shoppa-logo.png';
+import NextLink from 'next/link';
+import { logOutAction } from '@/redux/Features/auth/authLoginSlice';
+
+
 
 
 import { Fragment, useState } from 'react'
@@ -24,14 +27,13 @@ const navigation = [
   { name: 'Brands', href: '/admin/brands', icon: <TbBrandAdobe size='20'/>, current: false },
   { name: 'Categories', href: '/admin/categories', icon: <BiCategory size='20'/>,  current: false },
   { name: 'Merchants', href: '/admin/merchants', icon: <RiUserStarFill size='20'/>,  current: false },
+  { name: 'Pending Merchant Applications', href: '/admin/pending_merchants', icon: <RiUserShared2Line size='20'/>,  current: false },
   { name: 'Users', href: '/admin/users', icon: <FiUsers size='20'/>,  current: false },
   { name: 'Products', href: '/admin/products', icon: <MdOutlineProductionQuantityLimits size='20'/>,  current: false },
   { name: 'Completed Orders', href: '/admin/completed-orders', icon: <RiShoppingBagFill size='20'/>,  current: false },
   { name: 'Uncompleted Orders', href: '/admin/uncompleted-orders', icon: <MdOutlineRemoveShoppingCart size='20'/>,  current: false },
 ]
 const userNavigation = [
-  { name: 'Your Profile', href: '#' },
-  { name: 'Settings', href: '#' },
   { name: 'Sign out', href: '#' },
 ]
 
@@ -245,15 +247,15 @@ export default function AdminLayout({children, title}: any) {
                       {userNavigation.map((item) => (
                         <Menu.Item key={item.name}>
                           {({ active }) => (
-                            <a
-                              href={item.href}
+                            <span
+                             onClick = {() => logOutAction()}
                               className={classNames(
                                 active ? 'bg-gray-100' : '',
                                 'block px-4 py-2 text-sm text-gray-700'
                               )}
                             >
                               {item.name}
-                            </a>
+                            </span>
                           )}
                         </Menu.Item>
                       ))}

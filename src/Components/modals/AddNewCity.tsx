@@ -12,7 +12,6 @@ import { showSuccess, showError } from "@/components/Utils/AlertMsg";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { createCityAction } from '@/redux/Features/city/createCitySlice';
 
-
 interface AddNewCategoryProps{
   open: boolean;
   setOpen: any

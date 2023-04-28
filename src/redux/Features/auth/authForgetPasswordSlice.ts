@@ -1,30 +1,26 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
-import orderService, {CreateOrderProps} from './orderService'
+import authService from './authService';
 
 
 
   const initialState: any = {
-    order: null,
+    products: null,
     loading: false,
-    coupon: null,
     error: false,
     success: false,
     message: "",
   };
 
 
-//create Order
-export const createOrderAction = createAsyncThunk(
-    "/createOrderAction",
+export const forgetPasswordAction = createAsyncThunk(
+    "/forgetPasswordAction",
     async (
-      { products, quantity, userId, token, discounted_productId}: CreateOrderProps,
-      thunkAPI
+        email : string,
+      thunkAPI: any,
     ) => {
       try {
-        return await orderService.createOrder({
-            products, quantity, userId, token, discounted_productId
-        });
+        return await authService.forgetPassword(email);
       } catch (error: any) {
         const message =
           (error.response &&
@@ -38,8 +34,8 @@ export const createOrderAction = createAsyncThunk(
     }
   );
   
-  export const createOrder = createSlice({
-    name: "createOrder",
+  export const forgetPasswordSlice = createSlice({
+    name: "forgetPassword",
     initialState,
     reducers: {
       //non asynchronous reducers goes here
@@ -48,33 +44,31 @@ export const createOrderAction = createAsyncThunk(
         state.error = false;
         state.success = false;
         state.message = "";
-        state.order = null;
-        state.coupon = null;
+        state.products = null;
+
       },
     },
     extraReducers: (builder) => {
       builder
-        .addCase(createOrderAction.pending, (state) => {
+        .addCase(forgetPasswordAction.pending, (state) => {
           state.loading = true;
         })
-        .addCase(createOrderAction.fulfilled, (state, action) => {
+        .addCase(forgetPasswordAction.fulfilled, (state, action) => {
           state.loading = false;
           state.success = true;
-          state.order = action.payload.cart;
-          state.message = action.payload.status;
-          state.coupon = action.payload.coupon
+          state.products = action.payload.message;
+          state.message = action.payload.status
         })
-        .addCase(createOrderAction.rejected, (state, action) => {
+        .addCase(forgetPasswordAction.rejected, (state, action) => {
           state.loading = false;
           state.error = true;
-          state.message = action.payload ? action.payload : action.error.message;
-          state.order = null;
-          state.coupon = null;
+          state.message = action.payload || "Something  Went Wrong. Please Try Again";
+          state.products = null;
         });
     },
   });
   
   // Action creators are generated for each case reducer function
-  export const { reset } = createOrder.actions;
+  export const { reset } = forgetPasswordSlice.actions;
   
-  export default createOrder.reducer;
+  export default forgetPasswordSlice.reducer;

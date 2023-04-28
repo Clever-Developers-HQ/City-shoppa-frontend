@@ -50,7 +50,6 @@ function Index() {
     },
   ];
 
-  const [isUpdated, setIsUpdated] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [token, setToken] = useState<any>("");
 
@@ -66,22 +65,26 @@ function Index() {
       setLoaded(true);
       dispatch(getOrdersAction(token));
     }
-  }, [token]);
+  }, [token, dispatch]);
 
   return (
     <div>
-      <AdminLayout title="Dashboard">
-        {loading && <Loader />}
+      {
+        loaded ? (
+          <AdminLayout title="Dashboard">
 
-        {orders && (
-          <>
-            <StatsCard data={stats} />
-            <p className="my-5 font-bold text-2xl">All Orders</p>
-            <OrdersCard orders={orders} />
-            <OrdersCard orders={orders} />
-          </>
-        )}
-      </AdminLayout>
+          {orders && (
+            <>
+              <StatsCard data={stats} />
+              <p className="my-5 font-bold text-2xl">All Orders</p>
+              <OrdersCard orders={orders} />
+            </>
+          )}
+        </AdminLayout>
+        ) : (
+          <LoadingScreen />
+        )
+      }
     </div>
   );
 }

@@ -24,9 +24,10 @@ export interface UpdateUserProps {
 }
 
 export interface UpdateUserPassword {
-  password: any
   id: string;
   token: string;
+  merchant_id: string;
+  role: string;
 }
 
 const registerUser = async ({ token, name, email, phone, password }: RegisterUserProps) => {
@@ -82,7 +83,7 @@ const deleteUser = async ({ id, token }: UserProps) => {
   return data
 }
 
-const updateUser = async ({ id, password, token }: UpdateUserPassword) => {
+const updateUser = async ({ id, merchant_id, role,  token }: UpdateUserPassword) => {
   const config = {
     headers: {
       "Content-Type": "application/json",
@@ -90,16 +91,42 @@ const updateUser = async ({ id, password, token }: UpdateUserPassword) => {
     },
   };
 
-  const response = await axios.put(`${API_BASEURL}/users/update/${id}`, {password}, config);
+  const response = await axios.put(`${API_BASEURL}/users/update/${id}`, {merchant_id, role}, config);
   return response.data
 }
+
+const reactivateUser = async ({id, token}: UserProps) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  const response = await axios.put(`${API_BASEURL}/users/reactivateuser/${id}`, {}, config);
+  console.log(response, "THE RESPONSE BACK")
+  return response.data
+}
+
+
+const disableUser = async ({id, token}: UserProps) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  const response = await axios.put(`${API_BASEURL}/users/disableuser/${id}`, {}, config);
+  console.log(response, "THE RESPONSE BACK")
+  return response.data
+}
+
 
 const userService = {
   registerUser,
   deleteUser,
   updateUser,
   getUser,
-  getUsers
+  getUsers,
+  reactivateUser,
+  disableUser
 }
 
 export default userService

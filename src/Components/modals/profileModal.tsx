@@ -7,6 +7,8 @@ import {FiEdit2} from 'react-icons/fi'
 import { AppDispatch, RootState } from "../../redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from '@/components/loader/Loader'
+import { logOutAction } from '@/redux/Features/auth/authLoginSlice'
+
 
 
 
@@ -25,8 +27,6 @@ export default function Profile({ open, setOpen}: ModalProps) {
   //Get the iserDetails from Local Storage
 
   const user = JSON.parse(localStorage.getItem('user') || '{}')
-
-  console.log(user, "THE DETAILS ")
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -197,7 +197,7 @@ export default function Profile({ open, setOpen}: ModalProps) {
 
                     <div className="flex justify-center hover:bg-orange text-white font-bold  items-center bg-primary px-4 py-3 rounded-xl">
                     <button
-                    onClick = {() => console.log("LOGGED OUT")}
+                    onClick = {() => logOutAction()}
                     type="button" >
                           Log Out
                         </button>

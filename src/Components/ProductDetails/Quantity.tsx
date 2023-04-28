@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,  } from "react";
 
 interface QuantityProps {
   quantity: any;
@@ -32,6 +32,7 @@ const Quantity: React.FC<QuantityProps> = ({ quantity, setQuantity }) => {
         type="text"
         id="quantity"
         name="quantity"
+        onChange={() => setQuantity(quantity)}
         value={quantity}
       />
       <button

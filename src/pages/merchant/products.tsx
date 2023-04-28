@@ -30,7 +30,7 @@ function Products() {
   const dispatch = useDispatch<AppDispatch>();
 
   const { products, merchant, loading, error } = useSelector(
-    (state: RootState) => state.getMerchant
+    (state: any) => state.getMerchant
   );
   console.log(products, merchant, error, loading, "THE STATETSSSS");
 

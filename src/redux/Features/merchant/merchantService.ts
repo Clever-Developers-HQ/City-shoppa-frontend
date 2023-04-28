@@ -26,20 +26,18 @@ export interface UpdateMerchantProps {
   name: string,
 }
 
-const registerMerchant = async ({token, name, business_name, address, website, email}: RegisterMerchantProps) => {
-    console.log("HITTED, i DEY")
+const registerMerchant = async (merchantProps: RegisterMerchantProps) => {
   const config = {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      };
-
-      
-    const response = await axios.post(`${API_BASEURL}/merchant/register`, {name, business_name, address, website, email}, config);
-    console.log(response.data, "THE DATA")
-    return response.data;
-}
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${merchantProps.token}`,
+    },
+  };
+  console.log("THE DATA", "BEFORE BEFORE");
+  const { data } = await axios.post(`${API_BASEURL}/merchant/register`, merchantProps, config);
+  console.log(data, "THE DATA");
+  return data;
+};
 
 const getMerchants = async (token: string): Promise<{}> => {
   console.log(API_BASEURL, "THE BASE URL")
@@ -89,7 +87,7 @@ const disableMerchant = async ({id, token}: MerchantProps) => {
       },
     };
 
-  const response = await axios.put(`${API_BASEURL}/merchant/disablemerchant/${id}`, config);
+  const response = await axios.put(`${API_BASEURL}/merchant/disablemerchant/${id}`, {}, config);
   return response.data
 }
 
@@ -112,11 +110,24 @@ const reactivateMerchant = async ({id, token}: MerchantProps) => {
       Authorization: `Bearer ${token}`,
     },
   };
-
-  const response = await axios.put(`${API_BASEURL}/merchant/reactivate/${id}`, config);
+  const response = await axios.put(`${API_BASEURL}/merchant/reactivate/${id}`, {}, config);
   console.log(response, "THE RESPONSE BACK")
   return response.data
 }
+
+const approveMerchant = async ({id, token}: any) => {
+  console.log(id, token, "IN THE APPROVE");
+
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const response = await axios.put(`${API_BASEURL}/merchant/merchant-pending-status/${id}`, {}, config);
+  return response.data;
+};
 
 
 
@@ -128,6 +139,7 @@ const merchantService = {
     updateMerchant,
     disableMerchant,
     reactivateMerchant,
+    approveMerchant,
 }
 
 export default merchantService

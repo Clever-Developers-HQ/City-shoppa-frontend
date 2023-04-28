@@ -15,7 +15,8 @@ import { useRouter } from "next/router";
 import Loader from "@/components/loader/Loader";
 import { merchantRegisterAction } from '@/redux/Features/merchant/registerMerchantSlice';
 import { userAuthenticateToken } from '@/components/Utils/TokenAuthentication';
-
+import API_BASEURL from 'constants';
+import axios from "axios";
 
 interface IFormValues {
   business_name: string;
@@ -46,9 +47,11 @@ export default function Form() {
     watch,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data: any) => {
+  const onSubmit = async (data: any) => {
+
     const {name, email, business_name, website, address} = data
-    dispatch(merchantRegisterAction({name, email, business_name, website, address, token}))
+
+    await dispatch(merchantRegisterAction({name, email, business_name, website, address, token}))
     .then(unwrapResult)
     .then((result) => {
       if (result.merchant) {
@@ -141,11 +144,13 @@ export default function Form() {
         <div className="col-1">
 
           <form
+          method="POST"
             id="form"
             className="flex flex-col w-full"
             onSubmit={handleSubmit(onSubmit)}
           >
             <h6 style={{marginBottom: '-0.5rem'}}>Name</h6>
+
             <input
             disabled
               type="text"

@@ -1,6 +1,7 @@
 
 interface DiscountProductDTO {
   discounted: any
+  discounted_productId: any
 }
 
 export default function DiscountedProducts({discounted}: DiscountProductDTO) {
