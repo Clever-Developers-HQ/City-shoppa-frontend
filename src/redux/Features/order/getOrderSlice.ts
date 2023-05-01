@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { HYDRATE } from "next-redux-wrapper";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
-import orderService from './orderService'
+import orderService, {OrderProps} from './orderService'
 
 
   const initialState: any = {
@@ -16,10 +16,10 @@ import orderService from './orderService'
 //REGISTER Order
 export const getOrderAction = createAsyncThunk(
     "/getOrderAction",
-    async (id:string, thunkAPI,
+    async ({id, token}: OrderProps, thunkAPI,
     ) => {
       try {
-        return await orderService.getOrder(id);
+        return await orderService.getOrder({id, token});
       } catch (error: any) {
         const message =
           (error.response &&

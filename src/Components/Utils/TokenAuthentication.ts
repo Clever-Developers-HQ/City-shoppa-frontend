@@ -31,23 +31,17 @@ export const userAuthenticateToken = () => {
       showError("Session Expired, Please Login Again To Continue");
       setTimeout(() => {
         window.location.href = "/login";
-      }, 2000)
+      }, 3000)
       return
     }
-
-    console.log("ENTERED HERE")
-
-    if (user.merchant_id) {
-      return {
-        token: token,
-        merchant_id: user?.merchant_id || null,
-        id: user?._id || null,
-      }
-    }
-
     return {
       token : token,
-      id: user?._id || null,
+      id: user?._id,
+      role: user?.role,
+      isDisabled: user?.isDisabled,
+      merchant_application: user?.merchant_application,
+      name: user?.name,
+      phone: user?.phone
     }
   }
 

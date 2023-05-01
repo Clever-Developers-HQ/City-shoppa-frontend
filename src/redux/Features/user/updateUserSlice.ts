@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
-import userService,{ UpdateUserPassword }  from './userService'
+import userService,{ UpdateUser }  from './userService'
 
   
   const initialState: any = {
@@ -14,10 +14,10 @@ import userService,{ UpdateUserPassword }  from './userService'
 
 export const updateUserAction = createAsyncThunk(
     "/updateUserAction",
-    async ({id, token, merchant_id, role}:UpdateUserPassword, thunkAPI: any,
+    async ({id, merchant_application, role,  token, business_name, address, website}:any, thunkAPI: any,
     ) => {
       try {
-        return await userService.updateUser({id, token, merchant_id, role});
+        return await userService.updateUser({id, merchant_application, role,  token, business_name, address, website});
       } catch (error: any) {
         const message =
           (error.response &&

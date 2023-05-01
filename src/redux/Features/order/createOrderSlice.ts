@@ -18,12 +18,12 @@ import orderService, {CreateOrderProps} from './orderService'
 export const createOrderAction = createAsyncThunk(
     "/createOrderAction",
     async (
-      { products, quantity, userId, token, discounted_productId}: CreateOrderProps,
+      { products, merchant_id, discountedmerchant_id, quantity, userId, token, discounted_productId}: CreateOrderProps,
       thunkAPI
     ) => {
       try {
         return await orderService.createOrder({
-            products, quantity, userId, token, discounted_productId
+            products, merchant_id, discountedmerchant_id, quantity, userId, token, discounted_productId
         });
       } catch (error: any) {
         const message =

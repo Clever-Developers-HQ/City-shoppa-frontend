@@ -9,6 +9,7 @@ import Logo from '../../assets/images/city-shoppa-logo.png'
 import { Fragment, useState } from 'react'
 import { Dialog, Menu, Transition } from '@headlessui/react'
 import NextLink from 'next/link';
+import { logOutAction } from '@/redux/Features/auth/authLoginSlice';
 
 
 const navigation = [ 
@@ -21,7 +22,6 @@ const navigation = [
   { name: 'Claimed Coupon', href: '/merchant/claimed', icon: <IoMdCheckmarkCircle size='20'/>, current: false },
 ]
 const userNavigation = [
-  { name: 'Your Profile', href: '#' },
   { name: 'Sign out', href: '#' },
 ]
 
@@ -237,15 +237,15 @@ export default function MerchantLayout({children, title}: any) {
                       {userNavigation.map((item) => (
                         <Menu.Item key={item.name}>
                           {({ active }) => (
-                            <a
-                              href={item.href}
+                            <span
+                            onClick = {() => logOutAction()}
                               className={classNames(
                                 active ? 'bg-gray-100' : '',
                                 'block px-4 py-2 text-sm text-gray-700'
                               )}
                             >
                               {item.name}
-                            </a>
+                            </span>
                           )}
                         </Menu.Item>
                       ))}

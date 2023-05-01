@@ -66,7 +66,7 @@ function  Claimed() {
 
 
                         <button
-                        className="bg-[##454D4A] p-2 text-white rounded cursor-none"
+                        className="bg-primary p-2 text-white rounded font-bold cursor-none"
                        >
                           Claimed
                        </button>

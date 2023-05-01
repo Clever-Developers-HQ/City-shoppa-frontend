@@ -43,6 +43,7 @@ import {
     getUserReducer,
     forgetPasswordReducer,
     resetPasswordReducer,
+    updateUserReducer,
 
 
     // LOGIN
@@ -116,7 +117,7 @@ const reducers = combineReducers({
     getUser: getUserReducer,
     forgetPassword: forgetPasswordReducer, 
     resetPassword: resetPasswordReducer,
-
+    updateUser: updateUserReducer, 
 
     //LOGIN REDUCERS
     authUser: loginUserReducer ,

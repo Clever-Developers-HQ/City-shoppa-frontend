@@ -8,6 +8,8 @@ import { AppDispatch, RootState } from "../../redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from '@/components/loader/Loader'
 import { logOutAction } from '@/redux/Features/auth/authLoginSlice'
+import {FaUserTag} from 'react-icons/fa'
+// import {updateUser}
 
 
 
@@ -18,6 +20,8 @@ interface ModalProps {
 }
 export default function Profile({ open, setOpen}: ModalProps) {
 
+  const dispatch = useDispatch<AppDispatch>()
+
   const [isEdit, setIsEdit] = useState(false)
   const [isEditUserName, setIsEditUserName] = useState(false)
   const [isEditEmail, setIsEditEmail] = useState(false)
@@ -27,6 +31,13 @@ export default function Profile({ open, setOpen}: ModalProps) {
   //Get the iserDetails from Local Storage
 
   const user = JSON.parse(localStorage.getItem('user') || '{}')
+
+  const editHandler = () => {
+    setIsEditUserName(false)
+    setIsEditEmail(false)
+    setIsEditPassword(false)
+    setIsEdit(false)
+  }
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -78,17 +89,16 @@ export default function Profile({ open, setOpen}: ModalProps) {
                   <div className="space-y-6 pb-16">
                     <div>
                       <div className="flex flex-col items-center justify-center w-full overflow-hidden">
-                        <img
-                          src="https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80"
-                          alt=""
-                          className="object-cover rounded-full mb-5 h-20 w-20"
-                        />
+
+                        <div className="object-cover items-center p-3 bg-black rounded-full mb-5 h-20 w-20"  > 
+                          <FaUserTag color="#fff" size="60px"/>
+                        </div>
 
                         <div> 
-                          <p> Kayode Jegede</p>
+                          <p> {user?.name}</p>
                           { isEdit === true ? (
                             <button 
-                            onClick = {() => setIsEdit(false)}
+                            onClick = {() => editHandler()}
                             className="py-2 text-sm font-bold mt-4 px-4 cursor-pointer text-white bg-orange rounded-xl"> 
                             Update
                           </button>) : (
@@ -105,13 +115,14 @@ export default function Profile({ open, setOpen}: ModalProps) {
                     <div>
                       <dl className="mt-2 divide-y divide-gray-200 border-t border-b border-gray-200">
                         <div className="flex flex-col justify-between py-3 text-sm font-medium">
-                          <dt className="text-gray-500">User Name</dt>
+                          <dt className="text-gray-500">Name</dt>
                           <div className= 'flex justify-between items-center'> 
                           {
                             isEditUserName=== true ? ( 
                                <input
                               type="text"
                               name="userName"
+                              value={user?.name}
                               id="userName"
                               className="shadow-sm mt-2 mr-2 focus:ring-primary focus:border-primary block w-full border-gray-300 sm:text-sm rounded-md p-2"
                             />) : (
@@ -135,6 +146,7 @@ export default function Profile({ open, setOpen}: ModalProps) {
                               type="text"
                               name="email"
                               id="email"
+                              value={user?.email}
                               className="shadow-sm mt-2 mr-2 focus:ring-primary focus:border-primary block w-full border-gray-300 sm:text-sm rounded-md p-2"
                             />) : (
                                <dd className="text-gray-900 mt-2">{user?.email}</dd> 
@@ -153,10 +165,11 @@ export default function Profile({ open, setOpen}: ModalProps) {
                           <div className= 'flex justify-between items-center'> 
                           {
                             isEditPhone=== true ? ( 
-                               <input
+                              <input
                               type="text"
-                              name="discount"
-                              id="discount"
+                              name="phone"
+                              id="phone"
+                              value={user?.phone}
                               className="shadow-sm mt-2 mr-2 focus:ring-primary focus:border-primary block w-full border-gray-300 sm:text-sm rounded-md p-2"
                             />) : (
                                <dd className="text-gray-900 mt-2">{user?.phone} </dd> 
@@ -169,27 +182,7 @@ export default function Profile({ open, setOpen}: ModalProps) {
                           </div>
                         </div>
 
-                        
-                        <div className="flex flex-col justify-between py-3 text-sm font-medium">
-                          <dt className="text-gray-500">Password</dt>
-                          <div className= 'flex justify-between items-center'> 
-                          {
-                            isEditPassword=== true ? ( 
-                               <input
-                              type="password"
-                              name="discount"
-                              id="discount"
-                              className="shadow-sm mt-2 mr-2 focus:ring-primary focus:border-primary block w-full border-gray-300 sm:text-sm rounded-md p-2"
-                            />) : (
-                               <dd className="text-gray-900 mt-2">************</dd> 
-                            )
-                          }
-
-                          {isEdit && <FiEdit2 
-                          onClick = {() => setIsEditPassword(!isEditPassword)}
-                          className="cursor-pointer"/>}
-                          </div>
-                        </div>
+                      
 
 
                       </dl>

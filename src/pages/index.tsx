@@ -37,7 +37,7 @@ export default function Home() {
     const getProducts = async () => {
       const resultAction = await dispatch(getProductsAction(token));
       await dispatch(getCategoriesAction("token"));
-      const result = resultAction.payload.product;
+      const result = resultAction.payload?.product;
       setProducts(result);
       setIsLoaded(false);
     };
@@ -45,7 +45,7 @@ export default function Home() {
   }, [dispatch]);
 
   const filteredProducts = (id: string) => {
-    const filteredProducts = products.filter(
+    const filteredProducts = products?.filter(
       (product: any) => product.category_id === id
     );
     return filteredProducts;
@@ -86,7 +86,7 @@ export default function Home() {
             />
 
             {
-              categories.map((category: any) => (
+              categories?.map((category: any) => (
                 <>
                 <HomeProductsCategory
               category={category.name}

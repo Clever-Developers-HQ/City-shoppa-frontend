@@ -23,15 +23,16 @@ export interface UpdateUserProps {
   province: string
 }
 
-export interface UpdateUserPassword {
+export interface UpdateUser {
   id: string;
   token: string;
-  merchant_id: string;
   role: string;
+  business_name: string
+  website:string;
+  address:string
 }
 
 const registerUser = async ({ token, name, email, phone, password }: RegisterUserProps) => {
-
   const config = {
     headers: {
       "Content-Type": "application/json",
@@ -78,22 +79,36 @@ const deleteUser = async ({ id, token }: UserProps) => {
       Authorization: `Bearer ${token}`,
     },
   };
-
   const {data} = await axios.delete(`${API_BASEURL}/users/${id}`, config);
   return data
 }
 
-const updateUser = async ({ id, merchant_id, role,  token }: UpdateUserPassword) => {
+const updateUser = async ({ merchant_application, id, role, token, business_name, address, website }: any) => {
+  const data = {
+    role,
+    business_name,
+    address,
+    website,
+    merchant_application
+  }
+  console.log(id ,"ID")
   const config = {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
   };
-
-  const response = await axios.put(`${API_BASEURL}/users/update/${id}`, {merchant_id, role}, config);
-  return response.data
+  try {
+    console.log("enteed before")
+    const response = await axios.put(`${API_BASEURL}/users/update/${id}`, data , config);
+    console.log("enteed after", response)
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error("Failed to update user.");
+  }
 }
+
 
 const reactivateUser = async ({id, token}: UserProps) => {
   const config = {
@@ -101,6 +116,7 @@ const reactivateUser = async ({id, token}: UserProps) => {
       Authorization: `Bearer ${token}`,
     },
   };
+
   const response = await axios.put(`${API_BASEURL}/users/reactivateuser/${id}`, {}, config);
   console.log(response, "THE RESPONSE BACK")
   return response.data

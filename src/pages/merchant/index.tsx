@@ -21,14 +21,13 @@ function Index() {
     if (merchant?.role === "merchant") {
       setMerchant(merchant)
       setIsLoaded(true)
-    } 
-    
-    if (merchant && !merchant.merchant_id) {
+    } else {
       showWarning("Please register as a merchant to continue")
       setTimeout(() => {
         window.location.href = "/signup/merchant"
       }, 3000)
     }
+    
   }, [])
 
 

@@ -9,6 +9,7 @@ import Fallback from "../components/Fallback/Fallback";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import { LiveChatWidget, EventHandlerPayload } from '@livechat/widget-react'
+import NoNetworkScreen from '@/components/empty/no_network';
 
 
 
@@ -16,6 +17,28 @@ export default function App({ Component, pageProps, ...rest }: AppProps) {
   function handleNewEvent(event: EventHandlerPayload<'onNewEvent'>) {
     console.log('LiveChatWidget.onNewEvent', event)
   }
+  const [isOnline, setIsOnline] = useState(true)
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const condition = navigator.onLine ? 'online' : 'offline';
+    
+      if (condition === 'online') {
+          fetch('https://www.google.com/', {
+              mode: 'no-cors',
+              })
+          .then(() => {             
+          }).catch(() => {
+             setIsOnline(false)
+          }  )
+    
+      } else {
+        setIsOnline(false)
+      }
+    }
+  }, [])
+
+
 
   const [loading, setLoading] = useState(false);
 
@@ -31,18 +54,27 @@ export default function App({ Component, pageProps, ...rest }: AppProps) {
   return (
     <>
 
-    <Provider store={store}>
 
-      {/* <ErrorBoundary FallbackComponent={Fallback} onError={ErrorHandler}> */}
-        <Component {...props.pageProps} />
-      {/* </ErrorBoundary> */}
-      <ToastContainer />
-      <LiveChatWidget
-        license="15274641"
-        visibility="minimized"
-        onNewEvent={handleNewEvent}
-        />
-    </Provider>
+{
+  isOnline ? (
+    <Provider store={store}>
+    {/* <ErrorBoundary FallbackComponent={Fallback} onError={ErrorHandler}> */}
+      <Component {...props.pageProps} />
+    {/* </ErrorBoundary> */}
+    <ToastContainer />
+    <LiveChatWidget
+      license="15274641"
+      visibility="minimized"
+      onNewEvent={handleNewEvent}
+      />
+  </Provider>
+  ) : (<NoNetworkScreen/>)
+}
+
+
+
+
+
     {/* {
       loading ? <LoadingScreen /> : <Component {...pageProps} />
     } */}

@@ -18,7 +18,7 @@ import { getCitiesAction } from './../../redux/Features/city/getCitiesSlice';
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
 import ProfileModal from "../modals/profileModal"
-
+import {FaUserTag} from 'react-icons/fa'
 
 const user = {
   name: "Tom Cook",
@@ -26,13 +26,6 @@ const user = {
   imageUrl:
     "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
 };
-
-const userNavigation = [
-  { name: "Your Profile", href: "#" },
-  { name: "Settings", href: "#" },
-  { name: "Sign out", href: "#" },
-];
-
 
 
 
@@ -241,7 +234,10 @@ useEffect(() => {
                       type="button"
                       className="flex-shrink-0 rounded-full p-1 text-white hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
                     >
-                      <span className="sr-only">View notifications</span>
+                      <Link 
+                      href="/orders"
+                      >
+                      <span className="sr-only">View Dashboard</span>
                       <AddShoppingCartIcon
                         sx={{
                           fontSize: "30px",
@@ -250,18 +246,19 @@ useEffect(() => {
                         }}
                         aria-hidden="true"
                       />
+                      </Link>
                     </button>
                     <div>
                       <Menu.Button 
                       
-                      className="bg-white rounded-full flex focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                        <span className="sr-only">Open user menu</span>
-                        <img
+                      className="bg-white rounded-full flex focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black">
+                        <span 
+                        
+                        className="sr-only">Open user menu</span>
+                        <FaUserTag 
                         onClick={() => setShowProfile(true)}
-                          className="h-8 w-8 rounded-full"
-                          src={user.imageUrl}
-                          alt=""
-                        />
+                        className="h-8 p-1 w-8 rounded-full bg-black"
+                        color="#fff" />
                       </Menu.Button>
                     </div>
                   </Menu>
@@ -298,9 +295,9 @@ useEffect(() => {
               <div>
                 <div className="mt-0 mr-1">
                   <input
-                    type="email"
-                    name="email"
-                    id="email"
+                    type="text"
+                    name="text"
+                    id="text"
                     className="shadow-sm py-1.5 px-2 mr-12 bg-white text-sm text-black focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 "
                     placeholder="Find Local Services & Products"
                   />

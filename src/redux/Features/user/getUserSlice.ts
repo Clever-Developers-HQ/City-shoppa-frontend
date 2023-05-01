@@ -8,13 +8,15 @@ import userServices,{ UserProps }  from './userService'
     error: false,
     success: false,
     message: "",
-    orders: null
+    orders: null, 
+    products: null,
+    merchantOrders : null
   };
 
 
 export const getUserAction = createAsyncThunk(
     "/getUserAction",
-    async ({id,token}:UserProps, thunkAPI: any,
+    async ({id,token}:UserProps, thunkAPI: any
     ) => {
       try {
         return await userServices.getUser({id, token});
@@ -36,14 +38,15 @@ export const getUserAction = createAsyncThunk(
     name: "getUser",
     initialState,
     reducers: {
-      //non asynchronous reducers goes here
       reset: (state) => {
         state.loading = false;
         state.error = false;
         state.success = false;
         state.message = "";
         state.user = null;
-        state.orders = null
+        state.orders = null;
+        state.products = null;
+        state.merchantOrders = null
       },
     },
     extraReducers: (builder) => {
@@ -57,6 +60,8 @@ export const getUserAction = createAsyncThunk(
           state.success = true;
           state.user = action.payload.user;
           state.orders = action.payload.userOrder;
+          state.products = action.payload.merchantProducts;
+          state.merchantOrders = action.payload.merchantOrders;
         })
         
         .addCase(getUserAction.rejected, (state, action) => {
@@ -68,7 +73,6 @@ export const getUserAction = createAsyncThunk(
     },
   });
   
-  // Action creators are generated for each case reducer function
   export const { reset } = getUserSlice.actions;
   
   export default getUserSlice.reducer;

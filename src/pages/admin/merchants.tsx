@@ -6,8 +6,6 @@ import {FaUserCheck} from "react-icons/fa";
 import AddNewMerchant from "@/components/modals/merchantModals/AddNewMerchant";
 import EditMerchant from "@/components/modals/merchantModals/EditMerchant";
 import { useDispatch, useSelector } from "react-redux";
-import { getMerchantsAction } from "../../redux/Features/merchant/getMerchantsSlice";
-import { getMerchantAction } from "../../redux/Features/merchant/getMerchantSlice";
 import { deleteMerchantAction } from "../../redux/Features/merchant/deleteMerchantSlice";
 import AdminLayout from "@/components/layouts/AdminLayout";
 import { AppDispatch, RootState } from "@/redux/store";
@@ -16,8 +14,9 @@ import { adminTokenAuthentication } from "@/components/Utils/TokenAuthentication
 import LoadingScreen from "@/components/loader/loadingScreen";
 import { confirm } from "@/components/alert/confirm";
 import {ImUserMinus} from 'react-icons/im'
-import { disableMerchantAction } from "../../redux/Features/merchant/disableMerchantSlice";
-import { reactivateMerchantAction } from "../../redux/Features/merchant/reactivateMerchantSlice";
+import {getUsersAction} from "../../redux/Features/user/getUsersSlice";
+import {updateUserAction} from "../../redux/Features/user/updateUserSlice";
+import { deleteUserAction } from "@/redux/Features/user/deleteUserSlice";
 
 
 function Merchants() {
@@ -28,21 +27,31 @@ function Merchants() {
   const [isUpdated, setIsUpdated] = useState(false);
   const [token, setToken] = useState<any>("");
   const [loaded, setIsloaded] = useState(false);
+  const [merchant, setMerchant] = useState<any>()
 
-  const { loading, merchants } = useSelector(
+  const { merchants } = useSelector(
     (store: RootState) => store.getMerchants
   );
+
+  const { loading, users } = useSelector(
+    (store: RootState) => store.getUsers
+  );
+
+  const filtered = (users : any) => {
+    return users.filter((user : any) => user.role == 'merchant')
+}
+
 
   useEffect(() => {
     setToken(adminTokenAuthentication());
     if (token) {
       setIsloaded(true);
-      dispatch(getMerchantsAction(token));
+      dispatch(getUsersAction(token));
     }
-  }, [token]);
+  }, [token, dispatch]);
 
   if (isUpdated) {
-    dispatch(getMerchantsAction(token));
+    dispatch(getUsersAction(token));
     setIsUpdated(false);
   }
 
@@ -53,44 +62,42 @@ function Merchants() {
       description: "This action cannot be undone",
       message: "Merchant deleted Successfully",
       onConfirm: () => {
-        dispatch(deleteMerchantAction({ id, token }));
+        dispatch(deleteUserAction({ id, token }));
         setIsUpdated(true);
       },
     });
   };
 
   //DISABLE FUNCION HANDLER 
-  const disableHandler = (id: string) => {
+  const approveHandler = async (id: string) => {
     confirm({
-      title: "Are you sure you want to DEACTIVATE this Merchant?",
-      description: "This action cannot be undone",
-      message: "Merchant Disabled Successfully",
+      title: "Are you sure you want to Reactivate this merchant Account?",
+      description: "",
+      message: "Merchant Activated Successfully",
       onConfirm: () => {
-        dispatch(disableMerchantAction({ id, token }));
+        dispatch(updateUserAction({  id, token, role: "merchant", merchant_application: 'approved' }));
         setIsUpdated(true);
       },
     });
-  };
+};
 
-  // REACIVATE ACCOUNT HANDLER 
-
-  const reactivateHandler = (id: string) => {
-  
+  //DELETE FUNCTION HANDLER
+  const declineHandler = (id: string) => {
     confirm({
-      title: "Are you sure you want to reactivate this Merchant?",
-      description: "This action cannot be undone",
-      message: "Merchant Reactivated Successfully",
+      title: "Are you sure you want to Disabled this Merchant?",
+      description: "",
+      message: "Merchant Account Disabled Successfully",
       onConfirm: () => {
-        dispatch(reactivateMerchantAction({ id, token }));
+        dispatch(updateUserAction({  id, token, merchant_application: 'declined' }));
         setIsUpdated(true);
       },
-    });
+    })
   };
 
   //UPDATE FUNCTION HANDLER
-  const updateHandler = async (id: string) => {
-    setEditMerchant(true);
-    await dispatch(getMerchantAction(id));
+  const updateHandler = async (merchant: any) => {
+    setEditMerchant(true)
+    setMerchant(merchant)
   };
 
   return (
@@ -110,6 +117,7 @@ function Merchants() {
           setOpen={setEditMerchant}
           setIsUpdated={setIsUpdated}
           token={token}
+          merchant={merchant}
         />
       )}
 
@@ -144,15 +152,15 @@ function Merchants() {
                               <th
                                 scope="col"
                                 className="relative w-12 px-6 sm:w-16 sm:px-8"></th>
-                              <th
+                              {/* <th
                                 scope="col"
                                 className="min-w-[4rem] py-3.5 pr-3 text-left text-md font-semibold text-gray-500">
                                 ID
-                              </th>
+                              </th> */}
                               <th
                                 scope="col"
                                 className="px-3 py-3.5 text-left text-md font-semibold text-gray-500">
-                                Name
+                                Business Name
                               </th>
                               <th
                                 scope="col"
@@ -184,9 +192,8 @@ function Merchants() {
                             </tr>
                           </thead>
                           <tbody className="divide-y divide-gray-200 bg-white ">
-                            {merchants &&
-                              merchants.length > 0 &&
-                              merchants.map((merchant: any) => (
+                            {users &&
+                              users.length > 0 && filtered(users)?.map((merchant: any) => (
                                 <tr
                                   key={merchant._id}
                                   className="bg-gray-50 hover:bg-[#F5F5F5]">
@@ -196,11 +203,11 @@ function Merchants() {
                                       className="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 sm:left-6"
                                     />
                                   </td>
-                                  <td className="whitespace-nowrap py-4 pr-3 text-sm font-medium text-gray-500">
+                                  {/* <td className="whitespace-nowrap py-4 pr-3 text-sm font-medium text-gray-500">
                                     {merchant._id}
-                                  </td>
+                                  </td> */}
                                   <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                    {merchant.name}
+                                    {merchant.business_name}
                                   </td>
                                   <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                     {merchant.email}
@@ -211,23 +218,23 @@ function Merchants() {
                                   <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                     {merchant.website}
                                   </td>
-                                  {merchant.isDisabled !== true ? (
+                                  {merchant.merchant_application === "approved" ? (
                                     <td className="whitespace-nowrap px-3 py-4 text-sm text-[#31AB5B]">
-                                      Active
+                                      Approved
                                     </td>
                                   ) : (
                                     <td className="whitespace-nowrap px-3 py-4 text-sm text-[#FF0000]">
-                                      Disabled
+                                      Declined
                                     </td>
                                   )}
                                   <td className="whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                                     <div className="flex justify-between items-center">
                                       {
-                                        merchant?.isDisabled ? (
+                                       merchant.merchant_application === "approved" ? (
                                           <span
-                                          onClick = {() => reactivateHandler(merchant._id)}
+                                          onClick = {() => declineHandler(merchant._id)}
                                           >
-                                          <ImUserMinus
+                                          <ImUserMinus 
                                             size="20"
                                             color={"#FF0000"}
                                             className="text-gray-500 hover:text-orange cursor-pointer"
@@ -235,7 +242,7 @@ function Merchants() {
                                         </span>
                                         ) : (                                          
                                         <span
-                                        onClick = {() => disableHandler(merchant._id)}
+                                        onClick = {() => approveHandler(merchant._id)}
                                         >
                                           <FaUserCheck
                                             size="20"
@@ -248,7 +255,7 @@ function Merchants() {
 
                                       <span
                                         onClick={() =>
-                                          updateHandler(merchant._id)
+                                          updateHandler(merchant)
                                         }
                                         className="text-gray-500 hover:text-orange cursor-pointer">
                                         <MdOutlineModeEdit size="20" />

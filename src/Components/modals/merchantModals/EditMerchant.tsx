@@ -11,21 +11,20 @@ import SubmitBtn from "@/components/buttons/submitBtn";
 import CancelBtn from "@/components/buttons/cancelButton";
 import { showSuccess, showError } from "@/components/Utils/AlertMsg";
 import { unwrapResult } from "@reduxjs/toolkit";
-
+import {updateUserAction} from "@/redux/Features/user/updateUserSlice";
 
 interface ModalProps {
   open: boolean;
   setOpen: any;
   setIsUpdated: any;
   token: string;
+  merchant: any;
 }
 
-export default function EditMerchant({ open, setOpen, setIsUpdated, token }: ModalProps) {
+export default function EditMerchant({ open, merchant, setOpen, setIsUpdated, token }: ModalProps) {
   const dispatch = useDispatch<AppDispatch>();
-  const { loading, success, message, merchant, error } = useSelector(
-    (store: RootState) => store.getMerchant
-  );
-  
+
+  console.log(merchant, "THE MERCHANTS ")
   return (
     <ModalLayout
       open={open}
@@ -33,13 +32,8 @@ export default function EditMerchant({ open, setOpen, setIsUpdated, token }: Mod
       title="Edit Merchant"
       >
 
-
-      {loading && <Loader />}
-
-
-      {!loading && (
      <Formik
-     initialValues={{name: merchant.name, business_name: merchant.business_name, website: merchant.website, address: merchant.address,  email: merchant.email }}
+     initialValues={{name: merchant?.name, business_name: merchant.business_name, website: merchant.website, address: merchant.address,  email: merchant.email }}
      validationSchema={Yup.object({
       name: Yup.string()
         .required('Merchant Name Is Required'),
@@ -57,10 +51,10 @@ export default function EditMerchant({ open, setOpen, setIsUpdated, token }: Mod
       const address = values.address
       const name = values.name
 
-        const resultAction = await dispatch(updateMerchantAction({id, token,  name, business_name, email, website, address}))
+        const resultAction = await dispatch(updateUserAction({id, token,  name, business_name, email, website, address}))
         const result = unwrapResult(resultAction)
 
-        if(result.merchant){
+        if(result.user){
           setIsUpdated(true)
           showSuccess("Merchant Updated Successfully")
           setOpen(false)
@@ -130,7 +124,7 @@ export default function EditMerchant({ open, setOpen, setIsUpdated, token }: Mod
        </form>
      )}
    </Formik>
-      )}
+
     </ModalLayout>
   );
 }

@@ -3,7 +3,7 @@ import React from 'react'
 function LoadingScreen() {
   return (
     <div
-    className="flex justify-center items-center h-100  w-full h-full"
+    className="w-full h-full flex justify-center items-center h-screen"
     >
 
 <div className="loader">

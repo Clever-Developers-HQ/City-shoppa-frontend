@@ -34,10 +34,8 @@ export default function AddNewMerchant({open, setOpen, setIsUpdated, token}:AddN
     <ModalLayout
       open={open}
       setOpen={setOpen}
-      title="Add New City"
+      title="Add New User"
       >
-
-
      <Formik
      initialValues={{name: "", email: "", password:"" , phone:""}}
      validationSchema={Yup.object({

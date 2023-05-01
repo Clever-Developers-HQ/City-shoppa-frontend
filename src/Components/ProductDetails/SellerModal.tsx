@@ -10,6 +10,8 @@ import { showSuccess, showError, showWarning } from "@/components/Utils/AlertMsg
 import Link from 'next/link';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppDispatch, RootState } from "@/redux/store";
+import { formatPhoneNumber } from '../Utils/utilFuncs';
+import { unwrapResult } from '@reduxjs/toolkit';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -33,33 +35,107 @@ interface SellerData {
   isCheckout: boolean
   setIsCheckout: any
   setShowLoginModal: any
+  products: string
+  merchant_id: string
+  discountedmerchant_id: string
 }
 
-export default function SellerModal({ merchant,  setShowLoginModal,  quantity, discounted_productId, isCheckout, setIsCheckout }: SellerData) {
+export default function SellerModal({ merchant,  discountedmerchant_id,  merchant_id, setShowLoginModal, products,  quantity, discounted_productId, isCheckout, setIsCheckout }: SellerData) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false)
   const [user, setUser] = useState<any>()
   const [showUserDetails, setShowUserDetails] = useState(false)
+  const [coupon, setCoupon] = useState("")
+  const [placeOrder, setPlaceOrder] = useState(false)
+
+  console.log(coupon, "THE COUPON")
 
 
-
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useDispatch<AppDispatch>()
 
   useEffect(() => {
     if (isCheckout) {
+      // update the state or dispatch an action here
       const token = localStorage.getItem('token');
-      //check if token is valid
-      if (token) {
+
+      setUser(userAuthenticateToken())
+
+          if (!token){
+            setPlaceOrder(false)
+            showWarning("Please Login to continue shopping on CityShoppa");
+            setShowLoginModal(true);
+            setIsCheckout(false);
+            return
+          }
+
+            if (!discounted_productId){
+              setIsCheckout(false);
+              setPlaceOrder(false)
+              showWarning("Kindly select your discounted product offer to continue")
+              return
+            }
+
+            setPlaceOrder(true)
+
+            if (placeOrder) {
+              placeOrderNow()
+            }
+
+            console.log(products,  quantity, discounted_productId, "details wey enter")
+    }
+    // setPlaceOrder(false)
+
+  }, [isCheckout, placeOrder])
+
+
+  const placeOrderNow = () =>{
+
+      if (!coupon) {
+        showSuccess("Order Processing...Please wait")
+        dispatch(createOrderAction({userId : user.id,  discountedmerchant_id,  merchant_id, token: user.token,  products, discounted_productId: discounted_productId, quantity }))
+          .then(unwrapResult)
+          .then((response: any) => {
+            console.log(response, "FROM ORDER CREATED")
+            if (response.cart) {
+              showSuccess("Order Created Successfully")
+              setCoupon(response?.cart.couponIds)
+            }
+            setPlaceOrder(false)
+            setShowUserDetails(true);
+            setIsCheckout(false);
+            return
+          })
+          .catch((err: any) => {
+            showError("Something went wrong. Please try again")
+            setPlaceOrder(false)
+            setShowUserDetails(false);
+            setIsCheckout(false);
+            return
+          })
+          .finally(() => {
+            setPlaceOrder(false)
+            setIsCheckout(false);
+            return
+          })
+      } 
+
+      if(coupon) {
+        setPlaceOrder(false)
         setIsCheckout(false);
         setShowUserDetails(true);
-      } else {
-        setIsCheckout(false);
-        setShowLoginModal(true);
-        showWarning("Please Login to continue shopping on CityShoppa");
+        return
       }
-    }
-  }, [isCheckout, setShowLoginModal, setIsCheckout ]);
+  }
+   
+
+
+
+  const modalCloseHandler = () => {
+    setShowUserDetails(false);
+    setOpen(false);
+    setPlaceOrder(false)
+  }
 
   return (
     <div>
@@ -107,7 +183,7 @@ export default function SellerModal({ merchant,  setShowLoginModal,  quantity, d
                 fontSize: "30px",
                 color: "#000"
               }}
-              onClick={handleClose}
+              onClick={() => modalCloseHandler()}
             />
             <Box sx={{
               display: "flex",
@@ -157,6 +233,15 @@ export default function SellerModal({ merchant,  setShowLoginModal,  quantity, d
                 >
                   Website
                 </Typography>
+
+                <Typography id="modal-modal-description" sx={{ mt: 2 }} style={{
+                  color: "#000",
+                  fontSize: "15px",
+                  letterSpacing: "1px",
+                }}
+                >
+                 Coupon
+                </Typography>
               </Box>
               <Box>
                 <Typography id="modal-modal-description" sx={{ mt: 2 }} style={{
@@ -185,7 +270,7 @@ export default function SellerModal({ merchant,  setShowLoginModal,  quantity, d
                     letterSpacing: "1px",
                   }}
                   >
-                    {merchant?.phone || "Not Available"}
+                    {formatPhoneNumber(merchant?.phone) || "Not Available"}
                   </Typography>
                 </Link>
                 <a href={`mailto:${merchant?.email}`}>
@@ -198,8 +283,7 @@ export default function SellerModal({ merchant,  setShowLoginModal,  quantity, d
                     {merchant?.email}
                   </Typography>
                 </a>
-  
-                <a href={`${merchant?.website}`} >
+                <a href={`https://${merchant?.website}`} target="_blank" >
                   <Typography id="modal-modal-description" sx={{ mt: 2 }} style={{
                     // color: "#000",
                     fontSize: "15px",
@@ -209,6 +293,11 @@ export default function SellerModal({ merchant,  setShowLoginModal,  quantity, d
                     {merchant?.website}
                   </Typography>
                 </a>
+
+                <p className="px-3 text-center text-[15px] py-1 bg-orange text-white font-bold w-1/2 mt-3 rounded
+                ">
+                  {coupon}
+                </p>
               </Box>
             </Box>
           </Box>

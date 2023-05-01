@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { MdOutlineModeEdit } from "react-icons/md";
-import { AiOutlineDelete } from "react-icons/ai";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import ShopperImg from "../../assets/images/shopperImg.png";
 import Image from "next/image";
@@ -8,7 +7,7 @@ import MerchantLayout from "@/components/layouts/MerchantLayout";
 import AddNewProductModal from "@/components/modals/productsModal/addNewProduct";
 import EditProductModal from "@/components/modals/productsModal/EditProductModal";
 import { userAuthenticateToken } from "@/components/Utils/TokenAuthentication";
-import { getMerchantAction } from "@/redux/Features/merchant/getMerchantSlice";
+import {getUserAction} from "@/redux/Features/user/getUserSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
 import LoadingScreen from "@/components/loader/loadingScreen";
@@ -19,6 +18,10 @@ import { FaDotCircle } from "react-icons/fa";
 import { GrView } from "react-icons/gr";
 import { deleteProductAction } from "@/redux/Features/product/deleteProductSlice";
 import { confirm } from "@/components/alert/confirm";
+import { unwrapResult } from "@reduxjs/toolkit";
+import PendingAccountScreen from '@/components/empty/pending_account'
+import DeclinedAccountScreen from '@/components/empty/declined_account'
+import { useRouter } from 'next/router'
 
 
 interface UserDTO {
@@ -29,31 +32,46 @@ interface UserDTO {
 function Products() {
   const dispatch = useDispatch<AppDispatch>();
 
-  const { products, merchant, loading, error } = useSelector(
-    (state: any) => state.getMerchant
+  const router = useRouter()
+
+  const { products, loading, error } = useSelector(
+    (state: any) => state.getUser
   );
-  console.log(products, merchant, error, loading, "THE STATETSSSS");
+  console.log(products, error, loading, "THE STATETSSSS");
 
   const [isLoaded, setIsLoaded] = useState(false);
   const [user, setUser] = useState<any>();
   const [isUpdated, setIsUpdated] = useState(false)
-  const [token, setToken] = useState<any>("");
 
   useEffect(() => {
-    const userInfo: any = userAuthenticateToken();
+    const user = userAuthenticateToken()
+    setUser(user)
+    if (user) {
+      if (user?.role === 'merchant') {
+        dispatch(getUserAction({id:user.id, token: user.token}))
+      }
 
-    if (userInfo.token) {
-      setUser(userInfo);
-      setIsLoaded(true);
-      dispatch(getMerchantAction(userInfo?.id));
+      if(user.merchant_application == "pending"){
+        dispatch(getUserAction({id:user.id, token: user.token}))
+        .then(unwrapResult)
+        .then((res:any) => {
+          if(res.user){
+            localStorage.removeItem("user")
+            localStorage.setItem("user", JSON.stringify(res.user))
+            setIsLoaded(true)
+          }
+        })
+      }
+
+      setIsLoaded(true)
     }
-  }, []);
 
-  // dispatch(getMerchantAction({ id, token }));
+  }, [dispatch]);
+
+// console.log(user, "THE USER 000000")
 
   const [addNewProduct, setAddNewProduct] = useState(false);
   const [editProduct, setEditProduct] = useState(false);
-
 
   function deleteHandler(product_id: any): void {
     confirm({
@@ -68,8 +86,13 @@ function Products() {
   }
 
   if (isUpdated) {
-    dispatch(getMerchantAction(user));
+    dispatch(getUserAction({id:user.id, token: user.token}));
     setIsUpdated(false)
+  }
+
+  const viewProductHandler = (name: string, merchant_id: string, id:string) => {
+    const url = `/product/${name}?id=${id}&merchant=${merchant_id}`
+    window.open(url, '_blank')
   }
 
   return (
@@ -83,7 +106,15 @@ function Products() {
 
       {isLoaded === false && <LoadingScreen />}
 
-      {isLoaded === true && (
+      {
+        user?.merchant_application == "pending" && (<PendingAccountScreen/>)
+      }
+
+      {
+        user?.merchant_application == "declined" && (<DeclinedAccountScreen/>)
+      }
+
+      {isLoaded === true && user?.merchant_application == "approved" && (
         <MerchantLayout title="Product List">
           <div className="px-4 sm:px-6 lg:px-8">
             <div className="sm:flex sm:items-center">
@@ -101,7 +132,7 @@ function Products() {
               <Loader />
             ) : (
               <>
-                {loading === false && products.length > 0 ? (
+                {products?.length > 0 ? (
                   <>
                 <div className="mt-8 flex flex-col">
                 <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -211,10 +242,12 @@ function Products() {
   
                               <td className="whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                                 <div className="flex justify-between items-center">
-                                  <span className="text-gray-500 hover:text-indigo-900 cursor-pointer">
+                                  <span 
+                                  onClick = {() =>  viewProductHandler(product.product_name, product.merchant_id, product._id)}
+                                  className="text-gray-500 hover:text-indigo-900 cursor-pointer">
                                     <GrView size="20" />
                                   </span>
-  
+
                                   <span
                                     onClick={() => setEditProduct(true)}
                                     className="text-gray-500 hover:text-orange cursor-pointer">
@@ -242,7 +275,7 @@ function Products() {
                   </>
                 ) : (
                   <Empty
-                  text="No Product Available On CityShoppa"
+                  text="Your Shop is currently Empty On CityShoppa. Add Product! "
                    />
                 )}
               </>

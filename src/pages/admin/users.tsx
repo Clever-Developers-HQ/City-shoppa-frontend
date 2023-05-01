@@ -24,6 +24,7 @@ function Users() {
   const [isUpdated, setIsUpdated] = useState(false);
   const [token, setToken] = useState<any>("");
   const [loaded, setIsloaded] = useState(false);
+  const [user, setUser] = useState<any>(null);
 
   const { loading, users } = useSelector(
     (store: RootState) => store.getUsers
@@ -57,11 +58,18 @@ function Users() {
     });
   };
 
+  //EDIT USER HANDLER 
+
+  const editHandler = (user: any) => {
+    setUser(user)
+    setEditUser(true)
+  }
+
   
   return (
     <>
     {addNewUser === true && <AddNewUserModal open={addNewUser} setOpen={setAddNewUser} setIsUpdated={setIsUpdated} token={token} />}
-    {editUser === true && <EditUserModal open={editUser} setOpen={setEditUser} />}
+    {editUser === true && <EditUserModal user={user} setIsUpdated={setIsUpdated} open={editUser} setOpen={setEditUser} token={token} />}
 
     {
       loaded === false ? <LoadingScreen /> : (
@@ -143,7 +151,7 @@ function Users() {
                             className="flex justify-between items-center"
                             >
                           <span
-                          onClick = {() => setEditUser(true)}
+                          onClick = {() => editHandler(user)}
                             className="text-gray-500 hover:text-orange cursor-pointer"
                           >
                             <FaUserEdit

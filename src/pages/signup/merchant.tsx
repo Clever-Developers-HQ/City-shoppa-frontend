@@ -1,8 +1,7 @@
-/* eslint-disable @next/next/no-img-element */
 import React, {useState, useEffect} from "react";
 import bgImg from "../../../public/assets/reg.png";
 import logo from "../../../public/assets/cityshoppa.png";
-import { Path, useForm, UseFormRegister, SubmitHandler } from "react-hook-form";
+import { Path, useForm, UseFormRegister } from "react-hook-form";
 import Image from "next/image";
 import NavBar from "@/components/navigation/NavBar";
 import Footer from "@/components/footer/Footer";
@@ -13,10 +12,8 @@ import { showError, showSuccess } from "@/components/Utils/AlertMsg";
 import { AppDispatch } from "@/redux/store";
 import { useRouter } from "next/router";
 import Loader from "@/components/loader/Loader";
-import { merchantRegisterAction } from '@/redux/Features/merchant/registerMerchantSlice';
 import { userAuthenticateToken } from '@/components/Utils/TokenAuthentication';
-import API_BASEURL from 'constants';
-import axios from "axios";
+import { updateUserAction } from '../../redux/Features/user/updateUserSlice';
 
 interface IFormValues {
   business_name: string;
@@ -38,7 +35,7 @@ export default function Form() {
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
   const [token, setToken] = useState<any>()
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [id, setId] = useState("")
 
   const {
     register,
@@ -49,14 +46,20 @@ export default function Form() {
   } = useForm();
   const onSubmit = async (data: any) => {
 
-    const {name, email, business_name, website, address} = data
+    const {business_name, website, address} = data
 
-    await dispatch(merchantRegisterAction({name, email, business_name, website, address, token}))
+    await dispatch(updateUserAction({merchant_application: 'pending',  role: "merchant", id, business_name, website, address, token}))
     .then(unwrapResult)
     .then((result) => {
-      if (result.merchant) {
-        showSuccess(`Merchant Account Created Successflly`)
-        router.push("/merchant")
+      if (result.user) {
+        showSuccess(`Merchant account created successfully. Pending merchant approval `)
+        let userObject = JSON.parse(localStorage.getItem("user") as any)
+        if (userObject) {
+          userObject.role = "merchant"
+          userObject.merchant_application = "pending"
+          localStorage.setItem("user", JSON.stringify(userObject));
+          router.push("/merchant")
+        }
       } 
     })
   }
@@ -68,20 +71,21 @@ export default function Form() {
     </>
   );
 
-  const {loading} = useSelector((state: any) => state.registerMerchant)
-
+  const {loading} = useSelector((state: any) => state.updateUser)
 
   useEffect(() => {
     setToken(userAuthenticateToken()?.token)
-
     const storedUser = localStorage.getItem('user');
     const user = storedUser ? JSON.parse(storedUser) : {};
+    setId(user?._id)
     if (user) {
         reset({
           name: user?.name,
-          email: user?.email
+          id: user?._id
         });
+
     }
+
   }, [reset])
   return (
     <>
@@ -178,9 +182,6 @@ export default function Form() {
             {errors.website && <p className="text-orange">Website is Required</p>}
             
             <button className="btn">{loading ? "Processing... Please wait" : "Register"}</button>
-            {
-              loading && <Loader/>
-            }
           </form>
           <div
             style={{

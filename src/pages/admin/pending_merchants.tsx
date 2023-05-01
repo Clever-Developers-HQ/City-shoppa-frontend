@@ -1,41 +1,32 @@
 import { useState, useEffect } from "react";
-import { MdOutlineModeEdit, MdOutlineBlock } from "react-icons/md";
-import { AiOutlineDelete } from "react-icons/ai";
-import { RiDeleteBin6Line } from "react-icons/ri";
-import {FaUserCheck} from "react-icons/fa";
 import AddNewMerchant from "@/components/modals/merchantModals/AddNewMerchant";
 import EditMerchant from "@/components/modals/merchantModals/EditMerchant";
 import { useDispatch, useSelector } from "react-redux";
-import { getMerchantsAction } from "../../redux/Features/merchant/getMerchantsSlice";
-import { getMerchantAction } from "../../redux/Features/merchant/getMerchantSlice";
-import { deleteMerchantAction } from "../../redux/Features/merchant/deleteMerchantSlice";
 import AdminLayout from "@/components/layouts/AdminLayout";
 import { AppDispatch, RootState } from "@/redux/store";
 import Loader from "@/components/loader/Loader";
 import { adminTokenAuthentication } from "@/components/Utils/TokenAuthentication";
 import LoadingScreen from "@/components/loader/loadingScreen";
 import { confirm } from "@/components/alert/confirm";
-import {updateUserAction} from "../../redux/Features/user/updateUserToMerchantSlice";
+import {updateUserAction} from "../../redux/Features/user/updateUserSlice";
 import {getUsersAction} from "../../redux/Features/user/getUsersSlice";
-import { unwrapResult } from "@reduxjs/toolkit";
-import { approveMerchantAction } from "@/redux/Features/merchant/approveMerchant";
-
+import EmptyScreen from "@/components/empty/empty";
 
 function Pending_Merchants() {
   const dispatch = useDispatch<AppDispatch>();
 
-  const [addNewMerchant, setAddNewMerchant] = useState(false);
-  const [editMerchant, setEditMerchant] = useState(false);
   const [isUpdated, setIsUpdated] = useState(false);
   const [token, setToken] = useState<any>("");
   const [loaded, setIsloaded] = useState(false);
 
-  const { loading, merchants } = useSelector(
-    (store: RootState) => store.getMerchants
+  const { loading, users } = useSelector(
+    (store: RootState) => store.getUsers
   );
 
-const filtered = (merchants : any) => {
-    return merchants.filter((merchant : any) => merchant.pending == true)
+  console.log(users, "ALL USERS")
+
+const filtered = (users : any) => {
+    return users.filter((user : any) => user.merchant_application == 'pending')
 }
 
   // console.log(merchants, "THE FILTERED")
@@ -44,77 +35,43 @@ const filtered = (merchants : any) => {
     setToken(adminTokenAuthentication());
     if (token) {
       setIsloaded(true);
-      dispatch(getMerchantsAction(token));
+      dispatch(getUsersAction(token));
     }
   }, [token, dispatch]);
 
   if (isUpdated) {
-    dispatch(getMerchantsAction(token));
+    dispatch(getUsersAction(token));
     setIsUpdated(false);
   }
 
-  const approveHandler = async (id: string, email:string) => {
-    let user_id = ""
-    await dispatch(getUsersAction(token))
-    .then(unwrapResult)
-    .then ((res:any) => {
-        if(res.data) {
-            const user = res.data.find((user: any) => user.email === email)
-            user_id = user?._id
-        }
-    }).then(async () => {
-      await dispatch(approveMerchantAction({token,  id}))
-      .then(unwrapResult)
-      .then((res: any) => {
-        if (res.data) {4
-        }
-      })
-    }).then(() => {
+  const approveHandler = async (id: string) => {
       confirm({
         title: "Are you sure you want to Approve this merchant?",
         description: "This action cannot be undone",
         message: "Merchant Approved Successfully",
         onConfirm: () => {
-          dispatch(updateUserAction({  id: user_id, merchant_id: id, token, role: "merchant"}));
+          dispatch(updateUserAction({  id, token, role: "merchant", merchant_application: 'approved' }));
           setIsUpdated(true);
         },
       });
-    })
   };
 
     //DELETE FUNCTION HANDLER
     const deleteHandler = (id: string) => {
       confirm({
         title: "Are you sure you want to decline this Merchant?",
-        description: "This merchant account will be deleted",
+        description: "",
         message: "Merchant deleted Successfully",
         onConfirm: () => {
-          dispatch(deleteMerchantAction({ id, token }));
+          dispatch(updateUserAction({  id, token, merchant_application: 'declined' }));
+
           setIsUpdated(true);
         },
-      });
+      })
     };
-
 
   return (
     <>
-      {addNewMerchant === true && (
-        <AddNewMerchant
-          open={addNewMerchant}
-          setOpen={setAddNewMerchant}
-          setIsUpdated={setIsUpdated}
-          token={token}
-        />
-      )}
-
-      {editMerchant === true && (
-        <EditMerchant
-          open={editMerchant}
-          setOpen={setEditMerchant}
-          setIsUpdated={setIsUpdated}
-          token={token}
-        />
-      )}
 
       {loaded === false ? (
         <LoadingScreen />
@@ -125,7 +82,6 @@ const filtered = (merchants : any) => {
               <div className="sm:flex sm:items-center">
 
               </div>
-
               {loading ? (
                 <Loader />
               ) : (
@@ -147,7 +103,7 @@ const filtered = (merchants : any) => {
                               <th
                                 scope="col"
                                 className="px-3 py-3.5 text-left text-md font-semibold text-gray-500">
-                                Name
+                                Business Name
                               </th>
                               <th
                                 scope="col"
@@ -179,9 +135,9 @@ const filtered = (merchants : any) => {
                             </tr>
                           </thead>
                           <tbody className="divide-y divide-gray-200 bg-white ">
-                            {merchants && filtered(merchants)?.map((merchant: any) => (
+                            {users && filtered(users)?.map((user: any) => (
                                 <tr
-                                  key={merchant._id}
+                                  key={user._id}
                                   className="bg-gray-50 hover:bg-[#F5F5F5]">
                                   <td className="relative w-12 px-6 sm:w-16 sm:px-8">
                                     <input
@@ -193,31 +149,22 @@ const filtered = (merchants : any) => {
                                     {merchant._id}
                                   </td> */}
                                   <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                    {merchant.name}
+                                    {user.business_name}
                                   </td>
                                   <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                    {merchant.email}
+                                    {user.email}
                                   </td>
                                   <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                    {merchant.address}
+                                    {user.address}
                                   </td>
                                   <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                    {merchant.website}
+                                    {user.website}
                                   </td>
-                                  {/* {merchant.isDisabled !== true ? (
-                                    <td className="whitespace-nowrap px-3 py-4 text-sm text-[#31AB5B]">
-                                      Active
-                                    </td>
-                                  ) : (
-                                    <td className="whitespace-nowrap px-3 py-4 text-sm text-[#FF0000]">
-                                      Disabled
-                                    </td>
-                                  )} */}
                                   <td className="whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                                     <div className="flex justify-between items-center">
                                                 
                                         <span
-                                        onClick = {() => approveHandler(merchant._id, merchant.email)}
+                                        onClick = {() => approveHandler(user._id)}
                                         className="text-white font-bold bg-green-500 p-2 rounded-lg cursor-pointer"
                                         >
                                             Approve
@@ -225,7 +172,7 @@ const filtered = (merchants : any) => {
 
                                       <span
                                         onClick={() =>
-                                          deleteHandler(merchant._id)
+                                          deleteHandler(user._id)
                                         }
                                         className="text-white font-bold bg-red-500 p-2 rounded-lg cursor-pointer">
                                         Decline
@@ -236,7 +183,14 @@ const filtered = (merchants : any) => {
                               ))}
                           </tbody>
                         </table>
+
                       </div>
+
+                      
+                      {
+                                filtered(users).length <= 0 && (<EmptyScreen
+                                text="No Current Pending Merchant Application"/>)
+                              }
                     </div>
                   </div>
                 </div>

@@ -11,38 +11,55 @@ import { AppDispatch, RootState } from "@/redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import Empty from '@/components/empty/empty'
 import { useRouter } from "next/router";
-// import {userTokenAuthentication}
+import { userAuthenticateToken } from '@/components/Utils/TokenAuthentication';
+import { unwrapResult } from "@reduxjs/toolkit";
+
 
 function Orders() {
   const [createDispute, setCreateDispute] = useState(false);
   const [user, setUser] = useState<any>()
+  const [loaded, setLoaded] = useState(false)
+
   const router = useRouter()
 
   const dispatch = useDispatch<AppDispatch>()
 
-  const { loading, success, message, orders, error } = useSelector(
+  const { loading, orders} = useSelector(
     (store: RootState) => store.getUser
   );
+  
+  console.log(orders, "IN STATE")
 
   useEffect(() => {
-    const userDetails = JSON.parse(localStorage.getItem("user")!);
-    setUser(userDetails);
-
-    if (!userDetails?._id) {
-      router.push("/login");
-    }
-    if (userDetails?.isDisabled === true){
+    const user = userAuthenticateToken()
+    setUser(user)
+  
+    if (user?.isDisabled === true) {
       router.push("/disabled")
     }
-    dispatch(getUserAction({id: userDetails._id, token: userDetails.token}))
     
-  }, [dispatch]);
+    if (user) {
+      dispatch(getUserAction({id:user.id, token: user.token}))
+        .then(unwrapResult)
+        .then((res:any) => {
+          if(res.user){
+            let userObject = JSON.parse(localStorage.getItem("user") as any)
+            if (userObject) {
+              userObject.merchant_application = res.user.merchant_application
+              localStorage.setItem("user", JSON.stringify(userObject));
+              setLoaded(true)
+            }
+          }
+        })
+    }
+  }, [dispatch])  
 
 
   //FILTER OUT ORDER THAT THE STATE IS STIL PENDING 
 
   const filteredorders = (status: any) => {
-     return orders?.filter((order : any) => order.state === status);
+    console.log(orders?.filter((order: any) => order.completed === status), "THE FILTERED")
+    return orders?.filter((order: any) => order.completed === status );
   }
 
 
@@ -60,22 +77,28 @@ function Orders() {
             <p>Dashboard</p>
           </div>
 
-          <div>
-            <NextLink
-                href="/signup/merchant"
-            >
-            <SubmitBtn text="Become A Merchant" />
-            </NextLink>
-          </div>
+          {
+            user?.role !== 'merchant' && (
+              <div>
+                <NextLink
+                  href="/signup/merchant"
+                >
+                  <SubmitBtn text="Become A Merchant" />
+                </NextLink>
+              </div>
+            )
+          }
+
+
         </div>
 
         <div className="flex justify-between items-center px-3 py-2 bg-primary text-white rounded">
           <div>
-            <p className="text-sm md:text-md">Welcome Kayode Jegede</p>
+            <p className="text-sm md:text-md">Welcome {user?.name}</p>
           </div>
 
           <div className="flex justify-between items-center">
-            <p className="hidden md:flex"> +1 (306) 115-4504</p>
+            <p className="hidden md:flex"> {user?.phone}</p>
             <MdMarkEmailUnread className="mx-3 cursor-pointer" size={24} />
 
             <div
@@ -97,24 +120,26 @@ function Orders() {
         <div className=" p-4 bg-secondary rounded">
           <p className="mb-3 text-white">Completed Orders </p>
           {
-            filteredorders("Completed")?.length > 0 ? (
-                <>
-                          <OrdersCard orders={filteredorders("Completed")} />
-                </>
-            ) : <Empty text= "There's currently no Completed orders." />
+            filteredorders(true)?.length > 0 ? (
+              <>
+                <OrdersCard
+                  orders={filteredorders(true)}
+                />
+              </>
+            ) : <Empty text="There's currently no Completed orders." />
           }
         </div>
 
         <div className=" p-4 mt-3 bg-secondary rounded">
           <p className="mb-3 text-white">Pending Orders </p>
-          {/* //Check if the order status is pending */}
 
-                    {
-            filteredorders("Pending")?.length > 0 ? (
-                <>
-                          <OrdersCard orders={filteredorders("Pending")} />
-                </>
-            ) : <Empty text= "There's currently no pending orders." />
+          {
+            filteredorders(false)?.length > 0 ? (
+              <>
+                <OrdersCard
+                  orders={filteredorders(false)} />
+              </>
+            ) : <Empty text="There's currently no pending orders." />
           }
         </div>
       </section>

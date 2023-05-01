@@ -27,7 +27,7 @@ export default function ProductCard(props: {
         merchant: props.merchant_id
       }
     })}
-    className=" mx-1 cursor-pointer h-[220px] ease-in-out duration-300 drop-shadow-2xl">
+    className=" mx-1 cursor-pointer min-h-[220px] ease-in-out duration-300 drop-shadow-2xl">
       <Image 
         src={props.imageUrl}
         alt={props.name}

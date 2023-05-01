@@ -1,115 +1,91 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
+import {getOrderAction} from "@/redux/Features/order/getOrderSlice";
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '@/redux/store';
+import { userAuthenticateToken } from '@/components/Utils/TokenAuthentication';
+import { formatMoney, formatPhoneNumber } from "@/components/Utils/utilFuncs";
+import { unwrapResult } from '@reduxjs/toolkit';
+import MerchantOrderCard from './merchantOrderCard';
+import UserOrderCard from './userOrderCard'
+import Loading from '../loader/Loader';
+
 
 interface OrderProps {
     orders: any
 }
 
-function OrdersCard({orders}: OrderProps) {
-  return (
-    <> 
-    {
-        orders?.map((order: any) => (
-            <div key={order._id} className="bg-white p-5 mb-5"> 
-            {/* ORDER ABD PRICE CONTAINER  */}
-                <div className='flex justify-between items-center border-b-2 border-b-black'>
-                    <div>
-                        <p className="font-bold">Order #{order._id}</p>
-                        <p className="text-[#282222]">Placed on {order.createdAt.slice(0,10)}</p>
-                    </div>
-        
-                    <div>
-                        <span className="text-[#282222]">Total: </span>
-                        <span className="font-bold">${order.subtotal}</span>
-                    </div>
-                </div>
-                
-                <div className="my-5 flex justify-between ">
-                    <div className="md:flex ">
-                        <div>
-                        <img 
-                    src= "https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
-                    width = "220"
-                    height = "220"
-                    className="rounded md:h-40 md:w-40 w-20 h-20"
+function OrdersCard({ orders }: OrderProps) {
+    const [orderDetails, setOrderDetails] = useState<any[]>([]);
+    const [user, setUser] = useState<any>()
+    const [loaded, setLoaded] = useState(false)
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        setUser(userAuthenticateToken());
+      
+        if (user) {
+          const fetchOrderDetails = async () => {
+            const details = await Promise.all(
+              orders?.map(async (order: any) => {
+                const res = await dispatch(getOrderAction({ id: order._id, token: user?.token }));
+                return res.payload?.order;
+              })
+            );
+            console.log(details, "THE DETAILS")
+            setLoaded(true)
+            setOrderDetails(details);
+          };
+      
+          fetchOrderDetails();
+        }
+      }, [orders]);
+
+    return (
+
+        <>
+        {
+          !loaded && <Loading/>
+        }
+
+            <div>
+               {
+                orderDetails?.map((orderDetail, index) => (
+                    user?.role === 'admin' && ( 
+                    <MerchantOrderCard
+                        key={orders[index]._id}
+                        orderDetail={orderDetail}
+                        orders={orders}
+                        index={index}
                     />
-                        </div>
-        
-                        <div className="md:ml-3 md:mt-0 mt-3">
-                            <h3 className='text-xl font-bold'>Sai Tech</h3>
-                            <p>Model : {orders.model}</p>
-        
-                            <p className="md:mt-20">Quantity: {order.quantity}</p>
-                        </div>
-                    </div>
-        
-                    <div>
-                        <p className="md:ml-10 font-bold">Related</p>
-                        <p className="md:ml-10 mb-3">Product/Services</p>
-                        <p className="font-bold text-[#5582F6]">Discount: $ {order.discount}</p>
-        
-                        <div className='md:flex justify-center items-center mt-3'>
-                            <img 
-                            src= "https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
-                            width = "50"
-                            height = "50"
-                            className="rounded h-10 w-10"
-                            /> 
-        
-                            <div className="md:pl-3">
-                                <p>Supplier: KAYODE INC</p>
-                                <span>Address:</span> <span className='text-[#FC8347]'>Calgary Canada.</span> 
-                            </div>
-                        </div>
-        
-                        <div className="my-5">
-                            <p className="font-bold md:text-xl text-[#5582F6]">Coupon: {order.couponIds}</p>
-                        </div>
-                    </div>
-                    
-                </div>
-        
-                <div className="md:flex justify-between items-center">
-                    <div>
-                        <p>
-                            <span> Address: </span>
-                            <span className="text-[#FC8347]"> A14 Brent street, Ontario Canada.</span>
-                        </p> 
-                        <p>
-                            <span> Website: </span>
-                            <a
-                            href="www.cityshopper.com" target="_blank"
-                            > 
-                            <span className="text-[#5582F6]"> www.cityshopper.com</span>
-                            </a>
-                        </p>
-                    </div>
+                    )
+                    ||
+                    user?.role === 'user' && (
+                      <UserOrderCard
+                      key={orders[index]._id}
+                      orderDetail={orderDetail}
+                      orders={orders}
+                      index={index}
+                  />
+                    )
 
-                    {
-                        order.state == "Pending" ? (
-                            <button
-                            type="button"
-                            className="inline-flex mt-5 md:0 w-full items-center justify-center rounded-md border border-transparent bg-[#838080] px-4 py-2 text-sm font-medium text-white shadow-sm focus:ring-offset-2 sm:w-auto cursor-not-allowed"
-                          >
-                            Pending
-                          </button>
-                        ) : (
-        
-                            <button
-                            type="button"
-                            className="inline-flex mt-5 md:0 w-full items-center justify-center rounded-md border border-transparent bg-[#F85606] px-4 py-2 text-sm font-medium text-white shadow-sm focus:ring-offset-2 sm:w-auto cursor-not-allowed"
-                        >
-                           Completed
-                         </button>
-                        )
-                    }
+                    ||
 
-                </div>
-            </div>
-        ))
-    }
-    </>
+                    user?.role === 'merchant' && (
+                      <MerchantOrderCard
+                      key={orders[index]._id}
+                      orderDetail={orderDetail}
+                      orders={orders}
+                      index={index}
+                  />
+                    )
+                ))
+            }
+               </div>
 
-  )
+           
+        </>
+
+    )
 }
 
 export default OrdersCard

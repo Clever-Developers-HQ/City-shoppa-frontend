@@ -8,6 +8,13 @@ export interface CreateOrderProps {
     userId: string
     token: string
     discounted_productId: string
+    merchant_id: string
+    discountedmerchant_id:string
+}
+
+export interface OrderProps{
+  id: string
+  token: string
 }
 
 
@@ -26,7 +33,7 @@ const getOrders = async (token: string): Promise<{}> => {
   }
 
 
-    const createOrder = async ({products, quantity, userId, token, discounted_productId }: CreateOrderProps) => {
+    const createOrder = async ({products, discountedmerchant_id, merchant_id, quantity, userId, token, discounted_productId }: CreateOrderProps) => {
     const config = {
       headers: {
         "Content-Type": "application/json",
@@ -34,16 +41,16 @@ const getOrders = async (token: string): Promise<{}> => {
       },
     };
 
-    const { data } = await axios.post(`${API_BASEURL}/order/add`, { products, quantity, userId}, config);
+    const { data } = await axios.post(`${API_BASEURL}/order/add`, { products, merchant_id, quantity, userId}, config);
     return data;
     }
 
 
-    const getOrder = async (id:string) => {
+    const getOrder = async ({id, token}: OrderProps) => {
       const config = {
         headers: {
           "Content-Type": "application/json",
-          // Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       };
   
