@@ -1,8 +1,8 @@
 import { Fragment, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import FileUpload from "@/components/inputs/FileUpload";
-import SelectInput from "@/components/inputs/SelectMenu";
+// import SelectInput from "./../../inputs/S"
 // import {showConfirmation}
+import FileUpload from './../../inputs/FileUpload';
 
 interface ModalProps {
   open: boolean;

@@ -1,7 +1,7 @@
 import React from 'react'
 import { formatMoney, formatPhoneNumber } from '../Utils/utilFuncs'
 import {updateUserAction} from '@/redux/Features/user/updateUserSlice';
-import { showWarning, showError, showSuccess } from "@/components/Utils/AlertMsg";
+import { showWarning, showError, showSuccess } from "../Utils/AlertMsg";
 import { useSelector, useDispatch } from 'react-redux';
 import { AppDispatch, RootState } from "@/redux/store";
 

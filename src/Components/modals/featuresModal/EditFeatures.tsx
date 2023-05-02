@@ -1,17 +1,16 @@
 import { Fragment, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import FileUpload from "@/components/inputs/FileUpload";
+import FileUpload from "../../inputs/FileUpload";
 import * as Yup from "yup";
-import ModalLayout from "@/components/layouts/ModalLayout";
-import SubmitBtn from "@/components/buttons/submitBtn";
-import CancelBtn from "@/components/buttons/cancelButton";
-import { createFeatureAction } from "@/redux/Features/feature/createFeatureSlice";
-import { showSuccess, showError } from "@/components/Utils/AlertMsg";
+import ModalLayout from "../../layouts/ModalLayout";
+import SubmitBtn from "../../buttons/submitBtn";
+import CancelBtn from "../../buttons/cancelButton";
+import { showSuccess, showError } from "../../Utils/AlertMsg";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { ErrorMessage, Formik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
-import {uploadFile, updateImage} from "@/components/Utils/cloudinaryUpload"
+import {uploadFile, updateImage} from "../../Utils/cloudinaryUpload"
 // import {}
 
 interface ModalProps {

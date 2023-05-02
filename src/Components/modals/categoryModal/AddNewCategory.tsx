@@ -3,15 +3,15 @@ import { Dialog, Transition } from "@headlessui/react";
 import { FaCity } from "react-icons/fa";
 import { AppDispatch, RootState } from "@/redux/store";
 import { useDispatch, useSelector } from "react-redux";
-import Loader from "@/components/loader/Loader";
+import Loader from "../../loader/Loader";
 import * as Yup from "yup";
 import { Formik } from "formik";
-import ModalLayout from "@/components/layouts/ModalLayout";
-import InputField from "@/components/inputs/InputField";
+import ModalLayout from "../../layouts/ModalLayout";
+import InputField from "../../inputs/InputField";
 import { createCategoryAction } from "@/redux/Features/category/createCategorySlice";
-import SubmitBtn from "@/components/buttons/submitBtn";
-import CancelBtn from "@/components/buttons/cancelButton";
-import { showSuccess, showError } from "@/components/Utils/AlertMsg";
+import SubmitBtn from "../../buttons/submitBtn";
+import CancelBtn from "../../buttons/cancelButton";
+import { showSuccess, showError } from "../../Utils/AlertMsg";
 import { unwrapResult } from "@reduxjs/toolkit";
 
 interface AddNewCategoryProps {

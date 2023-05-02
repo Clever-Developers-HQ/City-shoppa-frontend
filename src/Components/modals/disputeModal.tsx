@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from "react";
-import ModalLayout from "@/components/layouts/ModalLayout";
+import ModalLayout from "../layouts/ModalLayout";
 import SubmitBtn from "../buttons/submitBtn";
 import CancelBtn from "../buttons/cancelButton";
 import { createDisputeAction } from "@/redux/Features/dispute/createDisputeSlice";

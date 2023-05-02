@@ -1,7 +1,7 @@
 import { Fragment, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
-import FileUpload from '@/components/inputs/FileUpload'
-import ModalLayout from '@/components/layouts/ModalLayout'
+import FileUpload from '../../inputs/FileUpload'
+import ModalLayout from '../../layouts/ModalLayout'
 
 interface ModalProps {
   open: boolean
