@@ -6,7 +6,7 @@ import Modal from '@mui/material/Modal';
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 import { userAuthenticateToken } from '../Utils/TokenAuthentication';
 import { createOrderAction } from '@/redux/Features/order/createOrderSlice';
-import { showSuccess, showError, showWarning } from "@/components/Utils/AlertMsg";
+import { showSuccess, showError, showWarning } from "../Utils/AlertMsg";
 import Link from 'next/link';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppDispatch, RootState } from "@/redux/store";
