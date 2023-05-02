@@ -1,5 +1,5 @@
 import Swal from "sweetalert2"
-import {showSuccess} from './../Utils/AlertMsg'
+import {showSuccess} from '../Utils/AlertMsg'
 
 interface ConfirmDTO {
     title: string;
