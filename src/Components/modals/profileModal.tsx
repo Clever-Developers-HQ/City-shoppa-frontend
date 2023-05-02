@@ -6,11 +6,11 @@ import { PencilIcon, PlusSmIcon } from '@heroicons/react/solid'
 import {FiEdit2} from 'react-icons/fi'
 import { AppDispatch, RootState } from "../../redux/store";
 import { useDispatch, useSelector } from "react-redux";
-import Loader from '@/components/loader/Loader'
+import Loader from './../loader/Loader'
 import { logOutAction } from '@/redux/Features/auth/authLoginSlice'
 import {FaUserTag} from 'react-icons/fa'
 import {updateUserAction} from '@/redux/Features/user/updateUserSlice';
-import { showWarning, showError, showSuccess } from "@/components/Utils/AlertMsg";
+import { showWarning, showError, showSuccess } from "./../Utils/AlertMsg";
 import * as Yup from 'yup';
 import { Formik,ErrorMessage } from "formik";
 
