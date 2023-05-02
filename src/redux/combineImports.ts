@@ -53,6 +53,9 @@ import createDispute from './Features/dispute/createDisputeSlice'
 
 import updateUserReducer from "./Features/user/updateUserSlice";
 
+import reactivateUserReducer from "./Features/user/reactivateUserSlice";
+import disableUserReducer from "./Features/user/disableUserSlice";
+
 
 
 
@@ -102,6 +105,8 @@ export {
     forgetPasswordReducer,
     resetPasswordReducer,
     updateUserReducer,
+    reactivateUserReducer,
+    disableUserReducer,
 
 
     //PRODUCTS

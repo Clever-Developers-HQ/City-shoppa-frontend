@@ -43,7 +43,7 @@ function UserOrderCard({orderDetail, orders, index }: OrderProps) {
                             </div>
 
                             <div>
-                                <p className="md:ml-10 font-bold">Related</p>
+                                <p className="md:ml-10 font-bold">Discounted Offer</p>
                                 <p className="md:ml-10 mb-3">Product/Service</p>
                                 <p className="font-bold text-[#5582F6]">Discount: $ {orders[index].discount}</p>
 
@@ -55,10 +55,25 @@ function UserOrderCard({orderDetail, orders, index }: OrderProps) {
                                         className="rounded h-10 w-10"
                                     />
 
-                                    <div className="md:pl-3">
-                                        <p>Supplier: KAYODE INC</p>
-                                        <span>Address:</span> <span className='text-[#FC8347]'>{orderDetail?.merchant_id?.address}</span>
-                                    </div>
+                                    {
+                                        orders[index].state == "Pending" ? (
+                                            <a
+                                            href={`tel:${orderDetail?.merchant_id?.phone}`}
+                                            >
+                                            <div 
+                                            className="px-2 cursor-pointer py-1 bg-orange hover:bg-primary rounded text-white font-bold"> 
+                                                Complete order to activate offer coupon
+                                            </div>
+                                            </a>
+                                        ) : (
+                                            <div className="md:pl-3">
+                                            <p>Supplier: KAYODE INC</p>
+                                            <span>Address:</span> <span className='text-[#FC8347]'>{orderDetail?.merchant_id?.address}</span>
+                                        </div>
+                                        )
+                                    }
+
+
                                 </div>
 
                                 <div className="my-5">
@@ -101,12 +116,16 @@ function UserOrderCard({orderDetail, orders, index }: OrderProps) {
                             
                             {
                                 orders[index].state == "Pending" ? (
+                                    <a
+                                    href={`https://${orderDetail?.merchant_id?.website}`} target="_blank"
+                                    >
                                     <button
                                         type="button"
-                                        className="inline-flex mt-5 md:0 w-full items-center justify-center rounded-md border border-transparent bg-[#838080] px-4 py-2 text-sm font-medium text-white shadow-sm focus:ring-offset-2 sm:w-auto cursor-not-allowed"
+                                        className="inline-flex mt-5 md:0 w-full items-center justify-center rounded-md border border-transparent bg-primary px-4 py-2 text-sm font-medium text-white shadow-sm focus:ring-offset-2 sm:w-auto cursor-pointer"
                                     >
-                                        Pending
+                                        Contact Merchant
                                     </button>
+                                    </a>
                                 ) : (
 
                                     <button

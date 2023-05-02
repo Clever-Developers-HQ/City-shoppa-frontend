@@ -1,23 +1,24 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
-import userService,{ UpdateUser }  from './userService'
+import UserService,{ UserProps }  from './userService'
+
+
 
   
   const initialState: any = {
-    user: null,
     loading: false,
     error: false,
     success: false,
     message: "",
   };
 
-
-export const updateUserAction = createAsyncThunk(
-    "/updateUserAction",
-    async ({id, isDisabled, phone, name, email,  merchant_application, role,  token, business_name, address, website}:any, thunkAPI: any,
+//REGISTER User
+export const reactivateUserAction = createAsyncThunk(
+    "/reactivateUserAction",
+    async ({id,token}:UserProps, thunkAPI: any,
     ) => {
       try {
-        return await userService.updateUser({id, isDisabled, phone, name, email,  merchant_application, role,  token, business_name, address, website});
+        return await UserService.reactivateUser({id, token});
       } catch (error: any) {
         const message =
           (error.response &&
@@ -25,14 +26,14 @@ export const updateUserAction = createAsyncThunk(
             error.response.data.message) ||
           error.message ||
           error.toString();
-        toast.error(`${message}`);
+        toast.warning(`${message}`);
         return thunkAPI.rejectWithValue(message);
       }
     }
   );
   
-  export const updateUserSlice = createSlice({
-    name: "updateUser",
+  export const reactivateUserSlice = createSlice({
+    name: "reactivateUser",
     initialState,
     reducers: {
       //non asynchronous reducers goes here
@@ -46,26 +47,25 @@ export const updateUserAction = createAsyncThunk(
     },
     extraReducers: (builder) => {
       builder
-        .addCase(updateUserAction.pending, (state) => {
+        .addCase(reactivateUserAction.pending, (state) => {
           state.loading = true;
         })
-        .addCase(updateUserAction.fulfilled, (state, action) => {
+        .addCase(reactivateUserAction.fulfilled, (state, action) => {
 
           state.loading = false;
           state.success = true;
-          state.User = action.payload.User;
-          state.message = action.payload.status;
+          state.message = action.payload.message;
         })
-        .addCase(updateUserAction.rejected, (state, action) => {
+        
+        .addCase(reactivateUserAction.rejected, (state, action) => {
           state.loading = false;
           state.error = true;
-          state.message = "Something went wrong";
-          state.User = null;
+          state.message = "Something Went Wrong";
         });
     },
   });
   
   // Action creators are generated for each case reducer function
-  export const { reset } = updateUserSlice.actions;
+  export const { reset } = reactivateUserSlice.actions;
   
-  export default updateUserSlice.reducer;
+  export default reactivateUserSlice.reducer;

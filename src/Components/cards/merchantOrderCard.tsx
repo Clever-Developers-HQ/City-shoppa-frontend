@@ -1,5 +1,9 @@
 import React from 'react'
 import { formatMoney, formatPhoneNumber } from '../Utils/utilFuncs'
+import {updateUserAction} from '@/redux/Features/user/updateUserSlice';
+import { showWarning, showError, showSuccess } from "@/components/Utils/AlertMsg";
+import { useSelector, useDispatch } from 'react-redux';
+import { AppDispatch, RootState } from "@/redux/store";
 
 interface OrderProps {
     orderDetail: any
@@ -8,6 +12,11 @@ interface OrderProps {
 }
 
 function MerchantOrderCard({orderDetail, orders, index }: OrderProps) {
+
+    const activateCouponHandler = () => {
+        
+    }
+
   return (
     <div>
                           <div   className="bg-white p-5 mb-5">
@@ -63,6 +72,11 @@ function MerchantOrderCard({orderDetail, orders, index }: OrderProps) {
                                 <p>
                                     <span> Phone: </span>
                                     <span className=""> {formatPhoneNumber(orderDetail?.userId?.phone)}</span>
+                                </p>
+
+                                <p className="py-5 font-bold text-primary">
+                                    <span>Coupon Code: </span>
+                                    <span className=""> {formatPhoneNumber(orders[index].couponIds)}</span>
                                 </p>
                             </div>
 

@@ -13,6 +13,7 @@ import Empty from '@/components/empty/empty'
 import { useRouter } from "next/router";
 import { userAuthenticateToken } from '@/components/Utils/TokenAuthentication';
 import { unwrapResult } from "@reduxjs/toolkit";
+import LoadingScreen from "@/components/loader/loadingScreen";
 
 
 function Orders() {
@@ -28,8 +29,6 @@ function Orders() {
     (store: RootState) => store.getUser
   );
   
-  console.log(orders, "IN STATE")
-
   useEffect(() => {
     const user = userAuthenticateToken()
     setUser(user)
@@ -69,7 +68,11 @@ function Orders() {
       {createDispute && (
         <DisputeModal open={createDispute} setOpen={setCreateDispute} />
       )}
-      <NavBar />
+
+      {
+        loading ? (<LoadingScreen/>) : (
+          <div>
+            <NavBar />
       <div className="md:mx-10 mx-5">
         <div className="flex items-center justify-between my-5">
           <div className="flex">
@@ -143,6 +146,10 @@ function Orders() {
           }
         </div>
       </section>
+          </div>
+        )
+      }
+      
     </>
   );
 }

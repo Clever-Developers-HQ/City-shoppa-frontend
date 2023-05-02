@@ -16,7 +16,7 @@ import { unwrapResult } from '@reduxjs/toolkit';
 
 function MerchantOrders() {
   const [user, setUser] = useState<any>()
-  const dispatch = useDispatch()
+  const dispatch = useDispatch<AppDispatch>()
   const [loaded, setLoaded] = useState(false)
 
   useEffect(() => {

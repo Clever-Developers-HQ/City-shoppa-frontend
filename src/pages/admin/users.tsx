@@ -9,11 +9,12 @@ import Loader from "@/components/loader/Loader";
 import { adminTokenAuthentication } from "@/components/Utils/TokenAuthentication";
 import LoadingScreen from "@/components/loader/loadingScreen";
 import { confirm } from "@/components/alert/confirm";
-import {FaUserEdit, FaUserAltSlash} from 'react-icons/fa'
+import {FaUserEdit, FaUserCheck, FaUserAltSlash} from 'react-icons/fa'
 import AdminLayout from '@/components/layouts/AdminLayout'
 import { getUsersAction } from '@/redux/Features/user/getUsersSlice'
 import {deleteUserAction} from '@/redux/Features/user/deleteUserSlice'
 import { formatPhoneNumber } from '@/components/Utils/utilFuncs'
+import {updateUserAction} from '@/redux/Features/user/updateUserSlice';
 
 
 function Users() {
@@ -37,7 +38,7 @@ function Users() {
       setIsloaded(true);
       dispatch(getUsersAction(token))
     }
-  }, [token])
+  }, [token, dispatch])
 
   if (isUpdated){
     dispatch(getUsersAction(token))
@@ -48,15 +49,44 @@ function Users() {
   //DELETE FUNCTION HANDLER
   const deleteHandler = (id: string) => {
     confirm({
-      title: "Are you sure you want to delete this Merchant?",
+      title: "Are you sure you want to delete this User?",
       description: "This action cannot be undone",
-      message: "Merchant deleted Successfully",
+      message: "User deleted Successfully",
       onConfirm: () => {
-        dispatch(deleteUserAction({ id, token }));
+        dispatch(deleteUserAction({ id, token,  }));
         setIsUpdated(true);
       },
     });
   };
+
+  //DISABLE MERCHANT HANDLER 
+  const disableHandler = (id: string) => {
+    confirm({
+      title: "Are you sure you want to Disable this User?",
+      description: "",
+      message: "User Disabled Successfully",
+      onConfirm: () => {
+        dispatch(updateUserAction({ id, token, isDisabled: true }));
+        setIsUpdated(true);
+      },
+    });
+  }
+
+  //REACTIVATE USER HANDLER 
+
+  const reactivateHandler = (id : string) => {
+    confirm({
+      title: "Are you sure you want to Reactivate this User?",
+      description: "",
+      message: "User Disabled Successfully",
+      onConfirm: () => {
+        dispatch(updateUserAction({ id, token, isDisabled:false }));
+        setIsUpdated(true);
+      },
+    });
+  }
+
+
 
   //EDIT USER HANDLER 
 
@@ -114,6 +144,9 @@ function Users() {
                         Phone
                       </th>
                       <th scope="col" className="px-3 py-3.5 text-left text-md font-semibold text-gray-500">
+                        Role
+                      </th>
+                      <th scope="col" className="px-3 py-3.5 text-left text-md font-semibold text-gray-500">
                         Status
                       </th>
                       <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-6">
@@ -138,7 +171,7 @@ function Users() {
                         </td>
                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{user.email}</td>
                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{formatPhoneNumber(user?.phone)}</td>
-                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{user.status}</td>
+                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{user.role}</td>
                         {
                           user.isDisabled === false ? (
                               <td className="whitespace-nowrap px-3 py-4 text-sm text-[#31AB5B]">Active</td>
@@ -158,14 +191,27 @@ function Users() {
                             size="20"
                              />
                           </span>
-                          <span 
-                          // onClick={() => showConfirmation()} 
-                          >
-                            <FaUserAltSlash
-                            size="20"
-                            className="text-gray-500 hover:text-orange cursor-pointer"
-                             />
-                          </span>
+                          {
+                            user.isDisabled === false ? (
+                              <span
+                              onClick={() => disableHandler(user._id)}
+                              >
+                              <FaUserAltSlash
+                              size="20"
+                              className="text-gray-500 hover:text-orange cursor-pointer"
+                               />
+                            </span>
+                            ) : (
+                              <span
+                              onClick={() => reactivateHandler(user._id)}
+                              >
+                              <FaUserCheck
+                              size="20"
+                              className="text-gray-500 hover:text-orange cursor-pointer"
+                               />
+                            </span>
+                            )
+                          }
   
                           <span 
                           // onClick={() => showConfirmation()} 

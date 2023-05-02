@@ -22,6 +22,7 @@ import { unwrapResult } from "@reduxjs/toolkit";
 import PendingAccountScreen from '@/components/empty/pending_account'
 import DeclinedAccountScreen from '@/components/empty/declined_account'
 import { useRouter } from 'next/router'
+import { formatMoney } from "@/components/Utils/utilFuncs";
 
 
 interface UserDTO {
@@ -214,7 +215,7 @@ function Products() {
                               </td>
 
                               <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                $ {product?.product_price}
+                                $ {formatMoney(product?.product_price)}
                               </td>
                               <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                 {product?.qty}

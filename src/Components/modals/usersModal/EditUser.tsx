@@ -10,7 +10,7 @@ import SubmitBtn from "@/components/buttons/submitBtn";
 import CancelBtn from "@/components/buttons/cancelButton";
 import { showSuccess, showError } from "@/components/Utils/AlertMsg";
 import { unwrapResult } from "@reduxjs/toolkit";
-
+import {updateUserAction} from '@/redux/Features/user/updateUserSlice';
 
 interface ModalProps {
   open: boolean;
@@ -22,6 +22,10 @@ interface ModalProps {
 
 export default function EditUser({ open, user, setOpen, setIsUpdated, token }: ModalProps) {
   const dispatch = useDispatch<AppDispatch>();
+
+  const {loading} = useSelector((store:RootState) => store.updateUser)
+
+
 
   console.log(user, "THE User ")
   return (
@@ -36,18 +40,30 @@ export default function EditUser({ open, user, setOpen, setIsUpdated, token }: M
      validationSchema={Yup.object({
       name: Yup.string()
         .required('Name Is Required'),
-      business_name: Yup.string()
-        .required('Business name is Required'),
       email: Yup.string().email('Invalid email address').required('Email is Required'),
      phone: Yup.string().required("Phone is Required"),
     })}
      onSubmit={async (values : any, { setSubmitting }) => {
       const id = user._id
-      const business_name = values.business_name
       const email = values.email
-      const website = values.website
-      const address = values.address
       const name = values.name
+      const phone = values.phone
+
+      console.log(values, "THE VALUES")
+
+      const resultAction = await dispatch(updateUserAction({name, id, token, email, phone}))
+
+      const result = unwrapResult(resultAction)
+      if (result.user) {
+        showSuccess("User Created Successfully")
+        setIsUpdated(true)
+        setOpen(false)
+      } else {
+        showError(result.status)
+        setSubmitting(false)
+      }
+
+
      }}
    >
      {({
@@ -89,7 +105,7 @@ export default function EditUser({ open, user, setOpen, setIsUpdated, token }: M
         
 
           <div className="mt-5 sm:mt-6 sm:grid sm:grid-cols-2 sm:gap-3 sm:grid-flow-row-dense">
-            <SubmitBtn disabled={isSubmitting} text="Update user" />
+            <SubmitBtn disabled={isSubmitting} text= {loading? "Please Wait..." : "Update user"  }/>
             <CancelBtn text="Cancel" setOpen={setOpen} />
             </div>
        </form>

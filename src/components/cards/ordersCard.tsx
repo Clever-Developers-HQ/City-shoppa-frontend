@@ -18,7 +18,7 @@ function OrdersCard({ orders }: OrderProps) {
     const [orderDetails, setOrderDetails] = useState<any[]>([]);
     const [user, setUser] = useState<any>()
     const [loaded, setLoaded] = useState(false)
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
 
     useEffect(() => {
         setUser(userAuthenticateToken());
@@ -51,7 +51,7 @@ function OrdersCard({ orders }: OrderProps) {
                {
                 orderDetails?.map((orderDetail, index) => (
                     user?.role === 'admin' && ( 
-                    <MerchantOrderCard
+                    <UserOrderCard
                         key={orders[index]._id}
                         orderDetail={orderDetail}
                         orders={orders}
@@ -71,7 +71,7 @@ function OrdersCard({ orders }: OrderProps) {
                     ||
 
                     user?.role === 'merchant' && (
-                      <MerchantOrderCard
+                      <UserOrderCard
                       key={orders[index]._id}
                       orderDetail={orderDetail}
                       orders={orders}

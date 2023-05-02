@@ -9,7 +9,10 @@ import { useDispatch, useSelector } from "react-redux";
 import Loader from '@/components/loader/Loader'
 import { logOutAction } from '@/redux/Features/auth/authLoginSlice'
 import {FaUserTag} from 'react-icons/fa'
-// import {updateUser}
+import {updateUserAction} from '@/redux/Features/user/updateUserSlice';
+import { showWarning, showError, showSuccess } from "@/components/Utils/AlertMsg";
+import * as Yup from 'yup';
+import { Formik,ErrorMessage } from "formik";
 
 
 
@@ -28,9 +31,11 @@ export default function Profile({ open, setOpen}: ModalProps) {
   const [isEditPhone, setIsEditPhone] = useState(false)
   const [isEditPassword, setIsEditPassword] = useState(false)
 
+  const user = JSON.parse(localStorage.getItem('user') || '{}')
+
+
   //Get the iserDetails from Local Storage
 
-  const user = JSON.parse(localStorage.getItem('user') || '{}')
 
   const editHandler = () => {
     setIsEditUserName(false)
@@ -38,6 +43,10 @@ export default function Profile({ open, setOpen}: ModalProps) {
     setIsEditPassword(false)
     setIsEdit(false)
   }
+
+
+
+  // const submit
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -85,7 +94,35 @@ export default function Profile({ open, setOpen}: ModalProps) {
                     </button>
                   </div>
                 </Transition.Child>
-                <div className="h-full bg-[#D9D9D9] overflow-y-auto p-8">
+                <Formik
+                  initialValues={{
+                    name: user?.name,
+                    email: user?.email,
+                    phone: user?.phone,
+                  }}
+
+                  validationSchema={Yup.object().shape({
+                    name: Yup.string().required('Name is required'),
+                    email: Yup.string().required('Email is required').email("Invalid Email Provided"),
+                    phone: Yup.string().matches(/^\(\d{3}\) \d{3}-\d{4}$/).required('Phone Number Is Required')
+                  })}
+
+                  onSubmit={async (values : any, { setSubmitting }) => {
+                    console.log(values, "THE VALUES")
+                    setIsEditUserName(false)
+                    setIsEditEmail(false)
+                    setIsEditPassword(false)
+                    setIsEdit(false)
+                   }}
+                >
+                  {({
+                    values,
+                    handleChange,
+                    handleBlur,
+                    handleSubmit,
+                    isSubmitting,
+                  }) => (
+               <div className="h-full bg-[#D9D9D9] overflow-y-auto p-8">
                   <div className="space-y-6 pb-16">
                     <div>
                       <div className="flex flex-col items-center justify-center w-full overflow-hidden">
@@ -98,8 +135,10 @@ export default function Profile({ open, setOpen}: ModalProps) {
                           <p> {user?.name}</p>
                           { isEdit === true ? (
                             <button 
-                            onClick = {() => editHandler()}
-                            className="py-2 text-sm font-bold mt-4 px-4 cursor-pointer text-white bg-orange rounded-xl"> 
+                            type="submit"
+                            disabled={isSubmitting}
+                            // onClick = {() => handleSubmit()}
+                            className="py-2 text-sm font-bold mt-4 px-4 hover:bg-primary cursor-pointer text-white bg-orange rounded"> 
                             Update
                           </button>) : (
                           <button 
@@ -121,12 +160,14 @@ export default function Profile({ open, setOpen}: ModalProps) {
                             isEditUserName=== true ? ( 
                                <input
                               type="text"
-                              name="userName"
-                              value={user?.name}
-                              id="userName"
+                              name="name"
+                              value={values.name}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              id="name"
                               className="shadow-sm mt-2 mr-2 focus:ring-primary focus:border-primary block w-full border-gray-300 sm:text-sm rounded-md p-2"
                             />) : (
-                               <dd className="text-gray-900 mt-2">{user?.name}</dd> 
+                               <dd className="text-gray-900 mt-2">{values?.name}</dd> 
                             )
                           }
 
@@ -146,10 +187,12 @@ export default function Profile({ open, setOpen}: ModalProps) {
                               type="text"
                               name="email"
                               id="email"
-                              value={user?.email}
+                              value={values.email}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
                               className="shadow-sm mt-2 mr-2 focus:ring-primary focus:border-primary block w-full border-gray-300 sm:text-sm rounded-md p-2"
                             />) : (
-                               <dd className="text-gray-900 mt-2">{user?.email}</dd> 
+                               <dd className="text-gray-900 mt-2">{values?.email}</dd> 
                             )
                           }
 
@@ -169,10 +212,12 @@ export default function Profile({ open, setOpen}: ModalProps) {
                               type="text"
                               name="phone"
                               id="phone"
-                              value={user?.phone}
+                              value={values.phone}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
                               className="shadow-sm mt-2 mr-2 focus:ring-primary focus:border-primary block w-full border-gray-300 sm:text-sm rounded-md p-2"
                             />) : (
-                               <dd className="text-gray-900 mt-2">{user?.phone} </dd> 
+                               <dd className="text-gray-900 mt-2">{values?.phone} </dd> 
                             )
                           }
 
@@ -198,6 +243,10 @@ export default function Profile({ open, setOpen}: ModalProps) {
 
                   </div>
                 </div>
+                  )}
+
+                </Formik>
+ 
               </div>
             </Transition.Child>
           </div>

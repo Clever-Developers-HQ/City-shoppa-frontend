@@ -3,7 +3,7 @@ import DiscountedProducts from "@/components/ProductDetails/DiscountedProducts";
 import ImageSlider from "@/components/ProductDetails/ImageSlider";
 import SellerModal from "@/components/ProductDetails/SellerModal";
 import Footer from "@/components/footer/Footer"
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect, useLayoutEffect} from "react";
 import { useRouter } from 'next/router'
 import { useDispatch, useSelector } from 'react-redux';
 import { getProductAction } from '../../redux/Features/product/getProductSlice';
@@ -36,9 +36,13 @@ const ProductDetails = () => {
     (store: RootState) => store.getUser
   );
 
+  useLayoutEffect(() => {
+    window.scrollTo(0, 0); 
+  }, [router.asPath]);
+
 
   useEffect(() => {
-    window.scrollTo(0, 0); 
+    // window.scrollTo(0, 0); 
 
     if (router.query && typeof router.query.merchant === "string" && typeof router.query.id === "string") {
       dispatch(getUserAction({id: router.query.merchant, token: ""}) as any)

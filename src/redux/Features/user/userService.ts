@@ -83,13 +83,17 @@ const deleteUser = async ({ id, token }: UserProps) => {
   return data
 }
 
-const updateUser = async ({ merchant_application, id, role, token, business_name, address, website }: any) => {
+const updateUser = async ({ phone, isDisabled, name, email, merchant_application, id, role, token, business_name, address, website }: any) => {
   const data = {
     role,
     business_name,
     address,
     website,
-    merchant_application
+    merchant_application,
+    phone, 
+    name, 
+    email,
+    isDisabled,
   }
   console.log(id ,"ID")
   const config = {
@@ -130,7 +134,6 @@ const disableUser = async ({id, token}: UserProps) => {
     },
   };
   const response = await axios.put(`${API_BASEURL}/users/disableuser/${id}`, {}, config);
-  console.log(response, "THE RESPONSE BACK")
   return response.data
 }
 
