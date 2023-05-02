@@ -1,5 +1,7 @@
 import Swal from "sweetalert2"
-import {showSuccess} from '../Utils/AlertMsg'
+// import {showSuccess} from '../Utils/AlertMsg'
+import { toast } from "react-toastify";
+// import Swal from "sweetalert2";
 
 interface ConfirmDTO {
     title: string;
@@ -7,6 +9,20 @@ interface ConfirmDTO {
     onConfirm: () => void;
     message: string
 }
+
+const showSuccess = (successMsg: string) => {
+    return toast.success(`${successMsg}`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+    });
+}
+
 
 
 const confirm = ({title, description, onConfirm, message}: ConfirmDTO) => {
