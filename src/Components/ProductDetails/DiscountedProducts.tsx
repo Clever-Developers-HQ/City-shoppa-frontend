@@ -1,7 +1,7 @@
 
 import Image from 'next/image'
 import {useState} from 'react'
-import { formatMoney, formatPhoneNumber } from "@/components/Utils/utilFuncs";
+import { formatMoney, formatPhoneNumber } from "../Utils/utilFuncs";
 
 
 interface DiscountProductDTO {
