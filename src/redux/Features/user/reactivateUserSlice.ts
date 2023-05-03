@@ -18,7 +18,7 @@ export const reactivateUserAction = createAsyncThunk(
     async ({id,token}:UserProps, thunkAPI: any,
     ) => {
       try {
-        return await UserService.disableUser({id, token});
+        return await UserService.reactivateUser({id, token});
       } catch (error: any) {
         const message =
           (error.response &&

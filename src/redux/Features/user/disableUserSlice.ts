@@ -13,12 +13,12 @@ import UserService,{ UserProps }  from './userService'
   };
 
 //REGISTER User
-export const reactivateUserAction = createAsyncThunk(
-    "/reactivateUserAction",
+export const disableUserAction = createAsyncThunk(
+    "/disableUserAction",
     async ({id,token}:UserProps, thunkAPI: any,
     ) => {
       try {
-        return await UserService.reactivateUser({id, token});
+        return await UserService.disableUser({id, token});
       } catch (error: any) {
         const message =
           (error.response &&
@@ -32,8 +32,8 @@ export const reactivateUserAction = createAsyncThunk(
     }
   );
   
-  export const reactivateUserSlice = createSlice({
-    name: "reactivateUser",
+  export const disableUserSlice = createSlice({
+    name: "disableUser",
     initialState,
     reducers: {
       //non asynchronous reducers goes here
@@ -47,17 +47,17 @@ export const reactivateUserAction = createAsyncThunk(
     },
     extraReducers: (builder) => {
       builder
-        .addCase(reactivateUserAction.pending, (state) => {
+        .addCase(disableUserAction.pending, (state) => {
           state.loading = true;
         })
-        .addCase(reactivateUserAction.fulfilled, (state, action) => {
+        .addCase(disableUserAction.fulfilled, (state, action) => {
 
           state.loading = false;
           state.success = true;
           state.message = action.payload.message;
         })
         
-        .addCase(reactivateUserAction.rejected, (state, action) => {
+        .addCase(disableUserAction.rejected, (state, action) => {
           state.loading = false;
           state.error = true;
           state.message = "Something Went Wrong";
@@ -66,6 +66,6 @@ export const reactivateUserAction = createAsyncThunk(
   });
   
   // Action creators are generated for each case reducer function
-  export const { reset } = reactivateUserSlice.actions;
+  export const { reset } = disableUserSlice.actions;
   
-  export default reactivateUserSlice.reducer;
+  export default disableUserSlice.reducer;

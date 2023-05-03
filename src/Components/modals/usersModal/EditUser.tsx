@@ -25,9 +25,7 @@ export default function EditUser({ open, user, setOpen, setIsUpdated, token }: M
 
   const {loading} = useSelector((store:RootState) => store.updateUser)
 
-
-
-  console.log(user, "THE User ")
+  
   return (
     <ModalLayout
       open={open}

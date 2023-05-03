@@ -15,6 +15,8 @@ import { getUsersAction } from '@/redux/Features/user/getUsersSlice'
 import {deleteUserAction} from '@/redux/Features/user/deleteUserSlice'
 import { formatPhoneNumber } from '@/components/Utils/utilFuncs'
 import {updateUserAction} from '@/redux/Features/user/updateUserSlice';
+import { disableUserAction } from '@/redux/Features/user/disableUserSlice'
+import { reactivateUserAction } from '@/redux/Features/user/reactivateUserSlice'
 
 
 function Users() {
@@ -66,7 +68,7 @@ function Users() {
       description: "",
       message: "User Disabled Successfully",
       onConfirm: () => {
-        dispatch(updateUserAction({ id, token, isDisabled: 0 }));
+        dispatch(disableUserAction ({ id, token}));
         setIsUpdated(true);
       },
     });
@@ -78,9 +80,9 @@ function Users() {
     confirm({
       title: "Are you sure you want to Reactivate this User?",
       description: "",
-      message: "User Disabled Successfully",
+      message: "User Account Activated Successfully",
       onConfirm: () => {
-        dispatch(updateUserAction({ id, token, isDisabled:false }));
+        dispatch(reactivateUserAction({ id, token }));
         setIsUpdated(true);
       },
     });
