@@ -14,14 +14,11 @@ import AdminLayout from '@/components/layouts/AdminLayout'
 import { getUsersAction } from '@/redux/Features/user/getUsersSlice'
 import {deleteUserAction} from '@/redux/Features/user/deleteUserSlice'
 import { formatPhoneNumber } from '@/components/Utils/utilFuncs'
-import {updateUserAction} from '@/redux/Features/user/updateUserSlice';
 import { disableUserAction } from '@/redux/Features/user/disableUserSlice'
 import { reactivateUserAction } from '@/redux/Features/user/reactivateUserSlice'
 
-
 function Users() {
   const dispatch = useDispatch<AppDispatch>();
-
   const [addNewUser, setAddNewUser] = useState(false)
   const [editUser, setEditUser] = useState(false)
   const [isUpdated, setIsUpdated] = useState(false);
