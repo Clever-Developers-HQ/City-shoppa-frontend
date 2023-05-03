@@ -2,12 +2,12 @@ import React, {useEffect, useState} from 'react'
 import {getOrderAction} from "@/redux/Features/order/getOrderSlice";
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
-import { userAuthenticateToken } from '../Utils/TokenAuthentication';
-import { formatMoney, formatPhoneNumber } from "../Utils/utilFuncs";
+import { userAuthenticateToken } from '@/components/Utils/TokenAuthentication';
+import { formatMoney, formatPhoneNumber } from "@/components/Utils/utilFuncs";
 import { unwrapResult } from '@reduxjs/toolkit';
 import MerchantOrderCard from './merchantOrderCard';
 import UserOrderCard from './userOrderCard'
-import Loading from '../loader/Loader';
+import Loading from '@/components/loader/Loader';
 
 
 interface OrderProps {
