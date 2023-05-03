@@ -21,6 +21,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src", "src/pages/admin/uncompleted-orders.jsx", "src/pages/admin/uncompleted-orders.jsx", "src/redux/combineReducers.js", "src/redux/Features/caption/deleteCaptionSlicets", "src/components/products/home/homeProduct.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "@/", "**/*.tsx", "src", "src/pages/admin/uncompleted-orders.jsx", "src/pages/admin/uncompleted-orders.jsx", "src/redux/combineReducers.js", "src/redux/Features/caption/deleteCaptionSlicets", "src/components/products/home/homeProduct.tsx"],
   "exclude": ["node_modules"]
 }
