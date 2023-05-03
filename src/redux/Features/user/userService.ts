@@ -1,7 +1,7 @@
 import API_BASEURL from "constants";
 import axios from "axios";
 
-
+console.log(API_BASEURL, "THE BASE API")
 export interface RegisterUserProps {
   name: string;
   token: string;

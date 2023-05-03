@@ -66,7 +66,7 @@ function Users() {
       description: "",
       message: "User Disabled Successfully",
       onConfirm: () => {
-        dispatch(updateUserAction({ id, token, isDisabled: true }));
+        dispatch(updateUserAction({ id, token, isDisabled: 0 }));
         setIsUpdated(true);
       },
     });
@@ -155,7 +155,7 @@ function Users() {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-200 bg-white ">
-                    {users.map((user :any) => (
+                    {users?.map((user :any) => (
                       <tr key={user._id} className='bg-gray-50 hover:bg-[#F5F5F5]'>
                         <td className="relative w-12 px-6 sm:w-16 sm:px-8">
       
