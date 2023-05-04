@@ -1,5 +1,5 @@
 import React from 'react'
-import { formatMoney, formatPhoneNumber } from '../Utils/utilFuncs'
+import { formatMoney, formatPhoneNumber } from '@/components/Utils/utilFuncs'
 
 interface OrderProps {
     orderDetail: any
