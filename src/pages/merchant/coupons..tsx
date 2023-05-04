@@ -11,6 +11,11 @@ import PendingAccountScreen from '@/components/empty/pending_account'
 import DeclinedAccount from '@/components/empty/declined_account';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { getOrderAction } from '@/redux/Features/order/getOrderSlice';
+import { updateOrderAction } from '@/redux/Features/order/updateOrderSlice';
+import { showError, showSuccess, showWarning } from '@/components/Utils/AlertMsg';
+import Swal from 'sweetalert2';
+import { confirm } from '@/components/alert/confirm';
+import { completeOrderAction } from '@/redux/Features/order/completeOrderSlice';
 
 
 function  Coupons() {
@@ -18,13 +23,11 @@ function  Coupons() {
     const dispatch = useDispatch<AppDispatch>()
     const [loaded, setLoaded] = useState(false)
     const [orderDetails, setOrderDetails] = useState<any>()
+    const [isUpdated, setIsUpdated] = useState(false)
 
     const router = useRouter();
+    const token = user?.token;
 
-
-    const { loading, success, message, orders, merchantOrders } = useSelector(
-        (store: RootState) => store.getUser
-      );
 
       const fetchOrderDetails = async (orders: any) => {
         const details = await Promise.all(
@@ -63,44 +66,69 @@ function  Coupons() {
           setLoaded(true)
         } else {
             router.push('/');
-
-
         }
     
       }, [dispatch, router])
 
 
       console.log(orderDetails, "THE ORDER DETAILS")
-        
 
-    const coupons = [
-        {
-            id: 1,
-            name: "Sai Tech",
-            model: "x56",
-            code: 5678,
-            isActivated: false,
-        },
-        {
-            id: 2,
-            name: "Sai Tech",
-            model: "x56",
-            code: 5678,
-            isActivated: true,
-        },
-        {
-            id: 3,
-            name: "Sai Tech",
-            model: "x56",
-            code: 5678,
-            isActivated: false,
-        },
-    ]
+
+      const activateCouponHandler = (id: any) => {
+        confirm({
+            title: "Are you sure you want to Activate this Coupon?",
+            description: "This confirms that the Buyer had completed the purchase.",
+            message: "Coupon Activated Successfully",
+            onConfirm: () => {
+                dispatch(completeOrderAction({ id, token, }))
+                    .then((res: any) => {
+                    }).then(() => {
+                        dispatch(updateOrderAction({ id, token, state: "Activated" }))
+                        router.reload();
+                        setIsUpdated(true)
+                    })
+            },
+        });
+    }
+
+    const declineCouponHandler = (id: any) => {
+        Swal.fire({
+            title: 'Proivde a reason for declining the Order.',
+            input: 'textarea',
+            inputAttributes: {
+                autocapitalize: 'off'
+            },
+            showCancelButton: true,
+            confirmButtonText: 'Decline',
+            showLoaderOnConfirm: true,
+            preConfirm: (reason: any) => {
+                if (!reason) {
+                    showWarning("Ensure you provide the reason for declining Coupon")
+                    return
+                }
+                
+                return dispatch(updateOrderAction({ id, token, state: "Decline", decline_reason: reason }))
+                    .then(unwrapResult)
+                    .then((res: any) => {
+                        showSuccess("Coupon declined Successfully")
+                        router.reload();
+                    })
+                    .catch(error => {
+                        showError("Something Went Wrong. Please Try Again.")
+                    })
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+        })
+    }
 
   return (
     <div>
         <MerchantLayout title="Customers Coupon">
-           {
+
+          {
+            orderDetails?.length > 0 ? (
+              <div>
+                 {
             orderDetails?.map((coupon : any, index: any) => (
                 <section
                 key={coupon[index]?._id}
@@ -110,7 +138,7 @@ function  Coupons() {
                 className= "flex justify-between items-center"
                 >
                     <img 
-                    src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
+                    src= {coupon?.products?.mainImage}
                     width = '100px'
                     height = "100px"
                     className="object-fit"
@@ -121,45 +149,68 @@ function  Coupons() {
                     >
                         <h3
                         className= "md:text-2xl text-xl text-bold"
-                        >Sai Tech</h3>
+                        >{coupon?.products?.product_name}</h3>
                         <p
                         className="text-gray-500"
-                        >Model: x56</p>
+                        >Price: {coupon?.products?.product_price}</p>
                         <h3
                         className= "text-blue-500 md:text-xl font-bold "
-                        >Coupon code: {coupon[index]?.couponIds}</h3>
+                        >Coupon code: {coupon?.couponIds}</h3>
                     </div>
 
                 </div>
 
+                
                 {
-                    coupon.isActivated ? (
+                    coupon?.state === "Activated" && (
                         <button
-                        className="bg-gray-400 p-2 text-white rounded cursor-none"
+                        className="bg-primary p-2 text-white rounded cursor-none"
                        >
                           Activated
                        </button>
-                    ): (                <div
-                        className="md:flex grid"
+                    ) 
+                }
+
+{
+                    coupon?.state === "Decline" && (
+                        <button
+                        className="bg-red-600 p-2 text-white rounded cursor-none"
+                       >
+                          Declined
+                       </button>
+                    ) 
+                }
+
+                {
+                  coupon.state === "Pending" && (
+                    <div
+                    className="md:flex grid"
+                    >
+                        <button
+                            onClick={() => declineCouponHandler(coupon._id)}
+                            type="button"
+                            className="p-2 mb-2 md:mb-0 w-full text-white rounded bg-red-500 mr-5"
                         >
-                            <button
-                                type="button"
-                                className="p-2 mb-2 md:mb-0 w-full text-white rounded bg-red-500 mr-5"
-                            >
-                               Decline
-                            </button>
-        
-                            <button
-                             className="bg-green-700 w-full p-2 text-white rounded "
-                            >
-                                Approve
-                            </button>
-        
-                        </div>)
+                           Decline
+                        </button>
+    
+                        <button
+                            onClick={() => activateCouponHandler(coupon._id)}
+                         className="bg-green-700 w-full p-2 text-white rounded "
+                        >
+                            Activate
+                        </button>
+    
+                    </div>
+                  )
                 }
             </section>
             ))
            }
+              </div>
+            ) : (<Empty text="No Pending Coupon Waiting"/>)
+          }
+          
           
         </MerchantLayout>
     </div>

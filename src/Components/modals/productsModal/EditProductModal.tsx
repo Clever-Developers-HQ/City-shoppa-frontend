@@ -7,9 +7,10 @@ import FileUpload from './../../inputs/FileUpload';
 interface ModalProps {
   open: boolean;
   setOpen: any;
+  product: any
 }
 
-export default function EditProductModal({ open, setOpen }: ModalProps) {
+export default function EditProductModal({ open, setOpen, product }: ModalProps) {
   const cancelButtonRef = useRef(null);
   const [images, setImages] = useState([]);
   const [productData, setProductData] = useState<any>({});

@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { AppDispatch, RootState } from "@/redux/store";
 import { completeOrderAction } from '../../redux/Features/order/completeOrderSlice';
 import { updateOrderAction } from '../../redux/Features/order/updateOrderSlice';
-import { confirm } from './../alert/confirm';
+import { confirm } from '@/components/alert/confirm';
 import { getOrdersAction } from '../../redux/Features/order/getOrdersSlice';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { useRouter } from 'next/router';

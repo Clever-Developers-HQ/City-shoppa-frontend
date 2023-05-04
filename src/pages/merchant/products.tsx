@@ -32,6 +32,7 @@ interface UserDTO {
 
 function Products() {
   const dispatch = useDispatch<AppDispatch>();
+  const [product, setProduct] = useState<any>()
 
   const router = useRouter()
 
@@ -96,13 +97,18 @@ function Products() {
     window.open(url, '_blank')
   }
 
+  const editProductHandler = (product: any) => {
+    setProduct(product)
+    setEditProduct(true);
+  }
+
   return (
     <div>
       {addNewProduct && (
         <AddNewProductModal setIsUpdated={setIsUpdated} token={user?.token} open={addNewProduct} setOpen={setAddNewProduct} />
       )}
       {editProduct && (
-        <EditProductModal open={editProduct} setOpen={setEditProduct} />
+        <EditProductModal product={product} open={editProduct} setOpen={setEditProduct} />
       )}
 
       {isLoaded === false && <LoadingScreen />}
@@ -250,7 +256,7 @@ function Products() {
                                   </span>
 
                                   <span
-                                    onClick={() => setEditProduct(true)}
+                                    onClick={() => editProductHandler(product)}
                                     className="text-gray-500 hover:text-orange cursor-pointer">
                                     <MdOutlineModeEdit size="20" />
                                   </span>
