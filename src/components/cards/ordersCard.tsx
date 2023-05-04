@@ -5,9 +5,10 @@ import { AppDispatch, RootState } from '@/redux/store';
 import { userAuthenticateToken } from '../Utils/TokenAuthentication';
 // import { formatMoney, formatPhoneNumber } from "../Utils/utilFuncs";
 import { unwrapResult } from '@reduxjs/toolkit';
-// import MerchantOrderCard from './merchantOrderCard';
+import MerchantOrderCard from './merchantOrderCard';
 import UserOrderCard from './userOrderCard'
 import Loading from '../loader/Loader';
+
 
 
 interface OrderProps {
@@ -18,27 +19,36 @@ function OrdersCard({ orders }: OrderProps) {
     const [orderDetails, setOrderDetails] = useState<any[]>([]);
     const [user, setUser] = useState<any>()
     const [loaded, setLoaded] = useState(false)
+    const [isUpdated, setIsUpdated] = useState(false)
+    const [loadingUpdate, setLoadingUpdate] = useState(false)
     const dispatch = useDispatch<AppDispatch>();
+
+    const fetchOrderDetails = async () => {
+      const details = await Promise.all(
+        orders?.map(async (order: any) => {
+          const res = await dispatch(getOrderAction({ id: order._id, token: user?.token }));
+          return res.payload?.order;
+        })
+      );
+      setLoadingUpdate(false)
+      setLoaded(true)
+      setOrderDetails(details);
+    };
 
     useEffect(() => {
         setUser(userAuthenticateToken());
-      
         if (user) {
-          const fetchOrderDetails = async () => {
-            const details = await Promise.all(
-              orders?.map(async (order: any) => {
-                const res = await dispatch(getOrderAction({ id: order._id, token: user?.token }));
-                return res.payload?.order;
-              })
-            );
-            console.log(details, "THE DETAILS")
-            setLoaded(true)
-            setOrderDetails(details);
-          };
-      
           fetchOrderDetails();
         }
       }, [orders]);
+
+      if (isUpdated) {
+        setLoaded(false)
+        fetchOrderDetails()
+        setIsUpdated(false)
+      }
+
+
 
     return (
 
@@ -71,11 +81,12 @@ function OrdersCard({ orders }: OrderProps) {
                     ||
 
                     user?.role === 'merchant' && (
-                      <UserOrderCard
+                      <MerchantOrderCard
                       key={orders[index]._id}
                       orderDetail={orderDetail}
                       orders={orders}
                       index={index}
+                      setIsUpdated= {setIsUpdated}
                   />
                     )
                 ))

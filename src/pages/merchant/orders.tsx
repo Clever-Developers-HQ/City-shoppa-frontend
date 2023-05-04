@@ -1,7 +1,6 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import MerchantLayout from '@/components/layouts/MerchantLayout'
 import OrdersCard from '@/components/cards/ordersCard'
-import NextLink from 'next/link'
 import { getUserAction } from '@/redux/Features/user/getUserSlice';
 import { AppDispatch, RootState } from "@/redux/store";
 import { useDispatch, useSelector } from "react-redux";
@@ -23,24 +22,24 @@ function MerchantOrders() {
     const user = userAuthenticateToken()
     setUser(user)
     if (user) {
-      if(user.role == "merchant"){
-        dispatch(getUserAction({id:user.id, token: user.token}))
-        .then(unwrapResult)
-        .then((res:any) => {
-          if(res.user){
-            let userObject = JSON.parse(localStorage.getItem("user") as any)
-            if (userObject) {
-              userObject.merchant_application = res.user.merchant_application
-              localStorage.setItem("user", JSON.stringify(userObject));
-            setLoaded(true)
+      if (user.role == "merchant") {
+        dispatch(getUserAction({ id: user.id, token: user.token }))
+          .then(unwrapResult)
+          .then((res: any) => {
+            if (res.user) {
+              let userObject = JSON.parse(localStorage.getItem("user") as any)
+              if (userObject) {
+                userObject.merchant_application = res.user.merchant_application
+                localStorage.setItem("user", JSON.stringify(userObject));
+                setLoaded(true)
+              }
             }
-          }
-        })
+          })
       }
       setLoaded(true)
     }
 
-  },[dispatch])
+  }, [dispatch])
 
 
   const { loading, success, message, orders, merchantOrders } = useSelector(
@@ -50,22 +49,25 @@ function MerchantOrders() {
   return (
     <div>
       {
-      !loaded && ( <LoadingScreen />) 
+        !loaded && (<LoadingScreen />)
       }
 
+      <MerchantLayout title="Orders">
+        {
+          user?.merchant_application == "pending" && (<PendingAccountScreen />)
+        }
 
-     <MerchantLayout title="Orders">
-          {
-        user?.merchant_application == "pending" && (<PendingAccountScreen/>)
-      }
-
-      {
-        user?.merchant_application == "declined" && (<DeclinedAccount/>)
-      }
-            {
-        user?.merchant_application == "approved" && (<OrdersCard orders={merchantOrders}/>)
-      }
-        </MerchantLayout>
+        {
+          user?.merchant_application == "declined" && (<DeclinedAccount />)
+        }
+        {
+          user?.merchant_application == "approved" && merchantOrders ? (<OrdersCard orders={merchantOrders} />) : (
+          <Empty 
+          text="There's currently no Order."
+          />
+          )
+        }
+      </MerchantLayout>
     </div>
   )
 }

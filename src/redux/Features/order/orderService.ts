@@ -57,6 +57,30 @@ const getOrders = async (token: string): Promise<{}> => {
       const { data } = await axios.get(`${API_BASEURL}/order/${id}`, config);
       return data;
       }
+
+      const completeOrder = async ({id, token,}: OrderProps) => {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      };
+  
+      const { data } = await axios.put(`${API_BASEURL}/order/ordercomplete/${id}`, {}, config);
+      return data;
+      }
+
+      const updateOrder = async ({id, token, decline_reason, state}: any) => {
+        const config = {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        };
+    
+        const { data } = await axios.put(`${API_BASEURL}/order/update/${id}`, {state, decline_reason}, config);
+        return data;
+        }
   
 
 
@@ -64,7 +88,9 @@ const getOrders = async (token: string): Promise<{}> => {
   const orderService = {
     getOrders,
     createOrder,
-    getOrder
+    getOrder,
+    completeOrder,
+    updateOrder
   }
   
   export default orderService

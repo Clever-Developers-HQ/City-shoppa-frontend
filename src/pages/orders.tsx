@@ -61,8 +61,6 @@ function Orders() {
     return orders?.filter((order: any) => order.completed === status );
   }
 
-
-
   return (
     <>
       {createDispute && (

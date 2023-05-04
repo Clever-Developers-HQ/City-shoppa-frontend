@@ -1,9 +1,77 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import MerchantLayout from '@/components/layouts/MerchantLayout'
-
+import { getUserAction } from '@/redux/Features/user/getUserSlice';
+import { AppDispatch, RootState } from "@/redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import Empty from '@/components/empty/empty'
+import { useRouter } from "next/router";
+import { userAuthenticateToken } from '@/components/Utils/TokenAuthentication';
+import LoadingScreen from '@/components/loader/loadingScreen';
+import PendingAccountScreen from '@/components/empty/pending_account'
+import DeclinedAccount from '@/components/empty/declined_account';
+import { unwrapResult } from '@reduxjs/toolkit';
+import { getOrderAction } from '@/redux/Features/order/getOrderSlice';
 
 
 function  Coupons() {
+    const [user, setUser] = useState<any>()
+    const dispatch = useDispatch<AppDispatch>()
+    const [loaded, setLoaded] = useState(false)
+    const [orderDetails, setOrderDetails] = useState<any>()
+
+    const router = useRouter();
+
+
+    const { loading, success, message, orders, merchantOrders } = useSelector(
+        (store: RootState) => store.getUser
+      );
+
+      const fetchOrderDetails = async (orders: any) => {
+        const details = await Promise.all(
+          orders?.map(async (order: any) => {
+            const res = await dispatch(getOrderAction({ id: order._id, token: user?.token }));
+            return res.payload?.order;
+          })
+        );
+        setLoaded(true)
+        setOrderDetails(details);
+      };
+
+      useEffect(() => {
+        const user = userAuthenticateToken()
+        setUser(user)
+        if (user) {
+          if (user.role == "merchant") {
+            dispatch(getUserAction({ id: user.id, token: user.token }))
+              .then(unwrapResult)
+              .then((res: any) => {
+                if (res.user) {
+                  let userObject = JSON.parse(localStorage.getItem("user") as any)
+                  if (userObject) {
+                    userObject.merchant_application = res.user.merchant_application
+                    localStorage.setItem("user", JSON.stringify(userObject));
+                    setLoaded(true)
+                  }
+                }
+
+                if (res.merchantOrders) {
+                    fetchOrderDetails(res.merchantOrders)
+                }
+                setLoaded(true)
+              })
+          }
+          setLoaded(true)
+        } else {
+            router.push('/');
+
+
+        }
+    
+      }, [dispatch, router])
+
+
+      console.log(orderDetails, "THE ORDER DETAILS")
+        
 
     const coupons = [
         {
@@ -33,9 +101,9 @@ function  Coupons() {
     <div>
         <MerchantLayout title="Customers Coupon">
            {
-            coupons.map((coupon) => (
+            orderDetails?.map((coupon : any, index: any) => (
                 <section
-                key={coupon.id}
+                key={coupon[index]?._id}
                 className="py-12 mb-5 flex justify-between items-center h-[200px] w-fulln bg-[#E9EBF2] rounded md:p-5 p-2"
             >
                 <div
@@ -59,7 +127,7 @@ function  Coupons() {
                         >Model: x56</p>
                         <h3
                         className= "text-blue-500 md:text-xl font-bold "
-                        >Coupon code: 5678</h3>
+                        >Coupon code: {coupon[index]?.couponIds}</h3>
                     </div>
 
                 </div>
